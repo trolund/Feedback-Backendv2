@@ -1,7 +1,6 @@
 using System;
-using Feedback.Models;
 
-namespace Feedback.Domain.Models {
+namespace Data.Models {
     public class MeetingCategory {
         // public Guid MeetingCategoryId { get; set; }
         public int MeetingId { get; set; }

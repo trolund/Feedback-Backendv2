@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Feedback.Data.Repositories {
+namespace Data.Contexts.Repositories {
     public interface IRepository<TEntity> where TEntity : class {
         // get objects
         Task<TEntity> Get (int id);

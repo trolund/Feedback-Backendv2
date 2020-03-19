@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Feedback.Data_access.viewModels;
-using Feedback.Domain.Models;
-using Feedback.Models;
-using Feedback.Utils;
-using Feedback.viewModels;
+using Data.Models;
+using Infrastructure.Utils;
+using Infrastructure.ViewModels;
 
-namespace Feedback.Data_access {
+namespace Data.Contexts_access {
     public class Profiles : Profile {
         public Profiles () {
             CreateMap<Meeting, MeetingDTO> ()
@@ -17,7 +15,7 @@ namespace Feedback.Data_access {
             CreateMap<FeedbackBatch, FeedbackBatchDTO> ()
                 .ForMember (s => s.MeetingId, map => map.MapFrom (s => MeetingIdHelper.GenerateShortId (s.MeetingId)));
 
-            CreateMap<FeedbackDTO, Feedback.Models.Feedback> ().ReverseMap ();
+            CreateMap<FeedbackDTO, Feedback> ().ReverseMap ();
 
             // CreateMap<string, ApplicationUser> ().ConvertUsing (s => new ApplicationUser () { Id = s });
             CreateMap<Question, QuestionDTO> ().ReverseMap ();

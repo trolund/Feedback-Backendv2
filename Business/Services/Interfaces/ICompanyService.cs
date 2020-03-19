@@ -1,18 +1,16 @@
 using System.Collections.Generic;
-using Feedback.viewModels;
+using Infrastructure.ViewModels;
 
-namespace Feedback.Services.Interface
-{
-    public interface ICompanyService
-    {
-        CompanyDTO getCompany(int id);
+namespace Business.Services.Interfaces {
+    public interface ICompanyService {
+        CompanyDTO getCompany (int id);
 
-        IEnumerable<CompanyDTO> GetCompanys();
+        IEnumerable<CompanyDTO> GetCompanys ();
 
-        void CreateCompany(CompanyDTO Company);
+        void CreateCompany (CompanyDTO Company);
 
-        CompanyDTO UpdateCompany(CompanyDTO Company);
+        CompanyDTO UpdateCompany (CompanyDTO Company);
 
-        void DeleteCompany(CompanyDTO Company);
+        void DeleteCompany (CompanyDTO Company);
     }
 }

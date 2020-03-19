@@ -1,20 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using AutoMapper;
-using Feedback.Data_access.viewModels;
-using Feedback.Domain.Models;
-using Feedback.Models;
-using Feedback.viewModels;
+using Data.Models;
+using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace Feedback.Data.Repositories {
+namespace Data.Contexts.Repositories {
     public class FeedbackBatchRepository : Repository<FeedbackBatch>, IFeedbackBatchRepository {
 
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -101,7 +95,7 @@ namespace Feedback.Data.Repositories {
                 collection = collection.Where (a => a.Meeting.Discription.Contains (searchWord) || a.Meeting.Name.Contains (searchWord));
             }
 
-            var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackMonthDTO (item.CreatedDate.Value.Month, item.Answer, item.feedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name))).ToListAsync ();
+            var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackMonthDTO (item.CreatedDate.Value.Month, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name))).ToListAsync ();
 
             return result;
         }

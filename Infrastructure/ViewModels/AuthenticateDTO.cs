@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.Models
-{
-    public class AuthenticateModel
-    {
+namespace Infrastructure.ViewModels {
+    public class AuthenticateDTO {
         [Required]
         public string Username { get; set; }
 

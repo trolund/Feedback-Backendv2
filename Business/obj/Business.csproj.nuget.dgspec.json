@@ -14,7 +14,7 @@
         "outputPath": "/Users/trolund/Desktop/untitled folder/Business/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/trolund/.config/NuGet/NuGet.Config"
+          "/Users/trolund/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -78,7 +78,7 @@
         "outputPath": "/Users/trolund/Desktop/untitled folder/Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/trolund/.config/NuGet/NuGet.Config"
+          "/Users/trolund/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -154,7 +154,7 @@
         "outputPath": "/Users/trolund/Desktop/untitled folder/Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/trolund/.config/NuGet/NuGet.Config"
+          "/Users/trolund/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

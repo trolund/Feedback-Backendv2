@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Feedback.Domain.Models;
 
-namespace Feedback.Models {
+namespace Data.Models {
     public class Question : BaseEntity {
         public Question () { }
         public Question (Guid questionId, string theQuestion) {

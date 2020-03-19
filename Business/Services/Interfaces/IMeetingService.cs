@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Feedback.Data_access.viewModels;
-using Feedback.QueryParams;
-using Feedback.viewModels;
+using Infrastructure.QueryParams;
+using Infrastructure.ViewModels;
 
-namespace Feedback.Services.Interface {
+namespace Business.Services.Interfaces {
     public interface IMeetingService {
         Task<MeetingDTO> GetMeeting (int id);
 

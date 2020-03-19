@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Feedback.Data_access.viewModels;
+﻿using System.Collections.Generic;
 
-namespace Feedback.viewModels {
+namespace Infrastructure.ViewModels {
     public class UserDTO {
 
         public UserDTO (int companyId, string firstname, string lastname) {

@@ -1,7 +1,5 @@
-namespace Feedback.Data.Repositories
-{
-    public interface IFeedbackRepository
-    {
+namespace Data.Contexts.Repositories {
+    public interface IFeedbackRepository {
 
     }
 }

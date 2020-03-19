@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Feedback.Data.Repositories;
-using Feedback.Data_access.Repositories;
-using Feedback.Data_access.Repositories.Interfaces;
-using Feedback.Models;
+using Data.Contexts.Repositories;
+using Data.Contexts_access.Repositories;
+using Data.Contexts_access.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace Feedback.Data {
+namespace Data.Contexts {
     public class UnitOfWork : IUnitOfWork {
         private readonly ApplicationDbContext _context;
         public IMeetingRepository Meetings { get; }

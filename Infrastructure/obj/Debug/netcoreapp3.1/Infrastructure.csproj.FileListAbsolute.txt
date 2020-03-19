@@ -14,7 +14,6 @@
 /Users/trolund/Desktop/untitled folder/Infrastructure/bin/Debug/netcoreapp3.1/Infrastructure.deps.json
 /Users/trolund/Desktop/untitled folder/Infrastructure/bin/Debug/netcoreapp3.1/Infrastructure.dll
 /Users/trolund/Desktop/untitled folder/Infrastructure/bin/Debug/netcoreapp3.1/Infrastructure.pdb
-/Users/trolund/Desktop/untitled folder/Infrastructure/obj/Debug/netcoreapp3.1/Infrastructure.csprojAssemblyReference.cache
 /Users/trolund/Desktop/untitled folder/Infrastructure/obj/Debug/netcoreapp3.1/Infrastructure.AssemblyInfoInputs.cache
 /Users/trolund/Desktop/untitled folder/Infrastructure/obj/Debug/netcoreapp3.1/Infrastructure.AssemblyInfo.cs
 /Users/trolund/Desktop/untitled folder/Infrastructure/obj/Debug/netcoreapp3.1/Infrastructure.dll

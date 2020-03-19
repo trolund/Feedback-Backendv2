@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Feedback.viewModels;
+using Infrastructure.ViewModels;
 
-namespace Feedback.Application.Services.Interfaces {
+namespace Business.Services.Interfaces {
     public interface IQuestionSetService {
         Task<QuestionSetDTO> GetQuestionSet (string id);
         Task<IEnumerable<QuestionSetDTO>> GetQuestionSets ();

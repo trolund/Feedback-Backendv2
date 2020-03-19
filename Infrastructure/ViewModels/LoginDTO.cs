@@ -1,11 +1,6 @@
-﻿using System;
-namespace Infrastructure.ViewModels
-{
-    public class LoginDTO
-    {
-        public LoginDTO()
-        {
-            
+﻿namespace Infrastructure.ViewModels {
+    public class LoginDTO {
+        public LoginDTO () {
 
         }
 
