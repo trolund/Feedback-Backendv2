@@ -71,12 +71,6 @@
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/runtimes/unix/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/runtimes/win/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Business.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Data.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Infrastructure.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Business.pdb
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Data.pdb
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Infrastructure.pdb
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.RazorTargetAssemblyInfo.cache
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.csproj.CopyComplete
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/staticwebassets/WebApi.StaticWebAssets.Manifest.cache

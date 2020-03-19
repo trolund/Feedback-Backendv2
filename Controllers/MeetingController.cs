@@ -15,7 +15,6 @@ using Feedback.Utils;
 using Feedback.viewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QRCoder;
 
 namespace Feedback.Controllers {
     [Authorize]
