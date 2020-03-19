@@ -1,0 +1,33 @@
+﻿<Properties StartupConfiguration="{AEA45F99-293B-4920-9E41-0C56A2C14612}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Services/UserService.cs">
+    <Files>
+      <File FileName="Business/Services/FeedbackBatchService.cs" Line="19" Column="18" />
+      <File FileName="Startup.cs" Line="175" Column="2" />
+      <File FileName="Business/Services/CompanyService.cs" Line="2" Column="7" />
+      <File FileName="Controllers/UserController.cs" Line="28" Column="42" />
+      <File FileName="Controllers/UsersController.cs" Line="15" Column="20" />
+      <File FileName="Services/UserService.cs" Line="21" Column="44" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="FeedbackBackend" expanded="True">
+            <Node name="WebApi" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Services" expanded="True">
+                <Node name="UserService.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.WebApi PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
