@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Business.Services.Interfaces;
-using Data.Contexts.Roles;
-using Infrastructure.QueryParams;
-using Infrastructure.Utils;
-using Infrastructure.ViewModels;
+using Feedback.Application.Services.Interfaces;
+using Feedback.Data.Roles;
+using Feedback.Data_access.viewModels;
+using Feedback.QueryParams;
+using Feedback.Services;
+using Feedback.Services.Interface;
+using Feedback.Utils;
+using Feedback.viewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers {
+namespace Feedback.Controllers {
     [Authorize]
     [ApiController]
     [Route ("Api/[controller]")]

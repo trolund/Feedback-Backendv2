@@ -1,10 +1,15 @@
+/Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cs
+/Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cache
+/Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/obj/Debug/netcoreapp3.1/WebApi.AssemblyInfoInputs.cache
+/Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/obj/Debug/netcoreapp3.1/WebApi.AssemblyInfo.cs
+/Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/obj/Debug/netcoreapp3.1/WebApi.csprojAssemblyReference.cache
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.csprojAssemblyReference.cache
-/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cs
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cache
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.AssemblyInfoInputs.cache
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.AssemblyInfo.cs
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/appsettings.Development.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/appsettings.json
+/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Business/bin/Debug/netcoreapp3.1/Business.deps.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Business/obj/Business.csproj.nuget.dgspec.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Business/obj/project.assets.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Data/bin/Debug/netcoreapp3.1/Data.deps.json
@@ -13,11 +18,7 @@
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Infrastructure/bin/Debug/netcoreapp3.1/Infrastructure.deps.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Infrastructure/obj/Infrastructure.csproj.nuget.dgspec.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Infrastructure/obj/project.assets.json
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/mono_crash.42f6ec13c.0.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Properties/launchSettings.json
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/WebApi/obj/Debug/netcoreapp3.1/project.razor.json
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/WebApi/obj/project.assets.json
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/WebApi/obj/WebApi.csproj.nuget.dgspec.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/WebApi.deps.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/WebApi.runtimeconfig.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/WebApi.runtimeconfig.dev.json
@@ -56,12 +57,8 @@
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Microsoft.IdentityModel.Protocols.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Microsoft.IdentityModel.Tokens.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Microsoft.OpenApi.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/QRCoder.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCore.Swagger.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCore.SwaggerGen.dll
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/System.Configuration.ConfigurationManager.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/System.IdentityModel.Tokens.Jwt.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/System.Runtime.Caching.dll
@@ -80,3 +77,8 @@
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/staticwebassets/WebApi.StaticWebAssets.xml
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.dll
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.pdb
+/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Microsoft.OpenApi.dll
+/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCore.Swagger.dll
+/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cs

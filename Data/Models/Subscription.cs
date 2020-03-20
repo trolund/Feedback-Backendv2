@@ -1,6 +1,6 @@
 using System;
 
-namespace Data.Models {
+namespace Feedback.Domain.Models {
     public class Subscription : BaseEntity {
         public Guid SubscriptionId { get; set; }
         public DateTime ExpireDate { get; set; }

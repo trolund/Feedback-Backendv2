@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Feedback.Domain.Models;
 
-namespace Data.Models {
+namespace Feedback.Models {
 
     public class Company : BaseEntity {
         public int CompanyId { get; set; }

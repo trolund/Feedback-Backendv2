@@ -1,6 +1,6 @@
 using System;
 
-namespace Infrastructure.ViewModels {
+namespace Feedback.Data_access.viewModels {
     public class MeetingCategoryDTO {
 
         public int MeetingId { get; set; }

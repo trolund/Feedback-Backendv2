@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Business.Services.Interfaces;
-using Data.Contexts;
-using Data.Contexts.Roles;
-using Data.Models;
-using Infrastructure.Utils;
-using Infrastructure.ViewModels;
+using Feedback.Data;
+using Feedback.Data.Roles;
+using Feedback.Models;
+using Feedback.Services.Interface;
+using Feedback.Utils;
+using Feedback.viewModels;
 using Microsoft.AspNetCore.Http;
 
-namespace Business.Services {
+namespace Feedback.Services {
 
     public class FeedbackBatchService : IFeedbackBatchService {
 

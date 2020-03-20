@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Data.Models;
+using Feedback.Models;
 
-namespace Data.Contexts.Repositories {
+namespace Feedback.Data.Repositories {
     public interface IQuestionSetRepository : IRepository<QuestionSet> {
         Task<QuestionSet> GetQuestionSet (Guid id);
 

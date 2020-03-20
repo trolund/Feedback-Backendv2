@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Contexts.Repositories {
+namespace Feedback.Data.Repositories {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class {
         protected readonly DbContext Context;
 

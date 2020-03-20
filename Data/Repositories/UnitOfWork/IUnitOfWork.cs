@@ -1,9 +1,12 @@
-using System;
-using Data.Contexts.Repositories;
 
-namespace Data.Contexts {
-    public interface IUnitOfWork : IDisposable {
+using System;
+using Feedback.Data.Repositories;
+
+namespace Feedback.Data
+{
+    public interface IUnitOfWork : IDisposable
+    {
         IMeetingRepository Meetings { get; }
-        bool Save ();
+        bool Save();
     }
 }

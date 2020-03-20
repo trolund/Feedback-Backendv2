@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Data.Models;
-using Infrastructure.QueryParams;
-using Infrastructure.ViewModels;
+using Feedback.Data_access.viewModels;
+using Feedback.Models;
+using Feedback.QueryParams;
 
-namespace Data.Contexts.Repositories {
+namespace Feedback.Data.Repositories {
     public interface IMeetingRepository : IRepository<Meeting> {
         Task<Meeting> GetMeeting (int id);
         Task<IEnumerable<Meeting>> GetMeetings (MeetingResourceParameters parameters);

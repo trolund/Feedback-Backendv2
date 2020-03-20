@@ -9,14 +9,14 @@
 /Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/Data/obj/Debug/netcoreapp3.1/Data.csproj.CopyComplete
 /Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/Data/obj/Debug/netcoreapp3.1/Data.dll
 /Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/Data/obj/Debug/netcoreapp3.1/Data.pdb
-/Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.csprojAssemblyReference.cache
-/Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.AssemblyInfoInputs.cache
-/Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.AssemblyInfo.cs
 /Users/trolund/Desktop/untitled folder/Data/bin/Debug/netcoreapp3.1/Data.deps.json
 /Users/trolund/Desktop/untitled folder/Data/bin/Debug/netcoreapp3.1/Data.dll
 /Users/trolund/Desktop/untitled folder/Data/bin/Debug/netcoreapp3.1/Data.pdb
 /Users/trolund/Desktop/untitled folder/Data/bin/Debug/netcoreapp3.1/Infrastructure.dll
 /Users/trolund/Desktop/untitled folder/Data/bin/Debug/netcoreapp3.1/Infrastructure.pdb
+/Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.csprojAssemblyReference.cache
+/Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.AssemblyInfoInputs.cache
+/Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.AssemblyInfo.cs
 /Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.csproj.CopyComplete
 /Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.dll
 /Users/trolund/Desktop/untitled folder/Data/obj/Debug/netcoreapp3.1/Data.pdb

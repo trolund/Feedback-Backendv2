@@ -1,16 +1,18 @@
 using System.Collections.Generic;
-using Infrastructure.ViewModels;
+using Feedback.viewModels;
 
-namespace Business.Services.Interfaces {
-    public interface IFeedbackService {
-        FeedbackDTO getFeedback (int id);
+namespace Feedback.Services.Interface
+{
+    public interface IFeedbackService
+    {
+        FeedbackDTO getFeedback(int id);
 
-        IEnumerable<FeedbackDTO> GetFeedback (string feedbackId);
+        IEnumerable<FeedbackDTO> GetFeedback(string feedbackId);
 
-        void CreateFeedback (FeedbackDTO Feedback);
+        void CreateFeedback(FeedbackDTO Feedback);
 
-        FeedbackDTO UpdateFeedback (FeedbackDTO Feedback);
+        FeedbackDTO UpdateFeedback(FeedbackDTO Feedback);
 
-        void DeleteFeedback (FeedbackDTO Feedback);
+        void DeleteFeedback(FeedbackDTO Feedback);
     }
 }

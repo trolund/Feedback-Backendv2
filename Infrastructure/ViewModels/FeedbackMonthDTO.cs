@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Infrastructure.ViewModels {
+namespace Feedback.viewModels {
     public class FeedbackMonthDTO {
         public FeedbackMonthDTO (int month, int answer, IEnumerable<string> categories) {
             Month = month;

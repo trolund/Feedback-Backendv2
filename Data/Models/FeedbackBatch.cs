@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Feedback.Domain.Models;
 
-namespace Data.Models {
+namespace Feedback.Models {
     public class FeedbackBatch : BaseEntity {
 
         [Key]

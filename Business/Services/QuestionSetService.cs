@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Business.Services.Interfaces;
-using Data.Contexts;
-using Data.Models;
-using Infrastructure.ViewModels;
+using Feedback.Application.Services.Interfaces;
+using Feedback.Data;
+using Feedback.Models;
+using Feedback.viewModels;
 using Microsoft.AspNetCore.Http;
 
-namespace Business.Services {
+namespace Feedback.Application.Services {
     public class QuestionSetService : IQuestionSetService {
         private UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -36,23 +36,22 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<string>> GetQuestionSetNames () {
-            var res = await _unitOfWork.QuestionSet.GetAll ();
-            return res.Select (q => q.Name);
+            return (await _unitOfWork.QuestionSet.GetAll ()).Select (x => x.Name);
         }
 
         public async Task<IEnumerable<QuestionSetDTO>> GetQuestionSetOnly () {
             return _mapper.Map<IEnumerable<QuestionSetDTO>> (await _unitOfWork.QuestionSet.GetAll ());
         }
 
-        public void CreateQuestionSet (QuestionSetDTO Entity) {
-            var q = _mapper.Map<QuestionSet> (Entity);
+        public void CreateQuestionSet (QuestionSetDTO QuestionSet) {
+            var q = _mapper.Map<QuestionSet> (QuestionSet);
 
             _unitOfWork.QuestionSet.Add (q);
             _unitOfWork.Save ();
         }
 
-        public async Task<QuestionSetDTO> UpdateQuestionSet (QuestionSetDTO Entity) {
-            var QuestionSetToAdd = _mapper.Map<QuestionSet> (Entity);
+        public async Task<QuestionSetDTO> UpdateQuestionSet (QuestionSetDTO QuestionSet) {
+            var QuestionSetToAdd = _mapper.Map<QuestionSet> (QuestionSet);
 
             await _unitOfWork.QuestionSet.Add (QuestionSetToAdd);
             await _unitOfWork.SaveAsync ();
@@ -62,8 +61,8 @@ namespace Business.Services {
             return QuestionSetToReturn;
         }
 
-        public void DeleteQuestionSet (QuestionSetDTO Entity) {
-            _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (Entity));
+        public void DeleteQuestionSet (QuestionSetDTO QuestionSet) {
+            _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (QuestionSet));
         }
     }
 }

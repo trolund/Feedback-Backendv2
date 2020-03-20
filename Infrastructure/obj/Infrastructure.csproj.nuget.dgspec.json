@@ -14,7 +14,7 @@
         "outputPath": "/Users/trolund/Desktop/untitled folder/Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/trolund/.nuget/NuGet/NuGet.Config"
+          "/Users/trolund/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

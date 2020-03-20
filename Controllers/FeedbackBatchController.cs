@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Business.Services.Interfaces;
-using Infrastructure.ViewModels;
+using Feedback.Data.Roles;
+using Feedback.Data_access.viewModels;
+using Feedback.Models;
+using Feedback.Services.Interface;
+using Feedback.viewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers {
+namespace Feedback.Controllers {
     [Authorize]
     [ApiController]
 
@@ -17,33 +20,31 @@ namespace WebApi.Controllers {
 
         private readonly IFeedbackBatchService _service;
 
-        public IFeedbackBatchService Service => _service;
-
         public FeedbackBatchController (IFeedbackBatchService service) {
             _service = service;
         }
 
         [HttpDelete]
         public void Delete (FeedbackBatchDTO entity) {
-            Service.Delete (entity);
+            _service.Delete (entity);
         }
 
         [HttpGet]
         [Route ("{meetingId}")]
         public async Task<IActionResult> GetAll ([FromRoute] string meetingId) {
-            return Ok (await Service.GetAllFeedbackBatchByMeetingId (meetingId));
+            return Ok (await _service.GetAllFeedbackBatchByMeetingId (meetingId));
         }
 
         [AllowAnonymous]
         [HttpPost]
         public void Post ([FromBody] FeedbackBatchDTO entity) {
-            Service.Create (entity);
+            _service.Create (entity);
         }
 
         [AllowAnonymous]
         [HttpPut]
         public void Put ([FromBody] FeedbackBatchDTO entity) {
-            Service.Create (entity);
+            _service.Create (entity);
         }
 
         void IBaseController<FeedbackBatchDTO, string>.Delete (FeedbackBatchDTO entity) {
@@ -71,7 +72,7 @@ namespace WebApi.Controllers {
         [Route ("dashboard")]
         public async Task<IActionResult> Dashboard ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord) {
 
-            var result = await Service.OwnFeedback (start, end, categories, searchWord);
+            var result = await _service.OwnFeedback (start, end, categories, searchWord);
             var list = result.SelectMany (i => i.Feedback).Select (i => new { Anwser = i.Answer, Comment = i.Comment });
             return Ok (list);
         }
@@ -80,7 +81,7 @@ namespace WebApi.Controllers {
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboardMonth")]
         public async Task<IActionResult> DashboardMonth ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
-            return Ok (await Service.OwnFeedbackMonth (start, end, categories, searchWord, onlyOwnData));
+            return Ok (await _service.OwnFeedbackMonth (start, end, categories, searchWord, onlyOwnData));
         }
     }
 }

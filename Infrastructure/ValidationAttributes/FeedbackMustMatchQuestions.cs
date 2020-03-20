@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Infrastructure.ValidationAttributes {
+namespace Feedback.Application {
     public class FeedbackMustMatchQuestions : ValidationAttribute {
 
         protected override ValidationResult IsValid (object value, ValidationContext validationContext) {

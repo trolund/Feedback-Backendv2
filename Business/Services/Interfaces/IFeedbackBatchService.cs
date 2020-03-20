@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Infrastructure.ViewModels;
+using Feedback.Data_access.viewModels;
+using Feedback.viewModels;
 
-namespace Business.Services.Interfaces {
+namespace Feedback.Services.Interface {
     public interface IFeedbackBatchService {
         Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatchByMeetingId (string meetingShortId);
         Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatch (string meetingShortId);

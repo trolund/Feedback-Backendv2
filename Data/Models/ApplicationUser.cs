@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using Feedback.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Data.Models {
-    public class ApplicationUser : IdentityUser {
+namespace Feedback.Models {
+    public class ApplicationUser : IdentityUser
+    {
 
         public ApplicationUser () { }
 

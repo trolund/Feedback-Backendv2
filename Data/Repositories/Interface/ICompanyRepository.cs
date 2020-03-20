@@ -1,8 +1,10 @@
-using Data.Contexts.Repositories;
-using Data.Models;
+using Feedback.Data.Repositories;
+using Feedback.Models;
 
-namespace Data.Contexts_access.Repositories.Interfaces {
-    public interface ICompanyRepository : IRepository<Company> {
+namespace Feedback.Data_access.Repositories.Interfaces
+{
+    public interface ICompanyRepository : IRepository<Company>
+    {
 
     }
 }

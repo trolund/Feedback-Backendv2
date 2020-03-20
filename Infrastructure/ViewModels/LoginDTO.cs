@@ -1,6 +1,11 @@
-﻿namespace Infrastructure.ViewModels {
-    public class LoginDTO {
-        public LoginDTO () {
+﻿using System;
+namespace Infrastructure.ViewModels
+{
+    public class LoginDTO
+    {
+        public LoginDTO()
+        {
+            
 
         }
 

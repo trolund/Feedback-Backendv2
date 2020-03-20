@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Feedback.Models;
 
-namespace Infrastructure.ViewModels {
+namespace Feedback.viewModels {
     public class QuestionSetDTO {
         public Guid QuestionSetId { get; set; }
         public string Name { get; set; }

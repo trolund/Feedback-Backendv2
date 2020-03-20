@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Data.Contexts;
-using Data.Contexts.Repositories;
-using Data.Models;
-using Infrastructure.QueryParams;
-using Infrastructure.ViewModels;
+using Feedback.Data;
+using Feedback.Data.Repositories;
+using Feedback.Data_access.viewModels;
+using Feedback.Domain.Models;
+using Feedback.Models;
+using Feedback.QueryParams;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Contexts_access.Repositories {
+namespace Feedback.Data_access.Repositories {
     public class MeetingRepository : Repository<Meeting>, IMeetingRepository {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

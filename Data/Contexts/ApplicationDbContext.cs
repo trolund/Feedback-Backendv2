@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using Data.Models;
+using Feedback.Domain.Models;
+using Feedback.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Contexts {
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
+namespace Feedback.Data {
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    {
         private readonly IHttpContextAccessor _httpContextAccessor;
         public ApplicationDbContext (
             DbContextOptions options,
@@ -20,7 +22,7 @@ namespace Data.Contexts {
         public DbSet<Meeting> Meetings { get; set; }
         public DbSet<QuestionSet> QuestionSets { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Feedback> Feedback { get; set; }
+        public DbSet<Feedback.Models.Feedback> Feedback { get; set; }
         public DbSet<FeedbackBatch> FeedbackBatchs { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Category> Categories { get; set; }

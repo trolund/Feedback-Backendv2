@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Infrastructure.ValidationAttributes;
+using Feedback.Application;
 
-namespace Infrastructure.ViewModels {
+namespace Feedback.viewModels {
 
     [FeedbackMustMatchQuestions]
     public class FeedbackBatchDTO {

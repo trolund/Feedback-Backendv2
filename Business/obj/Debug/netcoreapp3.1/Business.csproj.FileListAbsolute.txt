@@ -11,6 +11,16 @@
 /Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/Business/obj/Debug/netcoreapp3.1/Business.csproj.CopyComplete
 /Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/Business/obj/Debug/netcoreapp3.1/Business.dll
 /Users/trolund/Documents/FeedbackSecureAPI/aspnet-core-3-role-based-authorization-api/Business/obj/Debug/netcoreapp3.1/Business.pdb
+/Users/trolund/Desktop/untitled folder/Business/bin/Debug/netcoreapp3.1/Business.deps.json
+/Users/trolund/Desktop/untitled folder/Business/bin/Debug/netcoreapp3.1/Business.dll
+/Users/trolund/Desktop/untitled folder/Business/bin/Debug/netcoreapp3.1/Business.pdb
+/Users/trolund/Desktop/untitled folder/Business/bin/Debug/netcoreapp3.1/Data.dll
+/Users/trolund/Desktop/untitled folder/Business/bin/Debug/netcoreapp3.1/Infrastructure.dll
+/Users/trolund/Desktop/untitled folder/Business/bin/Debug/netcoreapp3.1/Data.pdb
+/Users/trolund/Desktop/untitled folder/Business/bin/Debug/netcoreapp3.1/Infrastructure.pdb
 /Users/trolund/Desktop/untitled folder/Business/obj/Debug/netcoreapp3.1/Business.csprojAssemblyReference.cache
 /Users/trolund/Desktop/untitled folder/Business/obj/Debug/netcoreapp3.1/Business.AssemblyInfoInputs.cache
 /Users/trolund/Desktop/untitled folder/Business/obj/Debug/netcoreapp3.1/Business.AssemblyInfo.cs
+/Users/trolund/Desktop/untitled folder/Business/obj/Debug/netcoreapp3.1/Business.csproj.CopyComplete
+/Users/trolund/Desktop/untitled folder/Business/obj/Debug/netcoreapp3.1/Business.dll
+/Users/trolund/Desktop/untitled folder/Business/obj/Debug/netcoreapp3.1/Business.pdb

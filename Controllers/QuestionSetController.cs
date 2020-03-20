@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Business.Services.Interfaces;
-using Infrastructure.ViewModels;
+using Feedback.Application.Services.Interfaces;
+using Feedback.viewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers {
+namespace Feedback.Controllers {
     [Authorize]
     [ApiController]
     [Route ("Api/[controller]")]
