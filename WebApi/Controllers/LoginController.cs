@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Feedback.Models;
+using Data.Models;
 using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Feedback.Controllers {
+namespace WebApi.Controllers {
 
     [AllowAnonymous]
     public class LoginController : ControllerBase {

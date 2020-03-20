@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Feedback.Models;
+using Data.Contexts;
+using Data.Models;
+using Data.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace Feedback.Data.Repositories {
+namespace Data.Repositories {
     public class QuestionSetRepository : Repository<QuestionSet>, IQuestionSetRepository {
         public QuestionSetRepository (ApplicationDbContext context) : base (context) { }
         private ApplicationDbContext _context {

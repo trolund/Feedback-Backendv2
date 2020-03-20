@@ -3,17 +3,16 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
-using Feedback.Data;
-using Feedback.Data_access.viewModels;
-using Feedback.Models;
-using Feedback.QueryParams;
-using Feedback.Services.Interface;
-using Feedback.Utils;
-using Feedback.viewModels;
+using Business.Services.Interfaces;
+using Data.Contexts;
+using Data.Models;
+using Infrastructure.QueryParams;
+using Infrastructure.Utils;
+using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Http;
 using QRCoder;
 
-namespace Feedback.Services {
+namespace Business.Services {
     public class MeetingService : IMeetingService {
         private UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;

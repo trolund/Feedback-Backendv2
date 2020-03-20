@@ -1,15 +1,12 @@
+using Data.Contexts;
+using Data.Models;
+using Data.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
-using Feedback.Data_access;
-using Feedback.Models;
 
-namespace Feedback.Data.Repositories
-{
-    public class FeedbackRepository : Repository<Models.Feedback>, IFeedbackRepository
-    {
+namespace Data.Repositories {
+    public class FeedbackRepository : Repository<Feedback>, IFeedbackRepository {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public FeedbackRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context)
-        {
+        public FeedbackRepository (ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : base (context) {
             _httpContextAccessor = httpContextAccessor;
         }
 

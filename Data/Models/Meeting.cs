@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-using Feedback.Domain.Models;
 
-namespace Feedback.Models {
+namespace Data.Models {
     public class Meeting : BaseEntity {
         [Key]
         public int MeetingId { get; set; }

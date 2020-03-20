@@ -14,7 +14,7 @@
         "outputPath": "/Users/trolund/Desktop/untitled folder/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/trolund/.config/NuGet/NuGet.Config"
+          "/Users/trolund/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -70,7 +70,7 @@
             },
             "System.Drawing.Common": {
               "target": "Package",
-              "version": "[4.7.0, )"
+              "version": "[4.6.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",

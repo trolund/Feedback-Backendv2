@@ -1,9 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Feedback.Models;
 
-namespace Feedback.viewModels {
+namespace Infrastructure.ViewModels {
     public class FeedbackDTO {
         [JsonIgnore]
         public string FeedbackId { get; set; }

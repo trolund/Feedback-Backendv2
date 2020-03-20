@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Business.Helpers;
 using Business.Services;
 using Business.Services.Interfaces;
 using Data.Contexts;
@@ -19,8 +20,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using WebApi.Helpers;
-using WebApi.Services;
 
 namespace WebApi {
     public class Startup {
@@ -39,10 +38,16 @@ namespace WebApi {
             services.AddScoped<IFeedbackService, FeedbackService> ();
             services.AddScoped<IFeedbackBatchService, FeedbackBatchService> ();
             services.AddScoped<IQuestionSetService, QuestionSetService> ();
+            services.AddScoped<IUserService, UserService> ();
+            services.AddScoped<ICompanyService, CompanyService> ();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor> ();
 
             services.AddAutoMapper (typeof (Startup));
+
+            services.AddIdentity<ApplicationUser, IdentityRole> ()
+                .AddEntityFrameworkStores<ApplicationDbContext> ()
+                .AddDefaultTokenProviders ();
 
             services.AddDbContext<ApplicationDbContext> (options =>
                 options.UseSqlServer (
@@ -142,7 +147,7 @@ namespace WebApi {
                 endpoints.MapControllers ();
             });
 
-            //CreateRoles(services).Wait();
+            CreateRoles (services).Wait ();
         }
 
         private string[] roles = { Roles.ADMIN, Roles.VADMIN, Roles.FACILITATOR };

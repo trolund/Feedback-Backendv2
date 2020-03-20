@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Feedback.Data_access.viewModels;
-using Feedback.Models;
-using Feedback.viewModels;
+using Data.Models;
+using Infrastructure.ViewModels;
 
-namespace Feedback.Data.Repositories {
+namespace Data.Repositories.Interface {
     public interface IFeedbackBatchRepository : IRepository<FeedbackBatch> {
 
         Task<IEnumerable<FeedbackBatchDTO>> getAllFeedbackByMeetingId (int meetingId);

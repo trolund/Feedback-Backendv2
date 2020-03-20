@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Feedback.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Feedback.Models {
-    public class ApplicationUser : IdentityUser
-    {
+namespace Data.Models {
+    public class ApplicationUser : IdentityUser {
 
         public ApplicationUser () { }
 
@@ -18,8 +16,6 @@ namespace Feedback.Models {
         public string Firstname { get; set; }
 
         public string Lastname { get; set; }
-
-        public string Phone { get; set; }
 
         public ICollection<Meeting> Meetings { get; set; }
 

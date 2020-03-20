@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Feedback.Data_access.viewModels;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Feedback.Controllers {
+namespace WebApi.Controllers {
     [Route ("Api/[controller]")]
     public class FeedbackController : ControllerBase {
         // GET: api/values

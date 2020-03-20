@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Feedback.Data_access.viewModels;
 
-namespace Feedback.viewModels {
+namespace Infrastructure.ViewModels {
     public class MeetingDTO {
         public MeetingDTO () { }
 

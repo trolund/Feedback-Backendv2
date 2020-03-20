@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Feedback.Domain.Models;
-using Feedback.Models;
+using Data.Models;
 
-namespace Feedback.Data.Seeding {
+namespace Data.Contexts.Seeding {
     public class DBSeeding {
         public static void Seed (ApplicationDbContext context) {
             try {

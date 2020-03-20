@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace Feedback.Models {
+namespace Infrastructure.ViewModels {
     public class QuestionDTO {
         public Guid QuestionId { get; set; }
 

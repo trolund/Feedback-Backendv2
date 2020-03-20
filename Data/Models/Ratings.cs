@@ -1,7 +1,6 @@
 using System;
-using Feedback.Models;
 
-namespace Feedback.Domain.Models {
+namespace Data.Models {
     public class Rating : BaseEntity {
         public Guid RatingId { get; set; }
         public int rating { get; set; }
