@@ -23,7 +23,6 @@ namespace Infrastructure.ViewModels {
         [Required]
         public string PasswordAgain { get; set; }
 
-        [Required]
         public string Phone { get; set; }
         public CompanyDTO company { get; set; }
     }
