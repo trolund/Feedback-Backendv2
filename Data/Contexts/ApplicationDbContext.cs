@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -55,6 +57,11 @@ namespace Data.Contexts {
         public override int SaveChanges () {
             AddTimestamps ();
             return base.SaveChanges ();
+        }
+
+        public override Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
+            AddTimestamps ();
+            return base.SaveChangesAsync ();
         }
 
         private void AddTimestamps () {

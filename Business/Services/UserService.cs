@@ -77,6 +77,7 @@ namespace Business.Services {
                 // new Claim (JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator ()),
                 // new Claim (JwtRegisteredClaimNames.Iat, ToUnixEpochDate (_jwtOptions.IssuedAt).ToString (), ClaimValueTypes.Integer64),
                 new Claim (_options.ClaimsIdentity.UserIdClaimType, user.Id.ToString ()),
+                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
                 new Claim (_options.ClaimsIdentity.UserNameClaimType, user.UserName)
             };
             var userClaims = await _userManager.GetClaimsAsync (user);
