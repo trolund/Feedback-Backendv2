@@ -19,6 +19,7 @@ namespace Data.Models {
         [Required]
         public DateTime EndTime { get; set; }
 
+        public Guid MeetingCategoryId { get; set; }
         public ICollection<MeetingCategory> meetingCategories { get; set; }
 
         // [Required]

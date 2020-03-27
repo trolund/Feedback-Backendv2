@@ -27,10 +27,10 @@ namespace Business.Services {
 
         public FeedbackBatchService () { }
 
-        public async Task Create (FeedbackBatchDTO Feedback) {
+        public async Task<bool> Create (FeedbackBatchDTO Feedback) {
             var model = _mapper.Map<FeedbackBatch> (Feedback);
             await _unitOfWork.FeedbackBatch.Add (model);
-            await _unitOfWork.SaveAsync ();
+            return await _unitOfWork.SaveAsync ();
         }
 
         public Task Delete (FeedbackBatchDTO Feedback) {
@@ -91,6 +91,22 @@ namespace Business.Services {
             }
 
             return await _unitOfWork.FeedbackBatch.OwnFeedbackMonth (start, end, categories, searchWord, userId, companyId, onlyOwnData);
+        }
+
+        public async Task<IEnumerable<FeedbackDateDTO>> OwnFeedbackDate (DateTime start, DateTime end, string[] categories, string searchWord, bool onlyOwnData) {
+            string companyId = null;
+            string userId = null;
+
+            if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN)) {
+                companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
+            }
+
+            if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.FACILITATOR)) {
+                userId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "sub").First ().Value;
+                onlyOwnData = true;
+            }
+
+            return await _unitOfWork.FeedbackBatch.OwnFeedbackDate (start, end, categories, searchWord, userId, companyId, onlyOwnData);
         }
     }
 }

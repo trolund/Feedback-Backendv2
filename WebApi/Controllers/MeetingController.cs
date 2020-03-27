@@ -84,13 +84,14 @@ namespace WebApi.Controllers {
 
         [HttpPost]
         [Route ("Create")]
-        public void CreateMeeting ([FromBody] MeetingDTO meeting) {
-            _service.CreateMeeting (meeting);
+        public async Task<IActionResult> CreateMeeting ([FromBody] MeetingDTO meeting) {
+            await _service.CreateMeeting (meeting);
+            return Ok ();
         }
 
         [HttpPut]
-        public void UpdateMeeting ([FromBody] MeetingDTO meeting) {
-            _service.UpdateMeeting (meeting);
+        public async Task UpdateMeeting ([FromBody] MeetingDTO meeting) {
+            await _service.UpdateMeeting (meeting);
         }
 
         [HttpDelete]

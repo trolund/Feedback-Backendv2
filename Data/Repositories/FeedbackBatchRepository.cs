@@ -102,5 +102,40 @@ namespace Data.Repositories {
             return result;
         }
 
+        public async Task<IEnumerable<FeedbackDateDTO>> OwnFeedbackDate (DateTime start, DateTime end, string[] categories, string searchWord, string userId, string companyId, bool onlyOwnData) {
+            var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
+
+            if (userId != null && onlyOwnData) {
+                collection.Where (u => u.ModifiedBy.Equals (userId));
+            }
+
+            if (userId == null && !onlyOwnData) {
+                throw new ArgumentException ("user not identifyed.");
+            }
+
+            if (companyId != null) {
+                collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (companyId));
+            }
+
+            if (categories != null && categories.Length > 0) {
+                //collection = collection.Where (x => x.Meeting.meetingCategories.Any(x => x.Category.Name.Equals("Møder")));
+                foreach (string i in categories) {
+                    collection = collection.Where (a => a.Meeting.meetingCategories.Any (x => x.Category.Name.Contains (i)));
+                }
+            }
+
+            if (start != null && end != null) {
+                collection = collection.Where (a => a.CreatedDate >= start && a.CreatedDate <= end);
+            }
+
+            if (searchWord != null) {
+                collection = collection.Where (a => a.Meeting.Discription.Contains (searchWord) || a.Meeting.Name.Contains (searchWord));
+            }
+
+            var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackDateDTO (item.CreatedDate ?? DateTime.Now, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name))).ToListAsync ();
+
+            return result;
+        }
+
     }
 }

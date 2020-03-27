@@ -72,7 +72,7 @@ namespace Business.Services {
             IdentityOptions _options = new IdentityOptions ();
             var claims = new List<Claim> {
                 new Claim (JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim ("CID", user.UserName),
+                new Claim ("CID", user.CompanyId.ToString ()),
                 new Claim ("sub", user.Id),
                 // new Claim (JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator ()),
                 // new Claim (JwtRegisteredClaimNames.Iat, ToUnixEpochDate (_jwtOptions.IssuedAt).ToString (), ClaimValueTypes.Integer64),

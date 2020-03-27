@@ -44,6 +44,8 @@ namespace Infrastructure.ViewModels {
 
         public string QuestionsSetId { get; set; }
 
+        public Guid MeetingCategoryId { get; set; }
+
         public ICollection<MeetingCategoryDTO> meetingCategories { get; set; }
     }
 }

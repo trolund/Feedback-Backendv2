@@ -53,7 +53,7 @@ namespace Business.Services {
         public async Task<MeetingDTO> UpdateMeeting (MeetingDTO meeting) {
             var intId = MeetingIdHelper.GetId (meeting.ShortId);
 
-            var oldMeeting = await _unitOfWork.Meetings.Get (intId);
+            var oldMeeting = await _unitOfWork.Meetings.GetMeeting (intId);
             var meetingId = oldMeeting.MeetingId;
             var userId = oldMeeting.CreatedBy;
             _mapper.Map (meeting, oldMeeting);

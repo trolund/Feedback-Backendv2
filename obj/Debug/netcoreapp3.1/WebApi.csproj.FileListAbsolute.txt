@@ -1,3 +1,6 @@
+/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.csprojAssemblyReference.cache
+/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cs
+/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cache
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/appsettings.Development.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/appsettings.json
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Business/obj/Business.csproj.nuget.dgspec.json
@@ -68,14 +71,9 @@
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/runtimes/unix/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/runtimes/win/lib/netcoreapp2.0/System.Runtime.Caching.dll
 /Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
-/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.csprojAssemblyReference.cache
-/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cs
-/Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.MvcApplicationPartsAssemblyInfo.cache
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.csproj.CopyComplete
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/staticwebassets/WebApi.StaticWebAssets.Manifest.cache
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/staticwebassets/WebApi.StaticWebAssets.xml
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.dll
 /Users/trolund/Desktop/untitled folder/obj/Debug/netcoreapp3.1/WebApi.pdb
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Business/bin/Debug/netcoreapp3.1/Business.deps.json
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Data/bin/Debug/netcoreapp3.1/Data.deps.json
-/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Infrastructure/bin/Debug/netcoreapp3.1/Infrastructure.deps.json
+/Users/trolund/Desktop/untitled folder/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Design.dll

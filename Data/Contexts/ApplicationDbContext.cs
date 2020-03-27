@@ -59,9 +59,9 @@ namespace Data.Contexts {
             return base.SaveChanges ();
         }
 
-        public override Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
+        public async override Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
             AddTimestamps ();
-            return base.SaveChangesAsync ();
+            return await base.SaveChangesAsync ();
         }
 
         private void AddTimestamps () {

@@ -36,8 +36,12 @@ namespace WebApi.Controllers {
 
         [AllowAnonymous]
         [HttpPost]
-        public void Post ([FromBody] FeedbackBatchDTO entity) {
-            Service.Create (entity);
+        public async Task<IActionResult> Post ([FromBody] FeedbackBatchDTO entity) {
+            if (await Service.Create (entity)) {
+                return Ok ();
+            } else {
+                return BadRequest ();
+            }
         }
 
         [AllowAnonymous]
@@ -81,6 +85,13 @@ namespace WebApi.Controllers {
         [Route ("dashboardMonth")]
         public async Task<IActionResult> DashboardMonth ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
             return Ok (await Service.OwnFeedbackMonth (start, end, categories, searchWord, onlyOwnData));
+        }
+
+        [HttpGet]
+        [ProducesResponseType (StatusCodes.Status200OK)]
+        [Route ("dashboardDate")]
+        public async Task<IActionResult> DashboardDate ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
+            return Ok (await Service.OwnFeedbackDate (start, end, categories, searchWord, onlyOwnData));
         }
     }
 }
