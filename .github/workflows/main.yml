@@ -36,6 +36,7 @@ jobs:
       # Run dotnet build and publish
       - name: dotnet build and publish
         run: |
+         ls - a 
           dotnet build FeedbackBackend --configuration Release
           dotnet publish FeedbackBackend -c Release -o myapp 
           
