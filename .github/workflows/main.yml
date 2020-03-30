@@ -37,8 +37,8 @@ jobs:
       - name: dotnet build and publish
         run: |
          ls -a 
-          dotnet build FeedbackBackend --configuration Release
-          dotnet publish FeedbackBackend -c Release -o myapp 
+          dotnet build --configuration Release ./FeedbackBackend.sln 
+          dotnet publish -c Release -o myapp ./FeedbackBackend.sln 
           
       # Deploy to Azure Web apps
       - name: 'Run Azure webapp deploy action using publish profile credentials'
