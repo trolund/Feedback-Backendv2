@@ -1,7 +1,7 @@
 using Data.Models;
 
 namespace Data.Repositories.Interface {
-    public interface ICompanyRepository : IRepository<Company> {
+    public interface ICompanyRepository : IRepository<Company, int> {
 
     }
 }

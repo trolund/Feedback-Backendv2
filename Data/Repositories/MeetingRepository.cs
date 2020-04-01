@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories {
-    public class MeetingRepository : Repository<Meeting>, IMeetingRepository {
+    public class MeetingRepository : Repository<Meeting, int>, IMeetingRepository {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly IMapper _mapper;

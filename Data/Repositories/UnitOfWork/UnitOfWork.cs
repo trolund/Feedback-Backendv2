@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using AutoMapper;
 using Data.Repositories;
 using Data.Repositories.Interface;
@@ -13,14 +14,19 @@ namespace Data.Contexts {
         public IFeedbackBatchRepository FeedbackBatch { get; }
         public ICompanyRepository Company { get; }
         public IUserRepository Users { get; }
-        public UnitOfWork (ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper) {
+        public ICategoryRepository Categories { get; }
+        public IMeetingCategoryRepository MeetingCategories { get; }
+
+        public UnitOfWork (ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, IMeetingRepository meetingRepository, IQuestionSetRepository questionSetRepository, IFeedbackRepository feedbackRepository, IFeedbackBatchRepository feedbackBatchRepository, ICompanyRepository companyRepository, IUserRepository userRepository, ICategoryRepository categoryRepository, IMeetingCategoryRepository meetingCategoryRepository) {
             _context = context;
-            Meetings = new MeetingRepository (_context, httpContextAccessor, mapper);
-            QuestionSet = new QuestionSetRepository (_context);
-            Feedback = new FeedbackRepository (_context, httpContextAccessor);
-            Company = new CompanyRepository (_context, httpContextAccessor);
-            FeedbackBatch = new FeedbackBatchRepository (_context, httpContextAccessor, mapper);
-            Users = new UserRepository (_context, httpContextAccessor, mapper);
+            Meetings = meetingRepository;
+            QuestionSet = questionSetRepository;
+            Feedback = feedbackRepository;
+            Company = companyRepository;
+            FeedbackBatch = feedbackBatchRepository;
+            Users = userRepository;
+            Categories = categoryRepository;
+            MeetingCategories = meetingCategoryRepository;
         }
         public bool Save () {
             return (_context.SaveChanges () >= 0);

@@ -27,18 +27,18 @@ namespace Business.Services {
         // };
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AppSettings _appSettings;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         // private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService (IOptions<AppSettings> appSettings, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager) {
+        public UserService (IOptions<AppSettings> appSettings, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork) {
             _appSettings = appSettings.Value;
             _userManager = userManager;
             _mapper = mapper;
-            _unitOfWork = _unitOfWork = new UnitOfWork (context, httpContextAccessor, mapper);
+            _unitOfWork = unitOfWork;
             _signInManager = signInManager;
             _roleManager = roleManager;
         }

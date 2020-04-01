@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories {
-    public class FeedbackBatchRepository : Repository<FeedbackBatch>, IFeedbackBatchRepository {
+    public class FeedbackBatchRepository : Repository<FeedbackBatch, Guid>, IFeedbackBatchRepository {
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;

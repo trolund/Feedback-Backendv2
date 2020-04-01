@@ -7,6 +7,7 @@ using Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Data.Contexts {
 
@@ -28,6 +29,10 @@ namespace Data.Contexts {
         public DbSet<Category> Categories { get; set; }
         public DbSet<MeetingCategory> MeetingCategories { get; set; }
 
+        protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
+            optionsBuilder.EnableSensitiveDataLogging ();
+        }
+
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
             base.OnModelCreating (modelBuilder);
 
@@ -41,6 +46,16 @@ namespace Data.Contexts {
                 .HasOne (mc => mc.Category)
                 .WithMany (c => c.meetingCategories)
                 .HasForeignKey (mc => mc.CategoryId);
+
+            modelBuilder.Entity<MeetingCategory> ()
+                .Ignore (b => b.meeting);
+
+            modelBuilder.Entity<Category> ()
+                .Ignore (b => b.meetingCategories);
+
+            modelBuilder.Entity<Category> (builder => {
+                builder.Property (e => e.Name).Metadata.SetAfterSaveBehavior (PropertySaveBehavior.Ignore);
+            });
 
             // // make sure that the primary key is the set of {QuestionSetId, Vertion}
             // modelBuilder.Entity<QuestionSet>().HasKey(q => new

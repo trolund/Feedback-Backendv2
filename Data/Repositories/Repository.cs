@@ -7,14 +7,14 @@ using Data.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class {
+    public class Repository<TEntity, TGUID> : IRepository<TEntity, TGUID> where TEntity : class {
         protected readonly DbContext Context;
 
         public Repository (DbContext context) {
             Context = context;
         }
 
-        public async Task<TEntity> Get (int id) {
+        public async Task<TEntity> Get (TGUID id) {
             return await Context.Set<TEntity> ().FindAsync (id);
         }
 

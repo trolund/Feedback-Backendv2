@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AutoMapper;
 using Data.Contexts;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace Data.Repositories {
-    public class UserRepository : Repository<ApplicationUser>, IUserRepository {
+    public class UserRepository : Repository<ApplicationUser, Guid>, IUserRepository {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 

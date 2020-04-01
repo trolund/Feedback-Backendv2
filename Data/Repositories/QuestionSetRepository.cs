@@ -8,7 +8,7 @@ using Data.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories {
-    public class QuestionSetRepository : Repository<QuestionSet>, IQuestionSetRepository {
+    public class QuestionSetRepository : Repository<QuestionSet, Guid>, IQuestionSetRepository {
         public QuestionSetRepository (ApplicationDbContext context) : base (context) { }
         private ApplicationDbContext _context {
             get { return Context as ApplicationDbContext; }

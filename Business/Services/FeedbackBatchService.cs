@@ -16,13 +16,13 @@ namespace Business.Services {
 
     public class FeedbackBatchService : IFeedbackBatchService {
 
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public FeedbackBatchService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) {
+        public FeedbackBatchService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
             _httpContextAccessor = httpContextAccessor;
-            _unitOfWork = new UnitOfWork (context, httpContextAccessor, mapper);
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 

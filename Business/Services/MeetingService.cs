@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.Services.Interfaces;
@@ -14,16 +16,16 @@ using QRCoder;
 
 namespace Business.Services {
     public class MeetingService : IMeetingService {
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private static QRCodeGenerator qrGenerator = new QRCodeGenerator ();
 
         private string _baseURL = "https://localhost:5001";
 
-        public MeetingService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) {
+        public MeetingService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
             _httpContextAccessor = httpContextAccessor;
-            _unitOfWork = new UnitOfWork (context, httpContextAccessor, mapper);
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -52,18 +54,30 @@ namespace Business.Services {
 
         public async Task<MeetingDTO> UpdateMeeting (MeetingDTO meeting) {
             var intId = MeetingIdHelper.GetId (meeting.ShortId);
+            meeting.MeetingId = intId;
 
-            var oldMeeting = await _unitOfWork.Meetings.GetMeeting (intId);
-            var meetingId = oldMeeting.MeetingId;
-            var userId = oldMeeting.CreatedBy;
+            // var oldMeetingCategory = await _unitOfWork.MeetingCategories.getMeetingCategoriesForMeeting (intId);
+            // if (oldMeetingCategory != null) {
+            //     _unitOfWork.MeetingCategories.RemoveRange (oldMeetingCategory);
+            // }
+
+            // var oldMeeting = await _unitOfWork.Meetings.GetMeeting (intId);
+            var oldMeeting = await _unitOfWork.Meetings.Get (intId);
+
+            // if (oldMeeting != null) {
+
+            // var meetingId = oldMeeting.MeetingId;
+            // var userId = oldMeeting.CreatedBy;
+
             _mapper.Map (meeting, oldMeeting);
-            oldMeeting.CreatedBy = userId;
-            oldMeeting.MeetingId = meetingId;
-            _unitOfWork.Meetings.UpdateMeeting (oldMeeting);
+            // oldMeeting.CreatedBy = userId;
+            // oldMeeting.MeetingId = intId;
+            // oldMeeting.meetingCategories = oldMeeting.meetingCategories.Where (item => item.CategoryId != null).ToList ();
 
             await _unitOfWork.SaveAsync ();
 
             return meeting;
+
         }
 
         public async Task DeleteMeeting (MeetingDTO meeting) {

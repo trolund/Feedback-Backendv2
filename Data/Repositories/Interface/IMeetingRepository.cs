@@ -5,7 +5,7 @@ using Infrastructure.QueryParams;
 using Infrastructure.ViewModels;
 
 namespace Data.Repositories.Interface {
-    public interface IMeetingRepository : IRepository<Meeting> {
+    public interface IMeetingRepository : IRepository<Meeting, int> {
         Task<Meeting> GetMeeting (int id);
         Task<IEnumerable<Meeting>> GetMeetings (MeetingResourceParameters parameters);
 

@@ -10,9 +10,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace Business.Services {
     public class CompanyService : ICompanyService {
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public CompanyService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
+            _httpContextAccessor = httpContextAccessor;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
         public async Task<int> CreateCompany (CompanyDTO Company) {
             await _unitOfWork.Company.Add (_mapper.Map<Company> (Company));

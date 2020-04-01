@@ -9,6 +9,8 @@ using Business.Services.Interfaces;
 using Data.Contexts;
 using Data.Contexts.Roles;
 using Data.Models;
+using Data.Repositories;
+using Data.Repositories.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,15 +35,27 @@ namespace WebApi {
         public void ConfigureServices (IServiceCollection services) {
             services.AddLogging ();
 
-            // add services
-            services.AddScoped<IMeetingService, MeetingService> ();
-            services.AddScoped<IFeedbackService, FeedbackService> ();
-            services.AddScoped<IFeedbackBatchService, FeedbackBatchService> ();
-            services.AddScoped<IQuestionSetService, QuestionSetService> ();
-            services.AddScoped<IUserService, UserService> ();
-            services.AddScoped<ICompanyService, CompanyService> ();
+            services.AddScoped<IUnitOfWork, UnitOfWork> ();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor> ();
+            // add services
+            services.AddTransient<IMeetingService, MeetingService> ();
+            services.AddTransient<IFeedbackService, FeedbackService> ();
+            services.AddTransient<IFeedbackBatchService, FeedbackBatchService> ();
+            services.AddTransient<IQuestionSetService, QuestionSetService> ();
+            services.AddTransient<IUserService, UserService> ();
+            services.AddTransient<ICompanyService, CompanyService> ();
+
+            //  services.AddScoped<IRepository, Repository> ();
+            services.AddScoped<ICategoryRepository, CategoryRepository> ();
+            services.AddScoped<ICompanyRepository, CompanyRepository> ();
+            services.AddScoped<IFeedbackBatchRepository, FeedbackBatchRepository> ();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository> ();
+            services.AddScoped<IMeetingCategoryRepository, MeetingCategoryRepository> ();
+            services.AddScoped<IMeetingRepository, MeetingRepository> ();
+            services.AddScoped<IQuestionSetRepository, QuestionSetRepository> ();
+            services.AddScoped<IUserRepository, UserRepository> ();
+
+            services.AddHttpContextAccessor ();
 
             services.AddAutoMapper (typeof (Startup));
 

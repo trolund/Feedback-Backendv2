@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Data.Repositories.Interface {
-    public interface IRepository<TEntity> where TEntity : class {
+    public interface IRepository<TEntity, TGUID> where TEntity : class {
         // get objects
-        Task<TEntity> Get (int id);
+        Task<TEntity> Get (TGUID id);
         Task<IEnumerable<TEntity>> GetAll ();
         IEnumerable<TEntity> Find (Expression<Func<TEntity, bool>> predicate);
 

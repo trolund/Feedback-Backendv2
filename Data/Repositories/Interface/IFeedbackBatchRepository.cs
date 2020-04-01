@@ -5,7 +5,7 @@ using Data.Models;
 using Infrastructure.ViewModels;
 
 namespace Data.Repositories.Interface {
-    public interface IFeedbackBatchRepository : IRepository<FeedbackBatch> {
+    public interface IFeedbackBatchRepository : IRepository<FeedbackBatch, Guid> {
 
         Task<IEnumerable<FeedbackBatchDTO>> getAllFeedbackByMeetingId (int meetingId);
 
