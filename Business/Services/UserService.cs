@@ -4,16 +4,18 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.Helpers;
 using Business.Services.Interfaces;
 using Data.Contexts;
+using Data.Contexts.Roles;
 using Data.Models;
 using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -31,16 +33,22 @@ namespace Business.Services {
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailService _emailService;
+        private readonly ICompanyService _companyService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUrlHelper _urlHelper;
 
-        // private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public UserService (IOptions<AppSettings> appSettings, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork) {
+        public UserService (IOptions<AppSettings> appSettings, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork, IEmailService emailService, ICompanyService companyService, IUrlHelper urlHelper) {
             _appSettings = appSettings.Value;
             _userManager = userManager;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _emailService = emailService;
+            _companyService = companyService;
+            _httpContextAccessor = httpContextAccessor;
+            _urlHelper = urlHelper;
         }
 
         public async Task<UserDTO> Authenticate (LoginDTO loginDTO) {
@@ -66,6 +74,10 @@ namespace Business.Services {
             } else {
                 return null;
             }
+        }
+
+        public async Task signout () {
+            await _signInManager.SignOutAsync ();
         }
 
         private async Task<List<Claim>> GetValidClaims (ApplicationUser user) {
@@ -94,6 +106,40 @@ namespace Business.Services {
                 }
             }
             return claims;
+        }
+
+        public async Task<UserDTO> UserRegistration (UserRegistrationDTO Entity) {
+            var companyConfirmed = false;
+            // if company shoud be created
+            if (Entity.company != null) {
+                Entity.CompanyId = await _companyService.CreateCompany (Entity.company);
+                companyConfirmed = true;
+                Entity.RequesetedRoles.Append (Roles.VADMIN);
+            }
+
+            var user = new ApplicationUser () {
+                CompanyId = Entity.CompanyId,
+                CompanyConfirmed = companyConfirmed,
+                Email = Entity.Email,
+                UserName = Entity.Email,
+                Lastname = Entity.Lastname,
+                Firstname = Entity.Firstname,
+                EmailConfirmed = false,
+                PhoneNumber = Entity.Phone,
+            };
+
+            await _userManager.CreateAsync (user, Entity.Password);
+            var newUser = await _userManager.FindByEmailAsync (Entity.Email);
+            await _userManager.AddToRolesAsync (newUser, Entity.RequesetedRoles);
+
+            // UrlHelper Url = new UrlHelper (_httpContextAccessor.HttpContext.Request.);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync (user);
+            string confirmationLink = _urlHelper.Action ("ConfirmEmail", "Account", new { token, email = Entity.Email }, _httpContextAccessor.HttpContext.Request.Scheme);
+
+            //var message = new Message (new string[] { Entity.Email }, "Confirmation email link", confirmationLink, null);
+            await _emailService.SendEmailAsync (Entity.Email, "konto confimation", "confirm link:" + confirmationLink);
+
+            return _mapper.Map<UserDTO> (user);
         }
 
     }

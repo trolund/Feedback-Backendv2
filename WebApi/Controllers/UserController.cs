@@ -81,30 +81,14 @@ namespace FWebApi.Controllers {
         [HttpPost]
         [Route ("Post")]
         public async Task<ActionResult<UserDTO>> UserRegistration (UserRegistrationDTO Entity) {
-            var companyConfirmed = false;
-            // if company shoud be created
-            if (Entity.company != null) {
-                Entity.CompanyId = await _companyService.CreateCompany (Entity.company);
-                companyConfirmed = true;
-                Entity.RequesetedRoles.Append (Roles.VADMIN);
-            }
+            return Ok (_userService.UserRegistration (Entity));
+        }
 
-            var user = new ApplicationUser () {
-                CompanyId = Entity.CompanyId,
-                CompanyConfirmed = companyConfirmed,
-                Email = Entity.Email,
-                UserName = Entity.Email,
-                Lastname = Entity.Lastname,
-                Firstname = Entity.Firstname,
-                EmailConfirmed = false,
-                PhoneNumber = Entity.Phone,
-            };
-
-            await _userManager.CreateAsync (user, Entity.Password);
-            var newUser = await _userManager.FindByEmailAsync (Entity.Email);
-            await _userManager.AddToRolesAsync (newUser, Entity.RequesetedRoles);
-
-            return _mapper.Map<UserDTO> (user);
+        [HttpPost]
+        [Route ("signout")]
+        public async Task<ActionResult> signout () {
+            await _userService.signout ();
+            return Ok ();
         }
 
     }

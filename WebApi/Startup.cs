@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +48,8 @@ namespace WebApi {
             services.AddTransient<IUserService, UserService> ();
             services.AddTransient<ICompanyService, CompanyService> ();
 
+            services.AddTransient<IEmailService, EmailService> ();
+
             //  services.AddScoped<IRepository, Repository> ();
             services.AddScoped<ICategoryRepository, CategoryRepository> ();
             services.AddScoped<ICompanyRepository, CompanyRepository> ();
@@ -56,6 +61,12 @@ namespace WebApi {
             services.AddScoped<IUserRepository, UserRepository> ();
 
             services.AddHttpContextAccessor ();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor> ();
+            services.AddScoped<IUrlHelper> (x => {
+                var actionContext = x.GetRequiredService<IActionContextAccessor> ().ActionContext;
+                var factory = x.GetRequiredService<IUrlHelperFactory> ();
+                return factory.GetUrlHelper (actionContext);
+            });
 
             services.AddAutoMapper (typeof (Startup));
 
@@ -66,6 +77,7 @@ namespace WebApi {
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
+
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext> ()
                 .AddDefaultTokenProviders ();

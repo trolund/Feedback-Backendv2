@@ -82,6 +82,17 @@ namespace WebApi.Controllers {
             return NotFound ();
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route ("isMeetingOpen/{id}")]
+        public async Task<IActionResult> MeetingOpen ([FromRoute] string id) {
+            var meeting = await _service.GetMeeting (id);
+            if (meeting != null) { // TODO tjek om der er gået over tolv timer.
+                return Ok ();
+            }
+            return NotFound ();
+        }
+
         [HttpPost]
         [Route ("Create")]
         public async Task<IActionResult> CreateMeeting ([FromBody] MeetingDTO meeting) {
