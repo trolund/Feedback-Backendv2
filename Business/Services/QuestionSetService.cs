@@ -44,26 +44,21 @@ namespace Business.Services {
             return _mapper.Map<IEnumerable<QuestionSetDTO>> (await _unitOfWork.QuestionSet.GetAll ());
         }
 
-        public void CreateQuestionSet (QuestionSetDTO Entity) {
+        public async Task<bool> CreateQuestionSet (QuestionSetDTO Entity) {
             var q = _mapper.Map<QuestionSet> (Entity);
-
-            _unitOfWork.QuestionSet.Add (q);
-            _unitOfWork.Save ();
+            _unitOfWork.QuestionSet.CreateQuestionSet (q);
+            return await _unitOfWork.SaveAsync ();
         }
 
-        public async Task<QuestionSetDTO> UpdateQuestionSet (QuestionSetDTO Entity) {
+        public async Task<bool> UpdateQuestionSet (QuestionSetDTO Entity) {
             var QuestionSetToAdd = _mapper.Map<QuestionSet> (Entity);
-
-            await _unitOfWork.QuestionSet.Add (QuestionSetToAdd);
-            await _unitOfWork.SaveAsync ();
-
-            var QuestionSetToReturn = _mapper.Map<QuestionSetDTO> (QuestionSetToAdd);
-
-            return QuestionSetToReturn;
+            _unitOfWork.QuestionSet.UpdateQuestionsSet (QuestionSetToAdd);
+            return await _unitOfWork.SaveAsync ();
         }
 
-        public void DeleteQuestionSet (QuestionSetDTO Entity) {
+        public async Task<bool> DeleteQuestionSet (QuestionSetDTO Entity) {
             _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (Entity));
+            return await _unitOfWork.SaveAsync ();
         }
     }
 }

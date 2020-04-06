@@ -20,12 +20,6 @@ namespace WebApi.Controllers {
             return Ok (await _service.GetQuestionSets ());
         }
 
-        // GET api/values/5
-        // [HttpGet("{id}")]
-        // public string Get(int id)
-        // {
-        //     return _service.getQuestionSet(id);
-        // }
         [HttpGet]
         [Route ("names")]
         public async Task<IActionResult> GetAllQuestionSetNames () {
@@ -44,22 +38,31 @@ namespace WebApi.Controllers {
             return Ok (await _service.GetQuestionSetOnly ());
         }
 
-        // POST api/values
+        [Authorize (Roles = "Admin, VAdmin")]
         [HttpPost]
-        public void Post ([FromBody] QuestionSetDTO value) {
-            _service.UpdateQuestionSet (value);
+        public async Task<IActionResult> Post ([FromBody] QuestionSetDTO value) {
+            if (await _service.UpdateQuestionSet (value)) {
+                return Ok ();
+            }
+            return BadRequest ();
         }
 
-        // PUT api/values/5
-        [HttpPut ("{id}")]
-        public void Put (int id, [FromBody] QuestionSetDTO value) {
-            _service.CreateQuestionSet (value);
+        [Authorize (Roles = "Admin, VAdmin")]
+        [HttpPut]
+        public async Task<IActionResult> Put (int id, [FromBody] QuestionSetDTO value) {
+            if (await _service.CreateQuestionSet (value)) {
+                return Ok ();
+            }
+            return BadRequest ();
         }
 
-        // DELETE api/values/5
-        [HttpDelete ("{id}")]
-        public void Delete (QuestionSetDTO value) {
-            _service.DeleteQuestionSet (value);
+        [Authorize (Roles = "Admin, VAdmin")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete (QuestionSetDTO value) {
+            if (await _service.DeleteQuestionSet (value)) {
+                return Ok ();
+            }
+            return BadRequest ();
         }
 
     }

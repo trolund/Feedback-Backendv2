@@ -9,7 +9,7 @@ namespace Data.Repositories.Interface {
 
         Task<IEnumerable<QuestionSet>> GetAllQuestionSets ();
 
-        void SetQuestionSet (QuestionSet questionSet);
+        void CreateQuestionSet (QuestionSet questionSet);
 
         void UpdateQuestionsSet (QuestionSet questionSet);
     }

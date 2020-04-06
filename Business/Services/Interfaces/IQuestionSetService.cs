@@ -7,11 +7,11 @@ namespace Business.Services.Interfaces {
         Task<QuestionSetDTO> GetQuestionSet (string id);
         Task<IEnumerable<QuestionSetDTO>> GetQuestionSets ();
 
-        void CreateQuestionSet (QuestionSetDTO QuestionSet);
+        Task<bool> CreateQuestionSet (QuestionSetDTO QuestionSet);
 
-        Task<QuestionSetDTO> UpdateQuestionSet (QuestionSetDTO QuestionSet);
+        Task<bool> UpdateQuestionSet (QuestionSetDTO QuestionSet);
 
-        void DeleteQuestionSet (QuestionSetDTO QuestionSet);
+        Task<bool> DeleteQuestionSet (QuestionSetDTO QuestionSet);
 
         Task<IEnumerable<string>> GetQuestionSetNames ();
 

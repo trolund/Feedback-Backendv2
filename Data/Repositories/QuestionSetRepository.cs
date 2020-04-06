@@ -26,12 +26,13 @@ namespace Data.Repositories {
             return await collection.Take (10).Include (set => set.Questions).ToListAsync ();
         }
 
-        public void SetQuestionSet (QuestionSet questionSet) {
-            throw new System.NotImplementedException ();
+        public void CreateQuestionSet (QuestionSet questionSet) {
+            _context.QuestionSets.Add (questionSet);
+
         }
 
         public void UpdateQuestionsSet (QuestionSet questionSet) {
-            throw new System.NotImplementedException ();
+            _context.QuestionSets.Update (questionSet);
         }
 
     }
