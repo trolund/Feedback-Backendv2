@@ -119,8 +119,8 @@ namespace Data.Repositories {
 
             if (categories != null && categories.Length > 0) {
                 //collection = collection.Where (x => x.Meeting.meetingCategories.Any(x => x.Category.Name.Equals("Møder")));
-                foreach (string i in categories) {
-                    collection = collection.Where (a => a.Meeting.meetingCategories.Any (x => x.Category.Name.Contains (i)));
+                foreach (string catId in categories) {
+                    collection = collection.Where (a => a.Meeting.meetingCategories.Any (item => item.CategoryId.Equals (Guid.Parse (catId))));
                 }
             }
 

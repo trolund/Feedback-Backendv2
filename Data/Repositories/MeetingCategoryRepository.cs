@@ -23,11 +23,11 @@ namespace Data.Repositories {
             get { return Context as ApplicationDbContext; }
         }
 
-        public async Task<List<MeetingCategory>> getAllMeetingCategoriesForMeeting (List<Guid> Ids) {
+        public async Task<List<MeetingCategory>> getAllMeetingCategoriesForMeeting (List<Guid> Ids, int MeetingId) {
             var collection = _context.Categories as IQueryable<MeetingCategory>;
 
             foreach (Guid id in Ids) {
-                collection.Where (item => item.MeetingCategoryId == id);
+                collection.Where (item => item.CategoryId == id && item.MeetingId == MeetingId);
             }
 
             return await collection.ToListAsync ();

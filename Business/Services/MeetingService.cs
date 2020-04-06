@@ -56,10 +56,12 @@ namespace Business.Services {
             var intId = MeetingIdHelper.GetId (meeting.ShortId);
             meeting.MeetingId = intId;
 
-            // var oldMeetingCategory = await _unitOfWork.MeetingCategories.getMeetingCategoriesForMeeting (intId);
-            // if (oldMeetingCategory != null) {
-            //     _unitOfWork.MeetingCategories.RemoveRange (oldMeetingCategory);
-            // }
+            var oldMeetingCategory = await _unitOfWork.MeetingCategories.getMeetingCategoriesForMeeting (intId);
+            if (oldMeetingCategory != null) {
+                _unitOfWork.MeetingCategories.RemoveRange (oldMeetingCategory);
+            }
+
+            await _unitOfWork.SaveAsync ();
 
             // var oldMeeting = await _unitOfWork.Meetings.GetMeeting (intId);
             var oldMeeting = await _unitOfWork.Meetings.Get (intId);
@@ -73,6 +75,7 @@ namespace Business.Services {
             // oldMeeting.CreatedBy = userId;
             // oldMeeting.MeetingId = intId;
             // oldMeeting.meetingCategories = oldMeeting.meetingCategories.Where (item => item.CategoryId != null).ToList ();
+            oldMeeting.MeetingCategoryId = Guid.NewGuid ();
 
             await _unitOfWork.SaveAsync ();
 
