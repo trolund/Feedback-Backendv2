@@ -80,8 +80,12 @@ namespace FWebApi.Controllers {
         [AllowAnonymous]
         [HttpPost]
         [Route ("Post")]
-        public async Task<ActionResult<UserDTO>> UserRegistration (UserRegistrationDTO Entity) {
-            return Ok (_userService.UserRegistration (Entity));
+        public async Task<ActionResult<UserDTO>> UserRegistration ([FromBody] UserRegistrationDTO Entity) {
+            var user = await _userService.UserRegistration (Entity);
+            if (user != null) {
+                return Ok ();
+            }
+            return BadRequest ();
         }
 
         [HttpPost]
@@ -89,6 +93,16 @@ namespace FWebApi.Controllers {
         public async Task<ActionResult> signout () {
             await _userService.signout ();
             return Ok ();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route ("confirm")]
+        public async Task<ActionResult> ConfirmUser ([FromQuery] string email, [FromQuery] string token) {
+            if (await _userService.ConfirmationUser (email, token)) {
+                return Ok ("Your account is know active.");
+            }
+            return BadRequest ();
         }
 
     }

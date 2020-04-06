@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using AutoMapper;
 using Business.Helpers;
 using Business.Services.Interfaces;
@@ -128,18 +129,44 @@ namespace Business.Services {
                 PhoneNumber = Entity.Phone,
             };
 
-            await _userManager.CreateAsync (user, Entity.Password);
+            var res = await _userManager.CreateAsync (user, Entity.Password);
             var newUser = await _userManager.FindByEmailAsync (Entity.Email);
-            await _userManager.AddToRolesAsync (newUser, Entity.RequesetedRoles);
+            var userres = await _userManager.AddToRolesAsync (newUser, Entity.RequesetedRoles);
 
-            // UrlHelper Url = new UrlHelper (_httpContextAccessor.HttpContext.Request.);
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync (user);
-            string confirmationLink = _urlHelper.Action ("ConfirmEmail", "Account", new { token, email = Entity.Email }, _httpContextAccessor.HttpContext.Request.Scheme);
+            if (res.Succeeded && userres.Succeeded) {
 
-            //var message = new Message (new string[] { Entity.Email }, "Confirmation email link", confirmationLink, null);
-            await _emailService.SendEmailAsync (Entity.Email, "konto confimation", "confirm link:" + confirmationLink);
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync (user);
+                var baseUrl = Environment.GetEnvironmentVariable ("BASE_URL");
 
-            return _mapper.Map<UserDTO> (user);
+                string confirmationLink = baseUrl + "/Api/User/confirm?token=" + HttpUtility.UrlEncode (token) + "&email=" + Entity.Email;
+
+                await _emailService.SendEmailAsync (Entity.Email, "konto confimation", "confirm link: " + confirmationLink);
+
+                return _mapper.Map<UserDTO> (user);
+            }
+            return null;
+        }
+
+        public async Task<bool> ConfirmationUser (string email, string emailToken) {
+            // var decodedToken = HttpUtility.UrlDecode (emailToken);
+            var user = await _userManager.FindByEmailAsync (email);
+            var res = await _userManager.ConfirmEmailAsync (user, emailToken);
+            if (res.Succeeded) {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task ConfirmUsersCompanyRelation (CompanyConfirmationDTO[] input) {
+
+            foreach (var item in input) {
+                var user = await _userManager.FindByIdAsync (item.UserId.ToString ());
+                if (item.delete) await _userManager.DeleteAsync (user);
+
+                user.CompanyConfirmed = item.Status;
+                await _userManager.UpdateAsync (user);
+            }
+
         }
 
     }

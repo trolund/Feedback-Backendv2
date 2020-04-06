@@ -7,6 +7,7 @@ namespace Business.Services.Interfaces {
         Task<UserDTO> Authenticate (LoginDTO loginDTO);
         Task signout ();
         Task<UserDTO> UserRegistration (UserRegistrationDTO Entity);
+        Task<bool> ConfirmationUser (string email, string emailToken);
         // IEnumerable<UserDTO> GetAll ();
         // UserDTO GetById (int id);
     }

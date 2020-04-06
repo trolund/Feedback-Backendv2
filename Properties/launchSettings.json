@@ -10,7 +10,8 @@
       "environmentVariables": {
         "MEETINGIDSALT": "19HqPIp384w7gZ2wP10YffwTIRkANihi",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "SENDGRID_API_KEY": "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"
+        "SENDGRID_API_KEY": "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",
+        "BASE_URL": "http://localhost:4000"
       },
       "applicationUrl": "http://localhost:4000"
     }

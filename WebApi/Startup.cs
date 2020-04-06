@@ -77,7 +77,7 @@ namespace WebApi {
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
-
+                    options.SignIn.RequireConfirmedAccount = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext> ()
                 .AddDefaultTokenProviders ();
@@ -117,7 +117,7 @@ namespace WebApi {
             });
 
             services.AddCors ();
-            services.AddControllers ();
+            services.AddControllers ().AddNewtonsoftJson ();
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection ("AppSettings");
