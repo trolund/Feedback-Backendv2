@@ -2,18 +2,41 @@
 using System.Collections.Generic;
 using System.Linq;
 using Data.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Data.Contexts.Seeding {
     public class DBSeeding {
-        public static void Seed (ApplicationDbContext context) {
+        public async static void Seed (ApplicationDbContext context, UserManager<ApplicationUser> userManager) {
             try {
 
                 if (context.Companies.AsQueryable ().Where (i => i.Name == "Test Aps").ToList ().Count == 0) {
                     context.Companies.Add (
                         new Company () {
+                            Name = "SpinOff"
+                        }
+                    );
+                    context.Companies.Add (
+                        new Company () {
                             Name = "Test Aps"
                         }
                     );
+                    context.SaveChanges ();
+                }
+
+                if (userManager.FindByEmailAsync ("trolund@gmail.com") == null) {
+
+                    var userone = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 1, UserName = "trolund@gmail.com", PhoneNumber = "29456660", Email = "trolund@gmail.com", EmailConfirmed = true };
+                    var usertwo = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 2, UserName = "spinoff@gmail.com", PhoneNumber = "29456660", Email = "spinoff@gmail.com", EmailConfirmed = true };
+                    var userthree = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 2, UserName = "Facilitator@gmail.com", PhoneNumber = "29456660", Email = "Facilitator@gmail.com", EmailConfirmed = true };
+
+                    await userManager.CreateAsync (userone, "Spinoff1234");
+                    await userManager.CreateAsync (usertwo, "Spinoff1234");
+                    await userManager.CreateAsync (userthree, "Spinoff1234");
+
+                    await userManager.AddToRoleAsync (userone, Roles.Roles.VADMIN);
+                    await userManager.AddToRoleAsync (usertwo, Roles.Roles.ADMIN);
+                    await userManager.AddToRoleAsync (usertwo, Roles.Roles.FACILITATOR);
+
                     context.SaveChanges ();
                 }
 
