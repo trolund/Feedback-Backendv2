@@ -8,6 +8,8 @@ namespace Business.Services.Interfaces {
         Task signout ();
         Task<UserDTO> UserRegistration (UserRegistrationDTO Entity);
         Task<bool> ConfirmationUser (string email, string emailToken);
+
+        Task<ICollection<UserAdminDTO>> UpdateUserAdmin (IEnumerable<UserAdminDTO> usersToUpdate);
         // IEnumerable<UserDTO> GetAll ();
         // UserDTO GetById (int id);
     }

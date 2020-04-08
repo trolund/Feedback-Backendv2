@@ -157,16 +157,60 @@ namespace Business.Services {
             return false;
         }
 
-        public async Task ConfirmUsersCompanyRelation (CompanyConfirmationDTO[] input) {
+        // private async Task ConfirmUsersCompanyRelation (UserAdminDTO[] input) {
+        //     var isAdmin = _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN);
 
-            foreach (var item in input) {
-                var user = await _userManager.FindByIdAsync (item.UserId.ToString ());
-                if (item.delete) await _userManager.DeleteAsync (user);
+        //     if (isAdmin) {
+        //         foreach (var item in input) {
+        //             var user = await _userManager.FindByIdAsync (item.Id.ToString ());
+        //             user.CompanyConfirmed = item.CompanyConfirmed;
+        //             await _userManager.UpdateAsync (user);
+        //         }
+        //     } else {
+        //         foreach (var item in input) {
+        //             var user = await _userManager.FindByIdAsync (item.Id.ToString ());
+        //             user.CompanyConfirmed = item.CompanyConfirmed;
+        //             await _userManager.UpdateAsync (user);
+        //         }
+        //     }
 
-                user.CompanyConfirmed = item.Status;
-                await _userManager.UpdateAsync (user);
+        // }
+
+        // this is only called by Admin and Vadmin.
+        public async Task<ICollection<UserAdminDTO>> UpdateUserAdmin (IEnumerable<UserAdminDTO> usersToUpdate) {
+            var isAdmin = _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN);
+            var companyId = _httpContextAccessor.HttpContext.User.FindFirstValue ("CID");
+            var updatedUsers = new List<UserAdminDTO> ();
+
+            foreach (var user in usersToUpdate.ToArray ()) {
+                ApplicationUser appUser = await _userManager.FindByIdAsync (user.Id.ToString ());
+                if (!isAdmin) {
+                    if (appUser.CompanyId != Int32.Parse (companyId)) {
+                        appUser = null;
+                    }
+                }
+
+                if (appUser != null) {
+                    IdentityResult deleteResult = null;
+                    IdentityResult updateResult = null;
+                    if (user.delete) {
+                        deleteResult = await _userManager.DeleteAsync (appUser);
+                    }
+                    if (!user.CompanyConfirmed.Equals (appUser.CompanyConfirmed)) {
+                        appUser.CompanyConfirmed = user.CompanyConfirmed;
+                        updateResult = await _userManager.UpdateAsync (appUser);
+                    }
+
+                    if (deleteResult != null && deleteResult.Succeeded) { user.delete = true; }
+                    if (updateResult != null && updateResult.Succeeded) {
+                        user.CompanyConfirmed = user.CompanyConfirmed;
+                    }
+                    updatedUsers.Add (user);
+                }
+
             }
 
+            return updatedUsers;
         }
 
     }

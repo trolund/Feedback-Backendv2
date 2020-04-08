@@ -106,7 +106,7 @@ namespace Data.Repositories {
             var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
 
             if (userId != null && onlyOwnData) {
-                collection.Where (u => u.Meeting.ApplicationUserId.Equals (userId));
+                collection = collection.Where (u => u.Meeting.ApplicationUserId.Equals (userId));
             }
 
             if (userId == null && !onlyOwnData) {
@@ -114,7 +114,7 @@ namespace Data.Repositories {
             }
 
             if (companyId != null) {
-                collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (companyId));
+                collection = collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (companyId));
             }
 
             if (categories != null && categories.Length > 0) {

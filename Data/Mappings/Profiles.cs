@@ -20,6 +20,7 @@ namespace Data.Contexts_access {
             // CreateMap<string, ApplicationUser> ().ConvertUsing (s => new ApplicationUser () { Id = s });
             CreateMap<Question, QuestionDTO> ().ReverseMap ();
             CreateMap<ApplicationUser, UserDTO> ();
+            CreateMap<ApplicationUser, UserAdminDTO> ().ReverseMap ();
             CreateMap<QuestionSet, QuestionSetDTO> ().ReverseMap ();
             CreateMap<Company, CompanyDTO> ();
             CreateMap<CompanyDTO, CompanyDTO> ();

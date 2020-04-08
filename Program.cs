@@ -1,6 +1,8 @@
 ﻿using Data.Contexts;
 using Data.Contexts.Seeding;
+using Data.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,7 +14,8 @@ namespace WebApi {
             using (var scope = host.Services.CreateScope ()) {
                 var services = scope.ServiceProvider;
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext> ();
-                DBSeeding.Seed (context);
+                var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>> ();
+                DBSeeding.Seed (context, userManager);
             }
             host.Run ();
         }

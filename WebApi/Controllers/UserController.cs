@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -57,24 +59,47 @@ namespace FWebApi.Controllers {
         }
 
         [Authorize (Roles = "Admin, VAdmin")]
-        [HttpDelete]
-        [Route ("delete")]
-        public async Task<IEnumerable<ApplicationUser>> DeleteUsers (IEnumerable<ApplicationUser> usersToDelete) {
-            var userDeleted = new List<ApplicationUser> ();
-            var qury = usersToDelete.AsQueryable ();
+        [HttpGet]
+        [Route ("userAdmin")]
+        public ActionResult<IEnumerable<ApplicationUser>> GetUsers ([FromQuery] string searchword, [FromQuery] int companyConfirmed = -1, [FromQuery] int pageNumber = -1) {
+            var query = _userManager.Users as IQueryable<ApplicationUser>;
 
             if (!User.IsInRole (Roles.ADMIN)) {
                 var user = _userManager.Users.SingleOrDefault (u => u.Email == User.Identity.Name);
-                qury.Where (u => u.Company == user.Company);
+                query = query.Where (u => u.Company == user.Company);
             }
 
-            foreach (ApplicationUser user in qury.ToList ()) {
-                var result = await _userManager.DeleteAsync (user);
-                if (result.Succeeded) {
-                    userDeleted.Append (user);
-                }
+            if (!string.IsNullOrWhiteSpace (searchword) && !searchword.Equals ("null")) {
+                var searchQuery = searchword.Trim ();
+                query = query.Where (u =>
+                    u.Firstname.Contains (searchQuery) ||
+                    u.Lastname.Contains (searchQuery) ||
+                    u.PhoneNumber.Contains (searchQuery) ||
+                    u.Email.Contains (searchQuery) ||
+                    u.UserName.Contains (searchQuery));
             }
-            return userDeleted;
+
+            if (companyConfirmed != -1) {
+                bool confirm = (companyConfirmed == 1);
+                query = query.Where (u => u.CompanyConfirmed.Equals (confirm));
+            }
+
+            if (searchword == null && companyConfirmed == -1 && pageNumber < 0) {
+                return query.Skip ((pageNumber - 1) * 50).Take (50).ToList ();
+            }
+
+            if (searchword == null && companyConfirmed == -1) {
+                return query.Take (50).ToList ();
+            }
+
+            return query.ToList ();
+        }
+
+        [Authorize (Roles = "Admin, VAdmin")]
+        [HttpPut]
+        [Route ("userAdmin")]
+        public async Task<ICollection<UserAdminDTO>> UpdateUserAdmin (ICollection<UserAdminDTO> usersToUpdate) {
+            return await _userService.UpdateUserAdmin (usersToUpdate);
         }
 
         [AllowAnonymous]
