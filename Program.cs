@@ -15,7 +15,8 @@ namespace WebApi {
                 var services = scope.ServiceProvider;
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext> ();
                 var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>> ();
-                DBSeeding.Seed (context, userManager);
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>> ();
+                DBSeeding.Seed (context, userManager, roleManager).Wait ();
             }
             host.Run ();
         }

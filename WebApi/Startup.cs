@@ -180,32 +180,6 @@ namespace WebApi {
                 endpoints.MapControllers ();
             });
 
-            CreateRoles (services).Wait ();
-        }
-
-        private string[] roles = { Roles.ADMIN, Roles.VADMIN, Roles.FACILITATOR };
-
-        private async Task CreateRoles (IServiceProvider serviceProvider) {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>> ();
-            IdentityResult roleResult;
-
-            foreach (string role in roles) {
-                //here in this line we are adding Admin Role
-                var roleCheck = await RoleManager.RoleExistsAsync (role);
-                if (!roleCheck) {
-                    //here in this line we are creating admin role and seed it to the database
-                    roleResult = await RoleManager.CreateAsync (new IdentityRole (role));
-                }
-            }
-
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>> ();
-            ApplicationUser user = await UserManager.FindByEmailAsync ("trolund@gmail.com");
-
-            if (user != null) {
-                await UserManager.AddToRoleAsync (user, Roles.ADMIN);
-                await UserManager.AddToRoleAsync (user, Roles.VADMIN);
-            }
-
         }
     }
 }

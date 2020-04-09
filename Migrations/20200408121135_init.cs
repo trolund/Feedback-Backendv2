@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApi.Migrations
 {
-    public partial class init4 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -361,8 +361,7 @@ namespace WebApi.Migrations
                 columns: table => new
                 {
                     MeetingId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<Guid>(nullable: false),
-                    MeetingCategoryId = table.Column<Guid>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

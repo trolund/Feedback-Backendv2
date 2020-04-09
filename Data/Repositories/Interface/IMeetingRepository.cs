@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data.Models;
@@ -9,7 +10,7 @@ namespace Data.Repositories.Interface {
         Task<Meeting> GetMeeting (int id);
         Task<IEnumerable<Meeting>> GetMeetings (MeetingResourceParameters parameters);
 
-        Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters);
+        Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, Guid userId);
 
         void CreateMeeting (Meeting meeting);
 

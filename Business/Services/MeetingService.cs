@@ -1,8 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Drawing;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.Services.Interfaces;
@@ -38,13 +42,27 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<MeetingDTO>> GetMeetings (MeetingResourceParameters parameters) {
+
             return _mapper.Map<IEnumerable<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters));
         }
 
         public async Task CreateMeeting (MeetingDTO meeting) {
-            var m = _mapper.Map<Meeting> (meeting);
+            var meetingCategories = meeting.meetingCategories;
+            meeting.meetingCategories = null;
 
-            _unitOfWork.Meetings.CreateMeeting (m);
+            var meetingToSave = _mapper.Map<Meeting> (meeting);
+            meetingToSave.ApplicationUserId = Guid.Parse (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value);
+
+            _unitOfWork.Meetings.CreateMeeting (meetingToSave);
+            await _unitOfWork.SaveAsync ();
+
+            Console.WriteLine (meetingToSave.MeetingId);
+
+            foreach (var cat in meetingCategories) {
+                cat.MeetingId = MeetingIdHelper.GenerateShortId (meetingToSave.MeetingId);
+            }
+
+            await _unitOfWork.MeetingCategories.AddRange (_mapper.Map<ICollection<MeetingCategory>> (meetingCategories));
             await _unitOfWork.SaveAsync ();
         }
 
@@ -91,7 +109,8 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<MeetingDTO>> GetMeetings (MeetingDateResourceParameters parameters) {
-            return _mapper.Map<List<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters));
+            Guid id = Guid.Parse (_httpContextAccessor.HttpContext.User.Claims.Where (c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault ().Value);
+            return _mapper.Map<List<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters, id));
         }
 
         public byte[] GetQRCode (string shortCodeId) {

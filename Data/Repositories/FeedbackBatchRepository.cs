@@ -106,15 +106,17 @@ namespace Data.Repositories {
             var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
 
             if (userId != null && onlyOwnData) {
-                collection = collection.Where (u => u.Meeting.ApplicationUserId.Equals (userId));
+                collection = collection.Where (u => u.Meeting.ApplicationUserId.Equals (Guid.Parse (userId)));
             }
 
-            if (userId == null && !onlyOwnData) {
+            if (userId == null && onlyOwnData) {
                 throw new ArgumentException ("user not identifyed.");
             }
 
             if (companyId != null) {
-                collection = collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (companyId));
+                // collection = collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (Int32.Parse (companyId)));
+            } else {
+                return null;
             }
 
             if (categories != null && categories.Length > 0) {

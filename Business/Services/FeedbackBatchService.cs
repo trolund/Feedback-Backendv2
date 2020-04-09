@@ -98,11 +98,9 @@ namespace Business.Services {
             string companyId = null;
             string userId = null;
 
-            if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN)) {
-                companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
-            }
+            companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
 
-            if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.FACILITATOR) && !_httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN) ||  onlyOwnData) {
+            if ((_httpContextAccessor.HttpContext.User.IsInRole (Roles.FACILITATOR) && !_httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN)) ||  onlyOwnData) {
                 userId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value;
                 onlyOwnData = true;
             }

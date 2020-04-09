@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200327075149_init4")]
-    partial class init4
+    [Migration("20200409151112_init2")]
+    partial class init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -306,9 +306,6 @@ namespace WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MeetingCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MeetingId", "CategoryId");
@@ -645,12 +642,12 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Data.Models.MeetingCategory", b =>
                 {
                     b.HasOne("Data.Models.Category", "Category")
-                        .WithMany("meetingCategories")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Models.Meeting", "meeting")
+                    b.HasOne("Data.Models.Meeting", null)
                         .WithMany("meetingCategories")
                         .HasForeignKey("MeetingId")
                         .OnDelete(DeleteBehavior.Cascade)

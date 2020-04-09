@@ -53,6 +53,10 @@ namespace Data.Contexts {
             modelBuilder.Entity<Category> ()
                 .Ignore (b => b.meetingCategories);
 
+            // modelBuilder.Entity<Meeting> ()
+            //     .HasOne (m => m.ApplicationUser)
+            //     .WithMany (m => m.Meetings);
+
             modelBuilder.Entity<Category> (builder => {
                 builder.Property (e => e.Name).Metadata.SetAfterSaveBehavior (PropertySaveBehavior.Ignore);
             });

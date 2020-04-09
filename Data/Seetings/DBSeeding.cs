@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Data.Contexts.Roles;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Data.Contexts.Seeding {
     public class DBSeeding {
-        public async static void Seed (ApplicationDbContext context, UserManager<ApplicationUser> userManager) {
-            try {
 
+        public async static Task Seed (ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) {
+            try {
                 if (context.Companies.AsQueryable ().Where (i => i.Name == "Test Aps").ToList ().Count == 0) {
                     context.Companies.Add (
                         new Company () {
@@ -23,23 +25,6 @@ namespace Data.Contexts.Seeding {
                     context.SaveChanges ();
                 }
 
-                if (userManager.FindByEmailAsync ("trolund@gmail.com") == null) {
-
-                    var userone = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 1, UserName = "trolund@gmail.com", PhoneNumber = "29456660", Email = "trolund@gmail.com", EmailConfirmed = true };
-                    var usertwo = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 2, UserName = "spinoff@gmail.com", PhoneNumber = "29456660", Email = "spinoff@gmail.com", EmailConfirmed = true };
-                    var userthree = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 2, UserName = "Facilitator@gmail.com", PhoneNumber = "29456660", Email = "Facilitator@gmail.com", EmailConfirmed = true };
-
-                    await userManager.CreateAsync (userone, "Spinoff1234");
-                    await userManager.CreateAsync (usertwo, "Spinoff1234");
-                    await userManager.CreateAsync (userthree, "Spinoff1234");
-
-                    await userManager.AddToRoleAsync (userone, Roles.Roles.VADMIN);
-                    await userManager.AddToRoleAsync (usertwo, Roles.Roles.ADMIN);
-                    await userManager.AddToRoleAsync (usertwo, Roles.Roles.FACILITATOR);
-
-                    context.SaveChanges ();
-                }
-
                 if (context.Categories.AsQueryable ().Where (c => c.CompanyId == 1).ToList ().Count == 0) {
                     context.Categories.Add (new Category () {
                         CompanyId = 1,
@@ -48,42 +33,18 @@ namespace Data.Contexts.Seeding {
 
                     context.Categories.Add (new Category () {
                         CompanyId = 1,
-                            Name = "konference"
+                            Name = "Foredrag"
                     });
 
                     context.Categories.Add (new Category () {
                         CompanyId = 1,
                             Name = "Møder"
                     });
-                    context.SaveChanges ();
+                    var res = await context.SaveChangesAsync ();
                 }
 
-                if (context.QuestionSets.AsQueryable ().Where (c => c.Name.Contains ("test")).ToList ().Count == 0) {
-                    // var list = new List<string> (new string[] {
-                    //     "1 - Undervisning",
-                    //     "2 - Klar komenikation",
-                    //     "3 - Stop tidsspild",
-                    //     "4 - DTU",
-                    //     "5 - SpinOff custom",
-                    //     "6 - Test Sæt"
-                    // });
-
-                    // list.ForEach (item => {
-                    //     var qSet = new QuestionSet ();
-                    //     qSet.QuestionSetId = Guid.NewGuid ();
-                    //     qSet.Name = item;
-                    //     qSet.Questions = new List<Question> ();
-                    //     qSet.Questions = new List<Question> (new Question[] {
-                    //         new Question (Guid.NewGuid (), "Spørgsmål 1"),
-                    //             new Question (Guid.NewGuid (), "Spørgsmål 2"),
-                    //             new Question (Guid.NewGuid (), "Spørgsmål 3"),
-                    //             new Question (Guid.NewGuid (), "Spørgsmål 4"),
-                    //             new Question (Guid.NewGuid (), "Spørgsmål 5")
-                    //     });
-
-                    //     context.QuestionSets.Add (qSet);
-                    // });
-
+                if (context.QuestionSets.AsQueryable ().Where (c => c.Name.Contains ("Møder") || c.Name.Contains ("Undervisning") || c.Name.Contains ("Foredrag")).ToList ().Count == 0) {
+                    // defining the question sets
                     var meetingSet = new QuestionSet ();
                     meetingSet.QuestionSetId = Guid.NewGuid ();
                     meetingSet.Name = "Møder";
@@ -123,12 +84,99 @@ namespace Data.Contexts.Seeding {
                             new Question (Guid.NewGuid (), "Hvordan vurderer du tidsstyringen?")
                     });
 
+                    // add them to the context
+                    context.Add (meetingSet);
+                    context.Add (lectureSet);
+                    context.Add (talkSet);
+
+                    // save it to det DB
                     context.SaveChanges ();
                 }
+
+                // create the roles 
+                await CreateRoles (roleManager);
+
+                if (await userManager.FindByEmailAsync ("admin@spinoff.com") == null) {
+
+                    var userone = new ApplicationUser () {
+                    CompanyId = 1,
+                    CompanyConfirmed = true,
+                    Email = "vadmin@spinoff.com",
+                    UserName = "vadmin@spinoff.com",
+                    Lastname = "Troels",
+                    Firstname = "Lund",
+                    EmailConfirmed = true,
+                    PhoneNumber = "26456660",
+                    };
+
+                    var usertwo = new ApplicationUser () {
+                        CompanyId = 1,
+                        CompanyConfirmed = true,
+                        Email = "admin@spinoff.com",
+                        UserName = "admin@spinoff.com",
+                        Lastname = "Troels",
+                        Firstname = "Lund",
+                        EmailConfirmed = true,
+                        PhoneNumber = "26456660",
+                    };
+
+                    var userthree = new ApplicationUser () {
+                        CompanyId = 1,
+                        CompanyConfirmed = true,
+                        Email = "Facilitator@spinoff.com",
+                        UserName = "Facilitator@spinoff.com",
+                        Lastname = "Troels",
+                        Firstname = "Lund",
+                        EmailConfirmed = true,
+                        PhoneNumber = "26456660",
+                    };
+
+                    var otherFirmUser = new ApplicationUser () {
+                        CompanyId = 1,
+                        CompanyConfirmed = true,
+                        Email = "Facilitator@firm.com",
+                        UserName = "Facilitator@firm.com",
+                        Lastname = "Mr. I am a Facilitator",
+                        Firstname = "Facilitator!",
+                        EmailConfirmed = true,
+                        PhoneNumber = "26456660",
+                    };
+
+                    // var userone = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 1, UserName = "trolund@gmail.com", PhoneNumber = "29456660", Email = "trolund@gmail.com", EmailConfirmed = true };
+                    // var usertwo = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 2, UserName = "spinoff@gmail.com", PhoneNumber = "29456660", Email = "spinoff@gmail.com", EmailConfirmed = true };
+                    // var userthree = new ApplicationUser () { CompanyConfirmed = true, CompanyId = 2, UserName = "Facilitator@gmail.com", PhoneNumber = "29456660", Email = "Facilitator@gmail.com", EmailConfirmed = true };
+                    await userManager.CreateAsync (userone, "Spinoff1234");
+                    await userManager.CreateAsync (usertwo, "Spinoff1234");
+                    await userManager.CreateAsync (userthree, "Spinoff1234");
+                    await userManager.CreateAsync (otherFirmUser, "Spinoff1234");
+
+                    await userManager.AddToRoleAsync (userone, Roles.Roles.VADMIN);
+                    await userManager.AddToRoleAsync (usertwo, Roles.Roles.ADMIN);
+                    await userManager.AddToRoleAsync (usertwo, Roles.Roles.FACILITATOR);
+                    await userManager.AddToRoleAsync (otherFirmUser, Roles.Roles.FACILITATOR);
+
+                }
+
             } catch (Exception e) {
                 Console.WriteLine (e);
             }
 
+        }
+
+        private static async Task CreateRoles (RoleManager<IdentityRole> roleManager) {
+
+            string[] roles = { Roles.Roles.ADMIN, Roles.Roles.VADMIN, Roles.Roles.FACILITATOR };
+
+            IdentityResult roleResult;
+
+            foreach (string role in roles) {
+                //here in this line we are adding Admin Role
+                var roleCheck = await roleManager.RoleExistsAsync (role);
+                if (!roleCheck) {
+                    //here in this line we are creating admin role and seed it to the database
+                    roleResult = await roleManager.CreateAsync (new IdentityRole (role));
+                }
+            }
         }
     }
 }

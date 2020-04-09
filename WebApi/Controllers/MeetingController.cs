@@ -52,10 +52,10 @@ namespace WebApi.Controllers {
         [Route ("ByDate")]
         public async Task<ActionResult<IEnumerable<MeetingDTO>>> GetMeetingsByDate ([FromQuery] DateTime start, [FromQuery] DateTime end) {
             // Admin
-            if (User.IsInRole (Roles.VADMIN) && !User.IsInRole (Roles.ADMIN)) {
-                var userIdentity = (ClaimsIdentity) User.Identity;
-                var claims = userIdentity.Claims;
-            }
+            // if (User.IsInRole (Roles.VADMIN) && !User.IsInRole (Roles.ADMIN)) {
+            //     var userIdentity = (ClaimsIdentity) User.Identity.Name;
+            //     var claims = userIdentity.Claims;
+            // }
 
             return Ok (await _service.GetMeetings (new MeetingDateResourceParameters () {
                 Start = start,

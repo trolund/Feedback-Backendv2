@@ -53,7 +53,7 @@ namespace Business.Services {
         }
 
         public async Task<UserDTO> Authenticate (LoginDTO loginDTO) {
-            var user = await _unitOfWork.Users.SingleOrDefault (user => user.UserName == loginDTO.Email);
+            var user = await _unitOfWork.Users.SingleOrDefault (user => user.NormalizedEmail == loginDTO.Email.Normalize (NormalizationForm.FormC));
             var roles = await _userManager.GetRolesAsync (user);
             var result = await _signInManager.PasswordSignInAsync (loginDTO.Email, loginDTO.Password, loginDTO.RememberMe, lockoutOnFailure : false);
 

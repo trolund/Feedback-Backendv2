@@ -15,7 +15,7 @@ namespace Data.Models {
         public int CompanyId { get; set; }
 
         [JsonIgnore]
-        [IgnoreDataMember]
+        // [IgnoreDataMember]
         public Company Company { get; set; }
         public bool CompanyConfirmed { get; set; } = false;
         public string Firstname { get; set; }
@@ -23,11 +23,11 @@ namespace Data.Models {
         public string Lastname { get; set; }
 
         [JsonIgnore]
-        [IgnoreDataMember]
+        // [IgnoreDataMember]
         public ICollection<Meeting> Meetings { get; set; }
 
         [JsonIgnore]
-        [IgnoreDataMember]
+        // [IgnoreDataMember]
         public ICollection<Rating> Ratings { get; set; }
 
     }

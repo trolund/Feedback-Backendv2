@@ -2,7 +2,7 @@
 
 namespace WebApi.Migrations
 {
-    public partial class initha : Migration
+    public partial class init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
