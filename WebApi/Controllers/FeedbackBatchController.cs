@@ -23,6 +23,7 @@ namespace WebApi.Controllers {
             _service = service;
         }
 
+        [Authorize (Roles = "Admin")]
         [HttpDelete]
         public void Delete (FeedbackBatchDTO entity) {
             Service.Delete (entity);
@@ -71,6 +72,7 @@ namespace WebApi.Controllers {
         }
 
         [HttpGet]
+        [Authorize (Roles = "Admin, VAdmin, Facilitator")]
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboard")]
         public async Task<IActionResult> Dashboard ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord) {
@@ -81,6 +83,7 @@ namespace WebApi.Controllers {
         }
 
         [HttpGet]
+        [Authorize (Roles = "Admin, VAdmin, Facilitator")]
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboardMonth")]
         public async Task<IActionResult> DashboardMonth ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
@@ -88,6 +91,7 @@ namespace WebApi.Controllers {
         }
 
         [HttpGet]
+        [Authorize (Roles = "Admin, VAdmin, Facilitator")]
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboardDate")]
         public async Task<IActionResult> DashboardDate ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {

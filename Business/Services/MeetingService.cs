@@ -51,7 +51,7 @@ namespace Business.Services {
             meeting.meetingCategories = null;
 
             var meetingToSave = _mapper.Map<Meeting> (meeting);
-            meetingToSave.ApplicationUserId = Guid.Parse (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value);
+            meetingToSave.ApplicationUserId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value); // TODO need fix?
 
             _unitOfWork.Meetings.CreateMeeting (meetingToSave);
             await _unitOfWork.SaveAsync ();
@@ -109,7 +109,7 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<MeetingDTO>> GetMeetings (MeetingDateResourceParameters parameters) {
-            Guid id = Guid.Parse (_httpContextAccessor.HttpContext.User.Claims.Where (c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault ().Value);
+            string id = _httpContextAccessor.HttpContext.User.Claims.Where (c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault ().Value;
             return _mapper.Map<List<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters, id));
         }
 

@@ -90,7 +90,7 @@ namespace Data.Repositories {
             return _context.Meetings.Any (a => a.MeetingId == meetingId);
         }
 
-        public async Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, Guid userId) {
+        public async Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, string userId) {
             var MaxReturn = 500;
             // throw if no parametres is provided.
             if (parameters == null) {
@@ -101,7 +101,7 @@ namespace Data.Repositories {
 
             // return only the own users meetings
             if (userId == null) return null;
-            collection = collection.Where (m => m.ApplicationUserId.Equals (userId));
+            collection = collection.Where (m => m.ApplicationUserId.Equals (userId)); // TODO need fix?
 
             if (parameters.Start != null && parameters.End != null) {
 

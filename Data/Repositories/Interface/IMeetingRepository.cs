@@ -10,7 +10,7 @@ namespace Data.Repositories.Interface {
         Task<Meeting> GetMeeting (int id);
         Task<IEnumerable<Meeting>> GetMeetings (MeetingResourceParameters parameters);
 
-        Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, Guid userId);
+        Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, string userId);
 
         void CreateMeeting (Meeting meeting);
 

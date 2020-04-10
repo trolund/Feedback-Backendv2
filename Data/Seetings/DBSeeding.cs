@@ -132,7 +132,7 @@ namespace Data.Contexts.Seeding {
                     };
 
                     var otherFirmUser = new ApplicationUser () {
-                        CompanyId = 1,
+                        CompanyId = 2,
                         CompanyConfirmed = true,
                         Email = "Facilitator@firm.com",
                         UserName = "Facilitator@firm.com",
@@ -152,7 +152,7 @@ namespace Data.Contexts.Seeding {
 
                     await userManager.AddToRoleAsync (userone, Roles.Roles.VADMIN);
                     await userManager.AddToRoleAsync (usertwo, Roles.Roles.ADMIN);
-                    await userManager.AddToRoleAsync (usertwo, Roles.Roles.FACILITATOR);
+                    await userManager.AddToRoleAsync (userthree, Roles.Roles.FACILITATOR);
                     await userManager.AddToRoleAsync (otherFirmUser, Roles.Roles.FACILITATOR);
 
                 }

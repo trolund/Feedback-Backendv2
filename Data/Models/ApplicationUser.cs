@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
@@ -8,9 +11,12 @@ namespace Data.Models {
 
         public ApplicationUser () { }
 
-        public ApplicationUser (string id) {
-            base.Id = id;
-        }
+        // [Key]
+        // [DatabaseGeneratedAttribute (DatabaseGeneratedOption.Identity)]
+        // public override Guid Id {
+        //     get { return base.Id; }
+        //     set { base.Id = value; }
+        // }
 
         public int CompanyId { get; set; }
 

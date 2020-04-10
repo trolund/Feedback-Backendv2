@@ -57,6 +57,22 @@ namespace Data.Contexts {
             //     .HasOne (m => m.ApplicationUser)
             //     .WithMany (m => m.Meetings);
 
+            modelBuilder.Entity<ApplicationUser> (entity => {
+                entity.HasKey (n => n.Id);
+
+                entity.HasMany (u => u.Meetings)
+                    .WithOne (m => m.ApplicationUser)
+                    .HasForeignKey (n => n.ApplicationUserId)
+                    .IsRequired ()
+                    .OnDelete (DeleteBehavior.Restrict);
+
+                entity.HasMany (u => u.Ratings)
+                    .WithOne (m => m.ApplicationUser)
+                    .HasForeignKey (n => n.ApplicationUserId)
+                    .IsRequired ()
+                    .OnDelete (DeleteBehavior.Restrict);
+            });
+
             modelBuilder.Entity<Category> (builder => {
                 builder.Property (e => e.Name).Metadata.SetAfterSaveBehavior (PropertySaveBehavior.Ignore);
             });

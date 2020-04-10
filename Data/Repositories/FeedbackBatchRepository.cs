@@ -106,7 +106,7 @@ namespace Data.Repositories {
             var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
 
             if (userId != null && onlyOwnData) {
-                collection = collection.Where (u => u.Meeting.ApplicationUserId.Equals (Guid.Parse (userId)));
+                collection = collection.Where (u => u.Meeting.ApplicationUserId.Equals (userId)); // TODO needs fixing?
             }
 
             if (userId == null && onlyOwnData) {
@@ -114,10 +114,10 @@ namespace Data.Repositories {
             }
 
             if (companyId != null) {
-                // collection = collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (Int32.Parse (companyId)));
-            } else {
-                return null;
+                collection = collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (Int32.Parse (companyId)));
             }
+
+            var test = collection.ToList ();
 
             if (categories != null && categories.Length > 0) {
                 //collection = collection.Where (x => x.Meeting.meetingCategories.Any(x => x.Category.Name.Equals("Møder")));

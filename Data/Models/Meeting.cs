@@ -35,7 +35,7 @@ namespace Data.Models {
         public Guid QuestionsSetId { get; set; }
         public QuestionSet QuestionsSet { get; set; }
 
-        public Guid ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }
 }

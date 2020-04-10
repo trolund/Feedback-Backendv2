@@ -55,7 +55,7 @@ namespace Business.Services {
         public async Task<UserDTO> Authenticate (LoginDTO loginDTO) {
             var user = await _unitOfWork.Users.SingleOrDefault (user => user.NormalizedEmail == loginDTO.Email.Normalize (NormalizationForm.FormC));
             var roles = await _userManager.GetRolesAsync (user);
-            var result = await _signInManager.PasswordSignInAsync (loginDTO.Email, loginDTO.Password, loginDTO.RememberMe, lockoutOnFailure : false);
+            var result = await _signInManager.PasswordSignInAsync (user.UserName, loginDTO.Password, loginDTO.RememberMe, lockoutOnFailure : false);
 
             // authentication successful so generate jwt token
             if (user != null && result.Succeeded) {
@@ -84,7 +84,7 @@ namespace Business.Services {
         private async Task<List<Claim>> GetValidClaims (ApplicationUser user) {
             IdentityOptions _options = new IdentityOptions ();
             var claims = new List<Claim> {
-                new Claim (JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim (JwtRegisteredClaimNames.Sub, user.Id.ToString ()),
                 new Claim ("CID", user.CompanyId.ToString ()),
                 // new Claim ("sub", user.Id),
                 // new Claim (JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator ()),

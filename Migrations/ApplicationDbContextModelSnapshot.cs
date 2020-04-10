@@ -239,10 +239,8 @@ namespace WebApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApplicationUserId1")
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("CompanyId")
@@ -289,7 +287,7 @@ namespace WebApi.Migrations
 
                     b.HasKey("MeetingId");
 
-                    b.HasIndex("ApplicationUserId1");
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CompanyId");
 
@@ -383,10 +381,8 @@ namespace WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApplicationUserId1")
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
@@ -408,7 +404,7 @@ namespace WebApi.Migrations
 
                     b.HasKey("RatingId");
 
-                    b.HasIndex("ApplicationUserId1");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Rating");
                 });
@@ -624,7 +620,9 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Meetings")
-                        .HasForeignKey("ApplicationUserId1");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Data.Models.Company", null)
                         .WithMany("Meetings")
@@ -663,7 +661,9 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Ratings")
-                        .HasForeignKey("ApplicationUserId1");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Models.Subscription", b =>
