@@ -60,6 +60,8 @@ namespace WebApi {
             services.AddScoped<IQuestionSetRepository, QuestionSetRepository> ();
             services.AddScoped<IUserRepository, UserRepository> ();
 
+            // services.AddSingleton<IHostedService, ScheduleTask> ();
+
             services.AddHttpContextAccessor ();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor> ();
             services.AddScoped<IUrlHelper> (x => {

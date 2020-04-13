@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -40,7 +38,7 @@ namespace FWebApi.Controllers {
             var user = await _userService.Authenticate (model);
 
             if (user == null)
-                return BadRequest (new { message = "Username or password is incorrect" });
+                return Unauthorized (new { message = "Username or password is incorrect" });
 
             return Ok (user);
         }
@@ -49,13 +47,13 @@ namespace FWebApi.Controllers {
         [HttpGet]
         [Route ("all")]
         public ActionResult<IEnumerable<ApplicationUser>> GetAllUsers () {
-            var qury = _userManager.Users;
+            var query = _userManager.Users;
 
             if (!User.IsInRole (Roles.ADMIN)) {
                 var user = _userManager.Users.SingleOrDefault (u => u.Email == User.Identity.Name);
-                qury.Where (u => u.Company == user.Company);
+                query.Where (u => u.Company == user.Company);
             }
-            return qury.ToList ();
+            return query.ToList ();
         }
 
         [Authorize (Roles = "Admin, VAdmin")]
@@ -128,6 +126,24 @@ namespace FWebApi.Controllers {
                 return Ok ("Your account is know active.");
             }
             return BadRequest ();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route ("requestPasswordReset")]
+        public async Task<ActionResult> RequestPasswordReset ([FromQuery] string email) {
+            await _userService.GetResetPasswordToken (email);
+            return Ok ("Reset link sendt to your email.");
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route ("confirmPasswordReset")]
+        public async Task<ActionResult> ConfirmPasswordReset ([FromBody] NewPasswordDTO input) {
+            if (await _userService.ResetPassword (input.Email, input.Token, input.NewPassword, input.NewPasswordAgain)) {
+                return Ok ("Reset link sendt to your email.");
+            }
+            return BadRequest ("Request faild");
         }
 
     }

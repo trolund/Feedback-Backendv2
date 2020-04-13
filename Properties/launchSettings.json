@@ -10,6 +10,7 @@
         "MEETINGIDSALT": "19HqPIp384w7gZ2wP10YffwTIRkANihi",
         "SENDGRID_API_KEY": "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",
         "BASE_URL": "http://localhost:4000",
+        "FRONTEND_BASE_URL": "http://localhost:3000",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:4000"

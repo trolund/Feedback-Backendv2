@@ -103,8 +103,8 @@ namespace Data.Contexts.Seeding {
                     CompanyConfirmed = true,
                     Email = "vadmin@spinoff.com",
                     UserName = "vadmin@spinoff.com",
-                    Lastname = "Troels",
-                    Firstname = "Lund",
+                    Lastname = "Lund",
+                    Firstname = "Troels",
                     EmailConfirmed = true,
                     PhoneNumber = "26456660",
                     };
@@ -114,8 +114,8 @@ namespace Data.Contexts.Seeding {
                         CompanyConfirmed = true,
                         Email = "admin@spinoff.com",
                         UserName = "admin@spinoff.com",
-                        Lastname = "Troels",
-                        Firstname = "Lund",
+                        Lastname = "Lund",
+                        Firstname = "Troels",
                         EmailConfirmed = true,
                         PhoneNumber = "26456660",
                     };
@@ -125,8 +125,8 @@ namespace Data.Contexts.Seeding {
                         CompanyConfirmed = true,
                         Email = "Facilitator@spinoff.com",
                         UserName = "Facilitator@spinoff.com",
-                        Lastname = "Troels",
-                        Firstname = "Lund",
+                        Lastname = "Lund",
+                        Firstname = "Troels",
                         EmailConfirmed = true,
                         PhoneNumber = "26456660",
                     };

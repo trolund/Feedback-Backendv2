@@ -16,7 +16,6 @@ using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -54,12 +53,17 @@ namespace Business.Services {
 
         public async Task<UserDTO> Authenticate (LoginDTO loginDTO) {
             var user = await _unitOfWork.Users.SingleOrDefault (user => user.NormalizedEmail == loginDTO.Email.Normalize (NormalizationForm.FormC));
+
+            if (user == null) return null;
+
             var roles = await _userManager.GetRolesAsync (user);
             var result = await _signInManager.PasswordSignInAsync (user.UserName, loginDTO.Password, loginDTO.RememberMe, lockoutOnFailure : false);
 
             // authentication successful so generate jwt token
             if (user != null && result.Succeeded) {
                 var userDTO = _mapper.Map<UserDTO> (user);
+
+                Console.WriteLine (userDTO);
 
                 var tokenHandler = new JwtSecurityTokenHandler ();
                 var key = Encoding.ASCII.GetBytes (_appSettings.Secret);
@@ -153,6 +157,30 @@ namespace Business.Services {
             var res = await _userManager.ConfirmEmailAsync (user, emailToken);
             if (res.Succeeded) {
                 return true;
+            }
+            return false;
+        }
+
+        public async Task GetResetPasswordToken (string email) {
+            // var decodedToken = HttpUtility.UrlDecode (emailToken);
+            var user = await _userManager.FindByEmailAsync (email);
+            var token = await _userManager.GeneratePasswordResetTokenAsync (user);
+            var baseUrl = Environment.GetEnvironmentVariable ("FRONTEND_BASE_URL");
+
+            string confirmationLink = baseUrl + "/password-reset?resettoken=" + HttpUtility.UrlEncode (token) + "&email=" + email;
+
+            await _emailService.SendEmailAsync (email, "Password reset", "Klik på linket for at vælge et ny password, reset link: " + confirmationLink);
+        }
+
+        public async Task<bool> ResetPassword (string email, string token, string newPassword, string NewPasswordAgain) {
+            if (newPassword.Equals (NewPasswordAgain)) {
+                var user = await _userManager.FindByEmailAsync (email);
+                var res = await _userManager.ResetPasswordAsync (user, token, newPassword);
+
+                if (res.Succeeded) {
+                    await _emailService.SendEmailAsync (email, "Password reset confirmed", "Dit kodeord er nu ændret og du kan logge ind med dit nye password.");
+                    return true;
+                }
             }
             return false;
         }
