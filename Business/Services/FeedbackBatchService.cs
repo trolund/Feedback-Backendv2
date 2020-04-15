@@ -110,5 +110,11 @@ namespace Business.Services {
 
             return await _unitOfWork.FeedbackBatch.OwnFeedbackDate (start, end, categories, searchWord, userId, companyId, onlyOwnData);
         }
+
+        public async Task<double> GetUserRating () {
+            var userId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value;
+
+            return await _unitOfWork.FeedbackBatch.GetUserRating (userId);
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace Data.Repositories.Interface {
         Task<IEnumerable<FeedbackMonthDTO>> OwnFeedbackMonth (DateTime start, DateTime end, string[] categories, string searchWord, string userId, string companyId, bool onlyOwnData);
 
         Task<IEnumerable<FeedbackDateDTO>> OwnFeedbackDate (DateTime start, DateTime end, string[] categories, string searchWord, string userId, string companyId, bool onlyOwnData);
+        Task<double> GetUserRating (string userId);
     }
 }

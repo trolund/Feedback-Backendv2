@@ -139,5 +139,16 @@ namespace Data.Repositories {
             return result;
         }
 
+        public async Task<double> GetUserRating (string userId) {
+            var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
+            collection = collection.Where (f => f.Meeting.CreatedBy.Equals (userId));
+            try {
+                var avg = await collection.SelectMany (f => f.Feedback, (f, g) => g).AverageAsync (f => f.Answer);
+                return avg * 2;
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+
     }
 }

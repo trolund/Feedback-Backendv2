@@ -97,5 +97,14 @@ namespace WebApi.Controllers {
         public async Task<IActionResult> DashboardDate ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
             return Ok (await Service.OwnFeedbackDate (start, end, categories, searchWord, onlyOwnData));
         }
+
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType (StatusCodes.Status200OK)]
+        [Route ("rating")]
+        public async Task<IActionResult> getRating () {
+            return Ok (await Service.GetUserRating ());
+        }
     }
+
 }

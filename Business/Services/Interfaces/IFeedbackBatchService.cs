@@ -12,12 +12,9 @@ namespace Business.Services.Interfaces {
         Task<bool> Create (FeedbackBatchDTO Feedback);
         Task<FeedbackBatchDTO> Update (FeedbackBatchDTO Feedback);
         Task Delete (FeedbackBatchDTO Feedback);
-
         Task<IEnumerable<FeedbackBatchDTO>> OwnFeedback (DateTime start, DateTime end, string[] categories, string searchWord);
-
         Task<IEnumerable<FeedbackMonthDTO>> OwnFeedbackMonth (DateTime start, DateTime end, string[] categories, string searchWord, bool onlyOwnData);
-
         Task<IEnumerable<FeedbackDateDTO>> OwnFeedbackDate (DateTime start, DateTime end, string[] categories, string searchWord, bool onlyOwnData);
-
+        Task<double> GetUserRating ();
     }
 }
