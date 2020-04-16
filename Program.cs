@@ -25,7 +25,7 @@ namespace WebApi {
             Host.CreateDefaultBuilder (args)
             .ConfigureWebHostDefaults (webBuilder => {
                 webBuilder.UseStartup<Startup> ()
-                    .UseUrls ("https://*:4000");
+                    .UseUrls ("http://*:4000");
             });
     }
 }
