@@ -110,6 +110,23 @@ namespace Data.Repositories {
 
             return await collection.Take (MaxReturn).ToListAsync ();
         }
+
+        public async Task<IEnumerable<Meeting>> GetMeetingsOneDay (DateTime date, string userId) {
+            // filtering
+            var collection = _context.Meetings as IQueryable<Meeting>;
+
+            // return only the own users meetings
+            if (userId == null) return null;
+            if (date == null) return null;
+
+            collection = collection.Where (m => m.ApplicationUserId.Equals (userId)); // TODO need fix?
+
+            collection = collection.Where (a => a.StartTime.Day.Equals (date.Day) && a.StartTime.Month.Equals (date.Month) && a.StartTime.Year.Equals (date.Year));
+
+            return await collection
+                .OrderByDescending (d => d.StartTime.TimeOfDay)
+                .ToListAsync ();
+        }
         public async Task<IEnumerable<CategoryDTO>> GetMeetingCategories (int CompanyId) {
             return _mapper.Map<IEnumerable<CategoryDTO>> (await _context.Categories.Where (i => i.CompanyId == CompanyId).ToListAsync ());
         }
