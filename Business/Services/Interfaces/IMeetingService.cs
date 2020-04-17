@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infrastructure.QueryParams;
@@ -21,5 +22,7 @@ namespace Business.Services.Interfaces {
         byte[] GetQRCode (string shortCodeId);
 
         Task<IEnumerable<CategoryDTO>> GetMeetingCategories (int CompanyId);
+
+        Task<IEnumerable<MeetingDTO>> GetMeetingsOneDay (DateTime date);
     }
 }

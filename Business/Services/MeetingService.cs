@@ -43,6 +43,11 @@ namespace Business.Services {
             return _mapper.Map<IEnumerable<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters));
         }
 
+        public async Task<IEnumerable<MeetingDTO>> GetMeetingsOneDay (DateTime date) {
+            var userId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value);
+            return _mapper.Map<IEnumerable<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetingsOneDay (date, userId));
+        }
+
         public async Task CreateMeeting (MeetingDTO meeting) {
             var meetingCategories = meeting.meetingCategories;
             meeting.meetingCategories = null;

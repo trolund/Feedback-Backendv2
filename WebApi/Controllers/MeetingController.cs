@@ -118,5 +118,11 @@ namespace WebApi.Controllers {
             return await _service.GetMeetingCategories (CompanyId);
         }
 
+        [HttpGet]
+        [Route ("ByDay")]
+        public async Task<IEnumerable<MeetingDTO>> GetMeetingsOneDay ([FromRoute] DateTime date) {
+            return await _service.GetMeetingsOneDay (date);
+        }
+
     }
 }

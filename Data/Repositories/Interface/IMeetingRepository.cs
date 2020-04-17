@@ -21,5 +21,7 @@ namespace Data.Repositories.Interface {
         bool MeetingExists (int meetingId);
 
         Task<IEnumerable<CategoryDTO>> GetMeetingCategories (int CompanyId);
+
+        Task<IEnumerable<Meeting>> GetMeetingsOneDay (DateTime date, string userId);
     }
 }

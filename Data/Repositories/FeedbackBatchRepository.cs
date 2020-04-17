@@ -146,6 +146,7 @@ namespace Data.Repositories {
                 var avg = await collection.SelectMany (f => f.Feedback, (f, g) => g).AverageAsync (f => f.Answer);
                 return avg * 2;
             } catch (Exception e) {
+                Console.WriteLine (e);
                 return 0;
             }
         }
