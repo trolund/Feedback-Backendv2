@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Business.Helpers;
 using Business.Services;
 using Business.Services.Interfaces;
 using Data.Contexts;
-using Data.Contexts.Roles;
 using Data.Models;
 using Data.Repositories;
 using Data.Repositories.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -26,7 +23,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace WebApi {
+namespace WebApi
+{
     public class Startup {
         public Startup (IConfiguration configuration) {
             Configuration = configuration;
