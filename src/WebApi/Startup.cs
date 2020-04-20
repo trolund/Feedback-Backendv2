@@ -23,8 +23,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace WebApi
-{
+namespace WebApi {
     public class Startup {
         public Startup (IConfiguration configuration) {
             Configuration = configuration;
@@ -39,6 +38,8 @@ namespace WebApi
             services.AddScoped<IUnitOfWork, UnitOfWork> ();
 
             // add services
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService> ();
             services.AddTransient<IMeetingService, MeetingService> ();
             services.AddTransient<IFeedbackService, FeedbackService> ();
             services.AddTransient<IFeedbackBatchService, FeedbackBatchService> ();
@@ -141,8 +142,6 @@ namespace WebApi
                     };
                 });
 
-            // configure DI for application services
-            services.AddScoped<IUserService, UserService> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
