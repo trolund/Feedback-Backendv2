@@ -1,11 +1,15 @@
+using System;
 using System.Reflection;
 using AutoMapper;
 using Business.Services;
 using Business.Services.Interfaces;
 using Data.Contexts;
+using Data.Contexts.Seeding;
 using Data.Models;
 using Data.Repositories;
 using Data.Repositories.Interface;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,10 +65,19 @@ namespace Tests {
 
             services.AddHttpContextAccessor ();
             services.AddAutoMapper (typeof (Startup));
+
+        }
+
+        public void Configure (IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services) {
+            var context = services.GetService<ApplicationDbContext> ();
+            var userManager = services.GetService<UserManager<ApplicationUser>> ();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>> ();
+            DBSeeding.Seed (context, userManager, roleManager).Wait ();
         }
 
         protected override IHostBuilder CreateHostBuilder (AssemblyName assemblyName) =>
             base.CreateHostBuilder (assemblyName)
             .ConfigureServices (ConfigureServices);
+
     }
 }

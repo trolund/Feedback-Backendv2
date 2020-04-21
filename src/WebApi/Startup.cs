@@ -6,6 +6,7 @@ using Business.Helpers;
 using Business.Services;
 using Business.Services.Interfaces;
 using Data.Contexts;
+using Data.Contexts_access;
 using Data.Models;
 using Data.Repositories;
 using Data.Repositories.Interface;
@@ -69,7 +70,7 @@ namespace WebApi {
                 return factory.GetUrlHelper (actionContext);
             });
 
-            services.AddAutoMapper (typeof (Startup));
+            services.AddAutoMapper (typeof (Profiles));
 
             services.AddIdentity<ApplicationUser, IdentityRole> (options => {
                     options.User.RequireUniqueEmail = true;

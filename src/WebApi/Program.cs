@@ -1,4 +1,5 @@
-﻿using Data.Contexts;
+﻿using System;
+using Data.Contexts;
 using Data.Contexts.Seeding;
 using Data.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -24,8 +25,14 @@ namespace WebApi {
         public static IHostBuilder CreateHostBuilder (string[] args) =>
             Host.CreateDefaultBuilder (args)
             .ConfigureWebHostDefaults (webBuilder => {
-                webBuilder.UseStartup<Startup> ()
-                    .UseUrls ("http://*:4000");
+                var env = Environment.GetEnvironmentVariable ("ASPNETCORE_ENVIRONMENT");
+                if (env == "Development") {
+                    webBuilder.UseStartup<Startup> ()
+                        .UseUrls ("https://*:4000");
+                } else {
+                    webBuilder.UseStartup<Startup> ()
+                        .UseUrls ("http://*:4000");
+                }
             });
     }
 }

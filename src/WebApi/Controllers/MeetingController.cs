@@ -119,7 +119,7 @@ namespace WebApi.Controllers {
         }
 
         [HttpGet]
-        [Route ("ByDay")]
+        [Route ("ByDay/{date}")]
         public async Task<IEnumerable<MeetingDTO>> GetMeetingsOneDay ([FromRoute] DateTime date) {
             return await _service.GetMeetingsOneDay (date);
         }
