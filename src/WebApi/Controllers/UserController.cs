@@ -82,11 +82,11 @@ namespace FWebApi.Controllers {
                 query = query.Where (u => u.CompanyConfirmed.Equals (confirm));
             }
 
-            if (searchword == null && companyConfirmed == -1 && pageNumber < 0) {
+            if (!string.IsNullOrWhiteSpace (searchword) && searchword != "null" && companyConfirmed == -1 && pageNumber > 0) {
                 return query.Skip ((pageNumber - 1) * 50).Take (50).ToList ();
             }
 
-            if (searchword == null && companyConfirmed == -1) {
+            if (!string.IsNullOrWhiteSpace (searchword) && searchword != "null" && companyConfirmed == -1) {
                 return query.Take (50).ToList ();
             }
 
@@ -142,6 +142,15 @@ namespace FWebApi.Controllers {
         public async Task<ActionResult> ConfirmPasswordReset ([FromBody] NewPasswordDTO input) {
             if (await _userService.ResetPassword (input.Email, input.Token, input.NewPassword, input.NewPasswordAgain)) {
                 return Ok ("Reset link sendt to your email.");
+            }
+            return BadRequest ("Request faild");
+        }
+
+        [HttpPost]
+        [Route ("newPassword")]
+        public async Task<ActionResult> NewPassword ([FromBody] NewPasswordDTO input) {
+            if (await _userService.NewPassword (input)) {
+                return Ok ("New password confirmed.");
             }
             return BadRequest ("Request faild");
         }

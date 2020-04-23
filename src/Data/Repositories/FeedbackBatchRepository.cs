@@ -143,7 +143,8 @@ namespace Data.Repositories {
             var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
             collection = collection.Where (f => f.Meeting.CreatedBy.Equals (userId));
             try {
-                var avg = await collection.SelectMany (f => f.Feedback, (f, g) => g).AverageAsync (f => f.Answer);
+                var avg = await collection.SelectMany (f => f.Feedback, (f, g) => g).OrderByDescending (d => d.CreatedDate).Take (10).AverageAsync (f => f.Answer);
+                // var oldavg = await collection.SelectMany (f => f.Feedback, (f, g) => g).OrderByDescending(d => d.CreatedDate).Skip(10).Take(10).AverageAsync (f => f.Answer);
                 return avg * 2;
             } catch (Exception e) {
                 Console.WriteLine (e);

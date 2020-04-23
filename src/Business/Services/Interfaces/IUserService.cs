@@ -11,6 +11,7 @@ namespace Business.Services.Interfaces {
         Task<ICollection<UserAdminDTO>> UpdateUserAdmin (IEnumerable<UserAdminDTO> usersToUpdate);
         Task GetResetPasswordToken (string email);
         Task<bool> ResetPassword (string email, string token, string newPassword, string NewPasswordAgain);
+        Task<bool> NewPassword (NewPasswordDTO data);
         // IEnumerable<UserDTO> GetAll ();
         // UserDTO GetById (int id);
     }

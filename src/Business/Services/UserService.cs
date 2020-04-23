@@ -185,6 +185,20 @@ namespace Business.Services {
             return false;
         }
 
+        public async Task<bool> NewPassword (NewPasswordDTO data) {
+            var userId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value);
+            var user = await _userManager.FindByIdAsync (userId);
+            if (data.NewPassword.Equals (data.NewPasswordAgain)) {
+                var res = await _userManager.ChangePasswordAsync (user, data.OldPassword, data.NewPassword);
+
+                if (res.Succeeded) {
+                    await _emailService.SendEmailAsync (user.Email, "Du har fået nyt kodeord", "Du har fået nyt kodeord, hvis det ikke var dig kontakt din adminstator med det samme.");
+                    return true;
+                }
+            }
+            return false;
+        }
+
         // private async Task ConfirmUsersCompanyRelation (UserAdminDTO[] input) {
         //     var isAdmin = _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN);
 
