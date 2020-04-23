@@ -155,5 +155,15 @@ namespace FWebApi.Controllers {
             return BadRequest ("Request faild");
         }
 
+        [HttpPost]
+        [Route ("userUpdate")]
+        public async Task<ActionResult<UserDTO>> updateUserInfo ([FromBody] UserDTO input) {
+            var res = await _userService.updateUserInfo (input);
+            if (res != null) {
+                return Ok (res);
+            }
+            return BadRequest ("Request faild");
+        }
+
     }
 }

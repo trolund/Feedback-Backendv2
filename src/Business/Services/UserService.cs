@@ -62,6 +62,8 @@ namespace Business.Services {
             // authentication successful so generate jwt token
             if (user != null && result.Succeeded) {
                 var userDTO = _mapper.Map<UserDTO> (user);
+                userDTO.CompanyName = (await _unitOfWork.Company.Get (user.CompanyId)).Name;
+                userDTO.Roles = roles;
 
                 Console.WriteLine (userDTO);
 
@@ -217,6 +219,23 @@ namespace Business.Services {
         //     }
 
         // }
+
+        public async Task<UserDTO> updateUserInfo (UserDTO data) {
+            var userId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value);
+            if (userId.Equals (data.Id)) {
+                var user = await _userManager.FindByIdAsync (userId);
+                user.Lastname = data.Lastname;
+                user.Firstname = data.Firstname;
+                user.PhoneNumber = data.PhoneNumber;
+                user.Email = data.Email;
+                var res = await _userManager.UpdateAsync (user);
+                if (res.Succeeded) {
+                    return data;
+                }
+                return null;
+            }
+            return null;
+        }
 
         // this is only called by Admin and Vadmin.
         public async Task<ICollection<UserAdminDTO>> UpdateUserAdmin (IEnumerable<UserAdminDTO> usersToUpdate) {
