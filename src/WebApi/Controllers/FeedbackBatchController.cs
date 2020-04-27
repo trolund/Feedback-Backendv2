@@ -7,6 +7,8 @@ using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using WebApi.Hubs;
 
 namespace WebApi.Controllers {
     [Authorize]
@@ -17,10 +19,13 @@ namespace WebApi.Controllers {
 
         private readonly IFeedbackBatchService _service;
 
+        private IHubContext<LiveFeedbackHub> _hub;
+
         public IFeedbackBatchService Service => _service;
 
-        public FeedbackBatchController (IFeedbackBatchService service) {
+        public FeedbackBatchController (IFeedbackBatchService service, IHubContext<LiveFeedbackHub> hub) {
             _service = service;
+            _hub = hub;
         }
 
         [Authorize (Roles = "Admin")]
@@ -39,6 +44,8 @@ namespace WebApi.Controllers {
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] FeedbackBatchDTO entity) {
             if (await Service.Create (entity)) {
+                //await Service.GetAllFeedbackBatchByMeetingId (entity.MeetingId)
+                _hub.Clients.Group (entity.MeetingId).SendAsync ("sendfeedback", await _service.GetAllFeedbackBatchByMeetingId (entity.MeetingId));
                 return Ok ();
             } else {
                 return BadRequest ();

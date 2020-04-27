@@ -23,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using WebApi.Hubs;
 
 namespace WebApi {
     public class Startup {
@@ -120,6 +121,7 @@ namespace WebApi {
 
             services.AddCors ();
             services.AddControllers ().AddNewtonsoftJson ();
+            services.AddSignalR ();
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection ("AppSettings");
@@ -169,15 +171,17 @@ namespace WebApi {
 
             // global cors policy
             app.UseCors (x => x
-                .AllowAnyOrigin ()
+                .WithOrigins (Environment.GetEnvironmentVariable ("FRONTEND_BASE_URL"))
                 .AllowAnyMethod ()
-                .AllowAnyHeader ());
+                .AllowAnyHeader ()
+                .AllowCredentials ());
 
             app.UseAuthentication ();
             app.UseAuthorization ();
 
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
+                endpoints.MapHub<LiveFeedbackHub> ("/liveFeedback");
             });
 
         }
