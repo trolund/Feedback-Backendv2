@@ -134,7 +134,7 @@ namespace Data.Repositories {
                 collection = collection.Where (a => a.Meeting.Discription.Contains (searchWord) || a.Meeting.Name.Contains (searchWord));
             }
 
-            var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackDateDTO (item.CreatedDate ?? DateTime.Now, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name))).ToListAsync ();
+            var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackDateDTO (item.CreatedDate ?? DateTime.Now, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name), item.QuestionId, item.FeedbackBatch.FeedbackBatchId, item.FeedbackBatch.Meeting.QuestionsSetId)).ToListAsync ();
 
             return result;
         }
