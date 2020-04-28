@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using Business.Helpers;
 using Business.Services;
@@ -142,6 +143,22 @@ namespace WebApi {
                         IssuerSigningKey = new SymmetricSecurityKey (key),
                         ValidateIssuer = false,
                         ValidateAudience = false
+                    };
+
+                    // read JWT from query string when using signalR
+                    x.Events = new JwtBearerEvents {
+                        OnMessageReceived = context => {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            // If the request is for our hub...
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty (accessToken) &&
+                                (path.StartsWithSegments ("/liveFeedback"))) {
+                                // Read the token out of the query string
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
