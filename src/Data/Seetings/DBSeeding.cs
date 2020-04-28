@@ -49,39 +49,39 @@ namespace Data.Contexts.Seeding {
                     meetingSet.QuestionSetId = Guid.NewGuid ();
                     meetingSet.Name = "Møder";
                     meetingSet.Questions = new List<Question> (new Question[] {
-                        new Question (Guid.NewGuid (), "Overordnet hvordan vurderer du mødet?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du mødeledelsen?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du din mulighed for at forberede dig?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du indholdet?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du kommunikationen på mødet?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du værdien af mødet?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du din indsats?")
+                        new Question (Guid.NewGuid (), "Overordnet hvordan vurderer du mødet?", 0),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du mødeledelsen?", 1),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du din mulighed for at forberede dig?", 2),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du indholdet?", 3),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du kommunikationen på mødet?", 4),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du værdien af mødet?", 5),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du din indsats?", 6)
                     });
 
                     var lectureSet = new QuestionSet ();
                     lectureSet.QuestionSetId = Guid.NewGuid ();
                     lectureSet.Name = "Undervisning";
                     lectureSet.Questions = new List<Question> (new Question[] {
-                        new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet undervisningen?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du tidsstyringen?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du relevansen af indholdet?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du underviserens faglighed?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du underviserens formidlingsevne?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du dit udbytte af undervisningen?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du din egen indsats?")
+                        new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet undervisningen?", 0),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du tidsstyringen?", 1),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du relevansen af indholdet?", 2),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du underviserens faglighed?", 3),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du underviserens formidlingsevne?", 4),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du dit udbytte af undervisningen?", 5),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du din egen indsats?", 6)
                     });
 
                     var talkSet = new QuestionSet ();
                     talkSet.QuestionSetId = Guid.NewGuid ();
                     talkSet.Name = "Foredrag";
                     talkSet.Questions = new List<Question> (new Question[] {
-                        new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet foredraget?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du relevansen af indholdet?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du foredragsholderens engagement?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du foredragsholderens faglighed?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du foredragsholderens formidlingsevne?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du dit udbytte af foredraget?"),
-                            new Question (Guid.NewGuid (), "Hvordan vurderer du tidsstyringen?")
+                        new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet foredraget?", 0),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du relevansen af indholdet?", 1),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du foredragsholderens engagement?", 2),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du foredragsholderens faglighed?", 3),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du foredragsholderens formidlingsevne?", 4),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du dit udbytte af foredraget?", 5),
+                            new Question (Guid.NewGuid (), "Hvordan vurderer du tidsstyringen?", 6)
                     });
 
                     // add them to the context

@@ -88,7 +88,7 @@ namespace WebApi {
 
             services.AddDbContext<ApplicationDbContext> (options =>
                 options.UseSqlServer (
-                    Configuration.GetConnectionString ("DefaultConnection")));
+                    Configuration.GetConnectionString ("DefaultConnection"), b => b.MigrationsAssembly ("WebApi")));
 
             services.AddSwaggerGen (options => {
                 options.SwaggerDoc ("v1", new OpenApiInfo { Title = "Feedback API", Version = "v0.0.1" });
@@ -185,6 +185,9 @@ namespace WebApi {
             }
 
             app.UseRouting ();
+
+            Console.WriteLine ("Frontend url used for CORS: " +
+                Environment.GetEnvironmentVariable ("FRONTEND_BASE_URL"));
 
             // global cors policy
             app.UseCors (x => x
