@@ -42,7 +42,7 @@ namespace WebApi.Controllers {
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Post ([FromBody] FeedbackBatchDTO entity) {
+        public async Task<IActionResult> ObtainFeedback ([FromBody] FeedbackBatchDTO entity) {
             if (await Service.Create (entity)) {
                 //await Service.GetAllFeedbackBatchByMeetingId (entity.MeetingId)
                 _hub.Clients.Group (entity.MeetingId).SendAsync ("sendfeedback", await _service.GetAllFeedbackBatchByMeetingId (entity.MeetingId));

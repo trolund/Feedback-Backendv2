@@ -21,11 +21,16 @@ namespace Data.Models {
         public int CompanyId { get; set; }
 
         [JsonIgnore]
-        // [IgnoreDataMember]
+        [Required]
         public Company Company { get; set; }
+
+        [Required]
         public bool CompanyConfirmed { get; set; } = false;
+
+        [Required]
         public string Firstname { get; set; }
 
+        [Required]
         public string Lastname { get; set; }
 
         [JsonIgnore]

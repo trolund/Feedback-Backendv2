@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models {
     public class Question : BaseEntity {
@@ -10,7 +11,11 @@ namespace Data.Models {
             Index = index;
         }
 
+        [Required]
         public int Index { get; set; }
+
+        [MaxLength (80)]
+        [Required]
         public string TheQuestion { get; set; }
         public Guid QuestionId { get; set; }
         public List<Feedback> Feedback { get; set; }
