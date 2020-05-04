@@ -83,7 +83,7 @@ namespace Data.Repositories {
                 throw new ArgumentNullException (nameof (Meeting));
             }
 
-            _context.Remove (meeting);
+            _context.Meetings.Remove (meeting);
         }
 
         public bool MeetingExists (int meetingId) {
