@@ -20,10 +20,13 @@ namespace Business.Services {
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public FeedbackBatchService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
+        private readonly IMeetingService _meetingService;
+
+        public FeedbackBatchService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IMeetingService meetingService) {
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _meetingService = meetingService;
         }
 
         public FeedbackBatchService () { }
@@ -116,5 +119,11 @@ namespace Business.Services {
 
             return await _unitOfWork.FeedbackBatch.GetUserRating (userId);
         }
+
+        public async Task<bool> HaveAlreadyGivenFeedback (string meetingId, string fingerprint) {
+            var list = await _unitOfWork.FeedbackBatch.getFeedbackByFingerprintandMeetingId (MeetingIdHelper.GetId (meetingId), fingerprint);
+            return list.Count > 0;
+        }
+
     }
 }

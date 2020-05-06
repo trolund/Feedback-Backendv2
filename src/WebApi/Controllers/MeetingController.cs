@@ -18,9 +18,12 @@ namespace WebApi.Controllers {
         private readonly IMeetingService _service;
         private readonly IQuestionSetService _questionSetService;
 
-        public MeetingController (IMeetingService service, IQuestionSetService questionSetService) {
+        private readonly IFeedbackBatchService _feedbackBatchService;
+
+        public MeetingController (IMeetingService service, IQuestionSetService questionSetService, IFeedbackBatchService feedbackBatchService) {
             _service = service;
             _questionSetService = questionSetService;
+            _feedbackBatchService = feedbackBatchService;
         }
 
         [HttpGet]
@@ -71,26 +74,42 @@ namespace WebApi.Controllers {
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpPost]
         [Route ("MeetingOpen/{id}")]
-        public async Task<IActionResult> IsMeetingOpen ([FromRoute] string id) {
+        public async Task<IActionResult> IsMeetingOpen ([FromRoute] string id, [FromBody] string fingerprint) {
+            try {
+                if (await _service.IsMeetingOpenForFeedback (id)) {
+                    return BadRequest (new { msg = "Feedback is no longer open for this meeting." });
+                }
+
+                if (await _feedbackBatchService.HaveAlreadyGivenFeedback (id, fingerprint)) {
+                    return Unauthorized (new { msg = "You can only give feedback once." });
+                }
+            } catch (Exception e) {
+                return NotFound (new { msg = "The meeting with id " + id + " was not found." });
+            }
+
             var meeting = await _service.GetMeeting (id);
             if (meeting != null) {
                 var set = await _questionSetService.GetQuestionSet (meeting.QuestionsSetId);
                 return Ok (set);
             }
-            return NotFound ();
+            return NotFound (new { msg = "The meeting with id " + id + " was not found." });
         }
 
         [AllowAnonymous]
         [HttpGet]
         [Route ("isMeetingOpen/{id}")]
         public async Task<IActionResult> MeetingOpen ([FromRoute] string id) {
-            var meeting = await _service.GetMeeting (id);
-            if (meeting != null) { // TODO tjek om der er gået over tolv timer.
-                return Ok ();
+            if (await _service.IsMeetingOpenForFeedback (id)) {
+                return BadRequest (new { msg = "Feedback is no longer open for this meeting." });
             }
-            return NotFound ();
+
+            var meeting = await _service.GetMeeting (id);
+            if (meeting != null) {
+                return Ok (new { msg = "Meeting is ready for feedback." });
+            }
+            return NotFound (new { msg = "The meeting with id " + id + " was not found." });
         }
 
         [HttpPost]

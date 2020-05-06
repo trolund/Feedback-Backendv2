@@ -8,7 +8,11 @@ namespace Data.Models {
         [Key]
         public Guid FeedbackBatchId { get; set; }
 
+        [Required]
         public int MeetingId { get; set; }
+
+        [Required]
+        public String UserFingerprint { get; set; }
         public Meeting Meeting { get; set; }
 
         public List<Feedback> Feedback { get; set; }

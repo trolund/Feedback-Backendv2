@@ -23,9 +23,12 @@ namespace WebApi.Controllers {
 
         public IFeedbackBatchService Service => _service;
 
-        public FeedbackBatchController (IFeedbackBatchService service, IHubContext<LiveFeedbackHub> hub) {
+        public IMeetingService _meetingService;
+
+        public FeedbackBatchController (IFeedbackBatchService service, IHubContext<LiveFeedbackHub> hub, IMeetingService meetingService) {
             _service = service;
             _hub = hub;
+            _meetingService = meetingService;
         }
 
         [Authorize (Roles = "Admin")]
@@ -43,12 +46,21 @@ namespace WebApi.Controllers {
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> ObtainFeedback ([FromBody] FeedbackBatchDTO entity) {
+
+            if (await Service.HaveAlreadyGivenFeedback (entity.MeetingId, entity.UserFingerprint)) {
+                return BadRequest (new { msg = "You can only give feedback once." });
+            }
+
+            if (await _meetingService.IsMeetingOpenForFeedback (entity.MeetingId)) {
+                return BadRequest (new { msg = "Feedback is no longer open for this meeting." });
+            }
+
             if (await Service.Create (entity)) {
-                //await Service.GetAllFeedbackBatchByMeetingId (entity.MeetingId)
+                // send feedback to all real-time feedback observers
                 _hub.Clients.Group (entity.MeetingId).SendAsync ("sendfeedback", await _service.GetAllFeedbackBatchByMeetingId (entity.MeetingId));
                 return Ok ();
             } else {
-                return BadRequest ();
+                return BadRequest (new { msg = "Feedback have not been delivered." });
             }
         }
 

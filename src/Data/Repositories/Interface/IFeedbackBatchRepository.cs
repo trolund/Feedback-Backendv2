@@ -9,6 +9,8 @@ namespace Data.Repositories.Interface {
 
         Task<IEnumerable<FeedbackBatchDTO>> getAllFeedbackByMeetingId (int meetingId);
 
+        Task<List<FeedbackBatch>> getFeedbackByFingerprintandMeetingId (int meetingId, string fingerprint);
+
         Task<IEnumerable<FeedbackBatchDTO>> OwnFeedback (DateTime start, DateTime end, string[] categories, string searchWord, string userId, string companyId);
 
         Task<IEnumerable<FeedbackMonthDTO>> OwnFeedbackMonth (DateTime start, DateTime end, string[] categories, string searchWord, string userId, string companyId, bool onlyOwnData);

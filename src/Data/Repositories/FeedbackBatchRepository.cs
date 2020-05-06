@@ -152,5 +152,9 @@ namespace Data.Repositories {
             }
         }
 
+        public async Task<List<FeedbackBatch>> getFeedbackByFingerprintandMeetingId (int meetingId, string fingerprint) {
+            return await _context.FeedbackBatchs.Where (f => f.MeetingId.Equals (meetingId)).Where (f => f.UserFingerprint.Equals (fingerprint)).ToListAsync ();
+        }
+
     }
 }

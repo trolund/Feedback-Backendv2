@@ -16,6 +16,9 @@ namespace Infrastructure.ViewModels {
         public string MeetingId { get; set; }
 
         [Required]
+        public String UserFingerprint { get; set; }
+
+        [Required]
         public List<FeedbackDTO> Feedback { get; set; }
     }
 }

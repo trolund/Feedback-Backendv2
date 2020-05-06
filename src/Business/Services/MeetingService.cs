@@ -133,6 +133,13 @@ namespace Business.Services {
             return _unitOfWork.Meetings.GetMeetingCategories (CompanyId);
         }
 
+        public async Task<bool> IsMeetingOpenForFeedback (string id) {
+            var meeting = await GetMeeting (id);
+            var endOfFeedback = meeting.EndTime.AddHours (12);
+            var d = DateTime.Compare (DateTime.Now, endOfFeedback);
+            return d > 0;
+        }
+
         // private List<MeetingDTO> addShortId(IEnumerable<MeetingDTO> DTOList){
         //     var  list = DTOList.ToList();
         //     for(int i = 0; i <= list.Count; i++){
