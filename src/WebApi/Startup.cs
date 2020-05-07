@@ -139,9 +139,9 @@ namespace WebApi {
                     x.RequireHttpsMetadata = true;
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters {
-                        ValidateIssuerSigningKey = true,
+                        ValidateIssuerSigningKey = false,
                         IssuerSigningKey = new SymmetricSecurityKey (key),
-                        ValidateIssuer = true,
+                        ValidateIssuer = false,
                         ValidateAudience = false
                     };
 
