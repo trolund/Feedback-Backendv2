@@ -31,7 +31,7 @@ namespace WebApi.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,7 +47,7 @@ namespace WebApi.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     Version = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -97,8 +97,8 @@ namespace WebApi.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     CompanyId = table.Column<int>(nullable: false),
                     CompanyConfirmed = table.Column<bool>(nullable: false),
-                    Firstname = table.Column<string>(nullable: true),
-                    Lastname = table.Column<string>(nullable: true)
+                    Firstname = table.Column<string>(nullable: false),
+                    Lastname = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,7 +120,7 @@ namespace WebApi.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     CompanyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -167,7 +167,8 @@ namespace WebApi.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    TheQuestion = table.Column<string>(nullable: true),
+                    Index = table.Column<int>(nullable: false),
+                    TheQuestion = table.Column<string>(maxLength: 80, nullable: false),
                     QuestionSetId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -276,7 +277,7 @@ namespace WebApi.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 150, nullable: false),
+                    Name = table.Column<string>(maxLength: 80, nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false),
                     MeetingCategoryId = table.Column<Guid>(nullable: false),
@@ -341,7 +342,8 @@ namespace WebApi.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MeetingId = table.Column<int>(nullable: false)
+                    MeetingId = table.Column<int>(nullable: false),
+                    UserFingerprint = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
