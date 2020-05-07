@@ -10,7 +10,7 @@ namespace Data.Models {
         //public string Location { get; set; }
 
         [Required]
-        [MaxLength (150)]
+        [MaxLength (80)]
         public string Name { get; set; }
 
         [Required]
