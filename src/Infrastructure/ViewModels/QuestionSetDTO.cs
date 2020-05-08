@@ -12,6 +12,9 @@ namespace Infrastructure.ViewModels {
         [MaxLength (100)]
         public string Name { get; set; }
         public long Version { get; set; }
+
+        [Required]
+        public int CompanyId { get; set; }
         public List<QuestionDTO> Questions { get; set; }
     }
 }

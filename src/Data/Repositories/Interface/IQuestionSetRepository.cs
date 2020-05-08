@@ -12,5 +12,7 @@ namespace Data.Repositories.Interface {
         void CreateQuestionSet (QuestionSet questionSet);
 
         void UpdateQuestionsSet (QuestionSet questionSet);
+
+        Task<IEnumerable<QuestionSet>> GetAllQuestionSetsCompany (int companyId);
     }
 }

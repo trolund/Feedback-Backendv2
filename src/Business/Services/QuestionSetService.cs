@@ -36,7 +36,8 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<string>> GetQuestionSetNames () {
-            var res = await _unitOfWork.QuestionSet.GetAll ();
+            var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
+            var res = await _unitOfWork.QuestionSet.GetAllQuestionSetsCompany (int.Parse (companyId));
             return res.Select (q => q.Name);
         }
 
@@ -45,20 +46,35 @@ namespace Business.Services {
         }
 
         public async Task<bool> CreateQuestionSet (QuestionSetDTO Entity) {
-            var q = _mapper.Map<QuestionSet> (Entity);
-            _unitOfWork.QuestionSet.CreateQuestionSet (q);
-            return await _unitOfWork.SaveAsync ();
+            var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
+            if (Entity.CompanyId == int.Parse (companyId)) {
+                var q = _mapper.Map<QuestionSet> (Entity);
+                _unitOfWork.QuestionSet.CreateQuestionSet (q);
+                return await _unitOfWork.SaveAsync ();
+            } else {
+                return false;
+            }
         }
 
         public async Task<bool> UpdateQuestionSet (QuestionSetDTO Entity) {
-            var QuestionSetToAdd = _mapper.Map<QuestionSet> (Entity);
-            _unitOfWork.QuestionSet.UpdateQuestionsSet (QuestionSetToAdd);
-            return await _unitOfWork.SaveAsync ();
+            var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
+            if (Entity.CompanyId == int.Parse (companyId)) {
+                var QuestionSetToAdd = _mapper.Map<QuestionSet> (Entity);
+                _unitOfWork.QuestionSet.UpdateQuestionsSet (QuestionSetToAdd);
+                return await _unitOfWork.SaveAsync ();
+            } else {
+                return false;
+            }
         }
 
         public async Task<bool> DeleteQuestionSet (QuestionSetDTO Entity) {
-            _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (Entity));
-            return await _unitOfWork.SaveAsync ();
+            var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
+            if (Entity.CompanyId == int.Parse (companyId)) {
+                _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (Entity));
+                return await _unitOfWork.SaveAsync ();
+            } else {
+                return false;
+            }
         }
     }
 }

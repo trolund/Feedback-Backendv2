@@ -26,6 +26,12 @@ namespace Data.Repositories {
             return await collection.Take (10).Include (set => set.Questions).ToListAsync ();
         }
 
+        public async Task<IEnumerable<QuestionSet>> GetAllQuestionSetsCompany (int companyId) {
+            var collection = _context.QuestionSets as IQueryable<QuestionSet>;
+            // pageing
+            return await collection.Where (qset => qset.CompanyId == companyId || qset.CompanyId == 1).ToListAsync ();
+        }
+
         public void CreateQuestionSet (QuestionSet questionSet) {
             _context.QuestionSets.Add (questionSet);
 

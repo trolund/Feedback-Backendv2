@@ -48,6 +48,7 @@ namespace Data.Contexts.Seeding {
                     var meetingSet = new QuestionSet ();
                     meetingSet.QuestionSetId = Guid.NewGuid ();
                     meetingSet.Name = "Møder";
+                    meetingSet.CompanyId = 1;
                     meetingSet.Questions = new List<Question> (new Question[] {
                         new Question (Guid.NewGuid (), "Overordnet hvordan vurderer du mødet?", 0),
                             new Question (Guid.NewGuid (), "Hvordan vurderer du mødeledelsen?", 1),
@@ -61,6 +62,7 @@ namespace Data.Contexts.Seeding {
                     var lectureSet = new QuestionSet ();
                     lectureSet.QuestionSetId = Guid.NewGuid ();
                     lectureSet.Name = "Undervisning";
+                    lectureSet.CompanyId = 1;
                     lectureSet.Questions = new List<Question> (new Question[] {
                         new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet undervisningen?", 0),
                             new Question (Guid.NewGuid (), "Hvordan vurderer du tidsstyringen?", 1),
@@ -74,6 +76,7 @@ namespace Data.Contexts.Seeding {
                     var talkSet = new QuestionSet ();
                     talkSet.QuestionSetId = Guid.NewGuid ();
                     talkSet.Name = "Foredrag";
+                    talkSet.CompanyId = 1;
                     talkSet.Questions = new List<Question> (new Question[] {
                         new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet foredraget?", 0),
                             new Question (Guid.NewGuid (), "Hvordan vurderer du relevansen af indholdet?", 1),
@@ -101,8 +104,8 @@ namespace Data.Contexts.Seeding {
                     var userone = new ApplicationUser () {
                     CompanyId = 1,
                     CompanyConfirmed = true,
-                    Email = "vadmin@spinoff.com",
-                    UserName = "vadmin@spinoff.com",
+                    Email = "vadmin@spinoff.nu",
+                    UserName = "vadmin@spinoff.nu",
                     Lastname = "Lund",
                     Firstname = "Troels",
                     EmailConfirmed = true,
@@ -112,8 +115,8 @@ namespace Data.Contexts.Seeding {
                     var usertwo = new ApplicationUser () {
                         CompanyId = 1,
                         CompanyConfirmed = true,
-                        Email = "admin@spinoff.com",
-                        UserName = "admin@spinoff.com",
+                        Email = "admin@spinoff.nu",
+                        UserName = "admin@spinoff.nu",
                         Lastname = "Lund",
                         Firstname = "Troels",
                         EmailConfirmed = true,
@@ -134,8 +137,8 @@ namespace Data.Contexts.Seeding {
                     var otherFirmUser = new ApplicationUser () {
                         CompanyId = 2,
                         CompanyConfirmed = true,
-                        Email = "Facilitator@firm.com",
-                        UserName = "Facilitator@firm.com",
+                        Email = "Facilitator@firm.nu",
+                        UserName = "Facilitator@firm.nu",
                         Lastname = "Mr. I am a Facilitator",
                         Firstname = "Facilitator!",
                         EmailConfirmed = true,
@@ -154,6 +157,7 @@ namespace Data.Contexts.Seeding {
                     await userManager.AddToRoleAsync (usertwo, Roles.Roles.ADMIN);
                     await userManager.AddToRoleAsync (userthree, Roles.Roles.FACILITATOR);
                     await userManager.AddToRoleAsync (otherFirmUser, Roles.Roles.FACILITATOR);
+                    await userManager.AddToRoleAsync (otherFirmUser, Roles.Roles.VADMIN);
 
                 }
 

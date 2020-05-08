@@ -10,6 +10,9 @@ namespace Data.Models {
         [MaxLength (100)]
         public string Name { get; set; }
         public long Version { get; set; }
+
+        [Required]
+        public int CompanyId { get; set; }
         public List<Question> Questions { get; set; }
 
     }
