@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -33,6 +32,14 @@ namespace Business.Services {
 
         public CompanyDTO getCompany (int id) {
             return _mapper.Map<CompanyDTO> (_unitOfWork.Company.Find (c => c.CompanyId == id));
+        }
+
+        public ApplicationUser getCompanyAdmin (string CompanyId) {
+            return _unitOfWork.Company.getCompanyAdmin (int.Parse (CompanyId));
+        }
+
+        public ApplicationUser getCompanyAdmin (int CompanyId) {
+            return _unitOfWork.Company.getCompanyAdmin (CompanyId);
         }
 
         public IEnumerable<CompanyDTO> GetCompanys () {

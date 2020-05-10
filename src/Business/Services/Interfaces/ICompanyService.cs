@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data.Models;
 using Infrastructure.ViewModels;
 
 namespace Business.Services.Interfaces {
@@ -14,5 +15,7 @@ namespace Business.Services.Interfaces {
         CompanyDTO UpdateCompany (CompanyDTO Company);
 
         void DeleteCompany (CompanyDTO Company);
+        ApplicationUser getCompanyAdmin (string CompanyId);
+        ApplicationUser getCompanyAdmin (int CompanyId);
     }
 }

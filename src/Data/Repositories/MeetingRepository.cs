@@ -128,7 +128,7 @@ namespace Data.Repositories {
                 .ToListAsync ();
         }
         public async Task<IEnumerable<CategoryDTO>> GetMeetingCategories (int CompanyId) {
-            return _mapper.Map<IEnumerable<CategoryDTO>> (await _context.Categories.Where (i => i.CompanyId == CompanyId).ToListAsync ());
+            return _mapper.Map<IEnumerable<CategoryDTO>> (await _context.Categories.Where (i => i.CompanyId == CompanyId || i.CompanyId == 1).ToListAsync ());
         }
         // public bool MeetingExists(int id){
         //  return _context.Meetings.Where(m => m.MeetingId == id) != null ? true : false; 
