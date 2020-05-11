@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using WebApi.Hubs;
 
 namespace WebApi.Controllers {
@@ -25,10 +26,13 @@ namespace WebApi.Controllers {
 
         public IMeetingService _meetingService;
 
-        public FeedbackBatchController (IFeedbackBatchService service, IHubContext<LiveFeedbackHub> hub, IMeetingService meetingService) {
+        public ILogger<FeedbackBatchController> _logger;
+
+        public FeedbackBatchController (IFeedbackBatchService service, IHubContext<LiveFeedbackHub> hub, IMeetingService meetingService, ILogger<FeedbackBatchController> logger) {
             _service = service;
             _hub = hub;
             _meetingService = meetingService;
+            _logger = logger;
         }
 
         [Authorize (Roles = "Admin")]
@@ -46,21 +50,26 @@ namespace WebApi.Controllers {
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> ObtainFeedback ([FromBody] FeedbackBatchDTO entity) {
+            var logGuid = Guid.NewGuid ();
 
             if (await Service.HaveAlreadyGivenFeedback (entity.MeetingId, entity.UserFingerprint)) {
-                return BadRequest (new { msg = "You can only give feedback once." });
+                _logger.LogWarning ("You can only give feedback once.", entity, logGuid);
+                return BadRequest (new { msg = "You can only give feedback once.", logGuid });
             }
 
             if (await _meetingService.IsMeetingOpenForFeedback (entity.MeetingId)) {
-                return BadRequest (new { msg = "Feedback is no longer open for this meeting." });
+                _logger.LogWarning ("Feedback is no longer open for this meeting.", entity, logGuid);
+                return BadRequest (new { msg = "Feedback is no longer open for this meeting.", logGuid });
             }
 
             if (await Service.Create (entity)) {
                 // send feedback to all real-time feedback observers
                 _hub.Clients.Group (entity.MeetingId).SendAsync ("sendfeedback", await _service.GetAllFeedbackBatchByMeetingId (entity.MeetingId));
+                _logger.LogInformation ("Feedback given, meetingID: " + entity.MeetingId, entity);
                 return Ok ();
             } else {
-                return BadRequest (new { msg = "Feedback have not been delivered." });
+                _logger.LogError ("Feedback have not been delivered. MeetingId:" + entity.MeetingId, entity, logGuid);
+                return BadRequest (new { msg = "Feedback have not been delivered.", logGuid });
             }
         }
 

@@ -67,6 +67,7 @@ namespace WebApi.Controllers {
                     return RedirectToPage ("./Lockout");
                 } else {
                     ModelState.AddModelError (string.Empty, "Invalid login attempt.");
+                    _logger.LogWarning ("Invalid login attempt.");
                     return Ok ();
                 }
             }
