@@ -57,7 +57,7 @@ namespace WebApi.Controllers {
                 return BadRequest (new { msg = "You can only give feedback once.", logGuid });
             }
 
-            if (await _meetingService.IsMeetingOpenForFeedback (entity.MeetingId)) {
+            if (!await _meetingService.IsMeetingOpenForFeedback (entity.MeetingId)) {
                 _logger.LogWarning ("Feedback is no longer open for this meeting.", entity, logGuid);
                 return BadRequest (new { msg = "Feedback is no longer open for this meeting.", logGuid });
             }
