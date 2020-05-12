@@ -12,12 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Tests {
-    public class UnitTest1 {
+    public class MeetingServiceTest {
         private readonly IUnitOfWork _UnitOfWork;
         private readonly IMeetingService _meetingService;
         private readonly IQuestionSetService _questionSetService;
 
-        public UnitTest1 (IUnitOfWork u, IMeetingService meetingService, IQuestionSetService questionSetService) {
+        public MeetingServiceTest (IUnitOfWork u, IMeetingService meetingService, IQuestionSetService questionSetService) {
             _UnitOfWork = u;
             _meetingService = meetingService;
             _questionSetService = questionSetService;
@@ -40,8 +40,49 @@ namespace Tests {
         }
 
         [Fact]
-        public void Test2 () {
+        public void IsMeetingOpenPosetiveTest () {
 
+            var newMeeting = new MeetingDTO () {
+                Discription = "Discription",
+                EndTime = DateTime.Now.AddHours (1),
+                StartTime = DateTime.Now,
+                Name = "posetiveTest",
+                QuestionsSetId = "1234"
+            };
+            var res = _meetingService.TimeCheck (newMeeting);
+
+            // meeting shout be open for feedback from det start time.
+            Assert.Equal (true, res);
+        }
+
+        [Fact]
+        public void IsMeetingOpenNegativeTest () {
+            var newMeeting = new MeetingDTO () {
+                Discription = "Discription",
+                EndTime = DateTime.Now.AddDays (2).AddHours (1),
+                StartTime = DateTime.Now.AddDays (2),
+                Name = "name",
+                QuestionsSetId = "1234"
+            };
+            var res = _meetingService.TimeCheck (newMeeting);
+
+            // meeting shout not be open because it first starts in two days.
+            Assert.Equal (false, res);
+        }
+
+        [Fact]
+        public void IsMeetingOpenNegativeTestTwo () {
+            var newMeeting = new MeetingDTO () {
+                Discription = "Discription",
+                EndTime = DateTime.Now.AddHours (2),
+                StartTime = DateTime.Now.AddDays (1),
+                Name = "name",
+                QuestionsSetId = "1234"
+            };
+            var res = _meetingService.TimeCheck (newMeeting);
+
+            // meeting shout not be open because it first starts in one hour.
+            Assert.Equal (false, res);
         }
     }
 }

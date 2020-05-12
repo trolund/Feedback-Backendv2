@@ -26,5 +26,7 @@ namespace Business.Services.Interfaces {
         Task<IEnumerable<MeetingDTO>> GetMeetingsOneDay (DateTime date);
 
         Task<bool> IsMeetingOpenForFeedback (string id);
+
+        bool TimeCheck (MeetingDTO meeting);
     }
 }

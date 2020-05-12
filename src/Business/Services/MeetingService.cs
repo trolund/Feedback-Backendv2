@@ -135,9 +135,25 @@ namespace Business.Services {
 
         public async Task<bool> IsMeetingOpenForFeedback (string id) {
             var meeting = await GetMeeting (id);
+            if (meeting != null) {
+                return TimeCheck (meeting);
+            }
+            return false;
+        }
+
+        public bool TimeCheck (MeetingDTO meeting) {
             var endOfFeedback = meeting.EndTime.AddHours (12);
             var d = DateTime.Compare (DateTime.Now, endOfFeedback);
-            return d > 0;
+            var openafter = d <= 0;
+
+            var notBeforeMeeting = DateTime.Compare (DateTime.Now, meeting.StartTime) >= 0;
+            // Console.WriteLine (meeting.Name);
+            // Console.WriteLine ("nu: " + DateTime.Now);
+            // Console.WriteLine ("slut: " + endOfFeedback);
+            // Console.WriteLine ("int: " + d);
+            // Console.WriteLine (openafter);
+
+            return openafter && notBeforeMeeting;
         }
 
         // private List<MeetingDTO> addShortId(IEnumerable<MeetingDTO> DTOList){
