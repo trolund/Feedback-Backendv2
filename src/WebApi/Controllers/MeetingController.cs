@@ -78,7 +78,7 @@ namespace WebApi.Controllers {
         [Route ("MeetingOpen/{id}")]
         public async Task<IActionResult> IsMeetingOpen ([FromRoute] string id, [FromBody] string fingerprint) {
             try {
-                if (await _service.IsMeetingOpenForFeedback (id)) {
+                if (!await _service.IsMeetingOpenForFeedback (id)) {
                     return BadRequest (new { msg = "Feedback is no longer open for this meeting." });
                 }
 
@@ -101,7 +101,7 @@ namespace WebApi.Controllers {
         [HttpGet]
         [Route ("isMeetingOpen/{id}")]
         public async Task<IActionResult> MeetingOpen ([FromRoute] string id) {
-            if (await _service.IsMeetingOpenForFeedback (id)) {
+            if (!await _service.IsMeetingOpenForFeedback (id)) {
                 return BadRequest (new { msg = "Feedback is no longer open for this meeting." });
             }
 
