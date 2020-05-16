@@ -42,13 +42,14 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<QuestionSetDTO>> GetQuestionSetOnly () {
-            return _mapper.Map<IEnumerable<QuestionSetDTO>> (await _unitOfWork.QuestionSet.GetAll ());
+            return _mapper.Map<IEnumerable<QuestionSetDTO>> (await _unitOfWork.QuestionSet.GetAllQuestionSets ());
         }
 
         public async Task<bool> CreateQuestionSet (QuestionSetDTO Entity) {
             var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
             if (Entity.CompanyId == int.Parse (companyId)) {
                 var q = _mapper.Map<QuestionSet> (Entity);
+                q.active = true;
                 _unitOfWork.QuestionSet.CreateQuestionSet (q);
                 return await _unitOfWork.SaveAsync ();
             } else {
@@ -70,7 +71,11 @@ namespace Business.Services {
         public async Task<bool> DeleteQuestionSet (QuestionSetDTO Entity) {
             var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
             if (Entity.CompanyId == int.Parse (companyId)) {
-                _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (Entity));
+                // _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (Entity));
+                QuestionSet qset = _mapper.Map<QuestionSet> (Entity);
+                qset.active = false;
+                _unitOfWork.QuestionSet.UpdateQuestionsSet (qset);
+
                 return await _unitOfWork.SaveAsync ();
             } else {
                 return false;

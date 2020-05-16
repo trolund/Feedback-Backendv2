@@ -8,6 +8,9 @@ namespace Data.Repositories.Interface {
     public interface ICategoryRepository : IRepository<Category, Guid> {
 
         Task<List<Category>> getAllCategoriesForMeeting (List<Guid> Ids);
-
+        Task<List<Category>> getAllCategories (int companyId);
+        void createCategory (Category entity);
+        void updateCategory (Category entity);
+        void deleteCategory (Guid CategoryId);
     }
 }

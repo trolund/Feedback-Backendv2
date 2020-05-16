@@ -15,7 +15,7 @@ namespace Data.Repositories {
         }
 
         public async Task<QuestionSet> GetQuestionSet (Guid id) {
-            return await _context.QuestionSets.Include (q => q.Questions).SingleOrDefaultAsync (a => a.QuestionSetId == id);
+            return await _context.QuestionSets.Include (q => q.Questions).SingleOrDefaultAsync (a => a.QuestionSetId == id && a.active == true);
         }
 
         public async Task<IEnumerable<QuestionSet>> GetAllQuestionSets () {
@@ -23,13 +23,13 @@ namespace Data.Repositories {
             // filtering
             var collection = _context.QuestionSets as IQueryable<QuestionSet>;
             // pageing
-            return await collection.Take (10).Include (set => set.Questions).ToListAsync ();
+            return await collection.Include (set => set.Questions).Where (s => s.active == true).ToListAsync ();
         }
 
         public async Task<IEnumerable<QuestionSet>> GetAllQuestionSetsCompany (int companyId) {
             var collection = _context.QuestionSets as IQueryable<QuestionSet>;
             // pageing
-            return await collection.Where (qset => qset.CompanyId == companyId || qset.CompanyId == 1).ToListAsync ();
+            return await collection.Where (qset => qset.CompanyId == companyId || qset.CompanyId == 1 && qset.active == true).ToListAsync ();
         }
 
         public void CreateQuestionSet (QuestionSet questionSet) {

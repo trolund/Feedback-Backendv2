@@ -7,6 +7,9 @@ namespace Data.Models {
         public Guid QuestionSetId { get; set; }
 
         [Required]
+        public bool active { get; set; }
+
+        [Required]
         [MaxLength (100)]
         public string Name { get; set; }
         public long Version { get; set; }

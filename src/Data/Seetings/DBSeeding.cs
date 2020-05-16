@@ -27,6 +27,7 @@ namespace Data.Contexts.Seeding {
 
                 if (context.Categories.AsQueryable ().Where (c => c.CompanyId == 1).ToList ().Count == 0) {
                     context.Categories.Add (new Category () {
+
                         CompanyId = 1,
                             Name = "Undervisning"
                     });
@@ -49,6 +50,7 @@ namespace Data.Contexts.Seeding {
                     meetingSet.QuestionSetId = Guid.NewGuid ();
                     meetingSet.Name = "Møder";
                     meetingSet.CompanyId = 1;
+                    meetingSet.active = true;
                     meetingSet.Questions = new List<Question> (new Question[] {
                         new Question (Guid.NewGuid (), "Overordnet hvordan vurderer du mødet?", 0),
                             new Question (Guid.NewGuid (), "Hvordan vurderer du mødeledelsen?", 1),
@@ -63,6 +65,7 @@ namespace Data.Contexts.Seeding {
                     lectureSet.QuestionSetId = Guid.NewGuid ();
                     lectureSet.Name = "Undervisning";
                     lectureSet.CompanyId = 1;
+                    lectureSet.active = true;
                     lectureSet.Questions = new List<Question> (new Question[] {
                         new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet undervisningen?", 0),
                             new Question (Guid.NewGuid (), "Hvordan vurderer du tidsstyringen?", 1),
@@ -77,6 +80,7 @@ namespace Data.Contexts.Seeding {
                     talkSet.QuestionSetId = Guid.NewGuid ();
                     talkSet.Name = "Foredrag";
                     talkSet.CompanyId = 1;
+                    talkSet.active = true;
                     talkSet.Questions = new List<Question> (new Question[] {
                         new Question (Guid.NewGuid (), "Hvordan vurderer du overordnet foredraget?", 0),
                             new Question (Guid.NewGuid (), "Hvordan vurderer du relevansen af indholdet?", 1),

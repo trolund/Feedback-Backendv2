@@ -27,10 +27,34 @@ namespace Data.Repositories {
             var collection = _context.Categories as IQueryable<Category>;
 
             foreach (Guid id in Ids) {
-                collection.Where (item => item.CategoryId == id);
+                collection = collection.Where (item => item.CategoryId == id);
             }
 
+            collection.Where (c => c.active == true);
+
             return await collection.ToListAsync ();
+        }
+
+        public async Task<List<Category>> getAllCategories (int companyId) {
+            var collection = _context.Categories as IQueryable<Category>;
+
+            collection = collection.Where (c => c.active == true);
+            collection = collection.Where (c => c.CompanyId.Equals (companyId) ||  c.CompanyId.Equals (Environment.GetEnvironmentVariable ("SpinOffCompanyID")));
+
+            return await collection.ToListAsync ();
+        }
+
+        public void createCategory (Category entity) {
+            _context.Categories.Add (entity);
+        }
+
+        public void updateCategory (Category entity) {
+            _context.Categories.Update (entity);
+        }
+
+        public async void deleteCategory (Guid CategoryId) {
+            var cateToUpdate = await _context.Categories.Where (c => c.CategoryId.Equals (CategoryId)).FirstAsync ();
+            cateToUpdate.active = false;
         }
     }
 }
