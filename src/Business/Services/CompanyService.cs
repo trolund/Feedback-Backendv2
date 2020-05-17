@@ -20,10 +20,10 @@ namespace Business.Services {
         }
 
         public async Task<int> CreateCompany (CompanyDTO Company) {
-            await _unitOfWork.Company.Add (_mapper.Map<Company> (Company));
-            await _unitOfWork.SaveAsync ();
-            var company = await _unitOfWork.Company.SingleOrDefault (c => c.Name == Company.Name && c.CreatedBy == _httpContextAccessor.HttpContext.User.Identity.Name);
-            return company.CompanyId;
+            var newCompany = _mapper.Map<Company> (Company);
+            await _unitOfWork.Company.Add (newCompany);
+            var res = await _unitOfWork.SaveAsync ();
+            return newCompany.CompanyId;
         }
 
         public void DeleteCompany (CompanyDTO Company) {
