@@ -26,11 +26,6 @@ namespace Data.Repositories {
             get { return Context as ApplicationDbContext; }
         }
 
-        // public IEnumerable<Meeting> GetMeeting(int count)
-        // {
-        //     return context.Meetings.OrderByDescending(c => c.StartTime).Take(count).ToList();
-        // }
-
         public async Task<IEnumerable<Meeting>> GetMeetings (MeetingResourceParameters parameters) {
             // throw if no parametres is provided.
             if (parameters == null) {

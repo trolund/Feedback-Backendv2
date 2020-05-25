@@ -22,7 +22,7 @@ namespace Business.Services {
         public async Task<int> CreateCompany (CompanyDTO Company) {
             var newCompany = _mapper.Map<Company> (Company);
             await _unitOfWork.Company.Add (newCompany);
-            var res = await _unitOfWork.SaveAsync ();
+            await _unitOfWork.SaveAsync ();
             return newCompany.CompanyId;
         }
 

@@ -117,11 +117,15 @@ namespace Business.Services {
 
         public async Task<UserDTO> UserRegistration (UserRegistrationDTO Entity) {
             var companyConfirmed = false;
-            // if company shoud be created
+            // if company shoud be created (company have data)
             if (Entity.company != null) {
-                Entity.CompanyId = await _companyService.CreateCompany (Entity.company);
-                companyConfirmed = true;
-                Entity.RequesetedRoles.Append (Roles.VADMIN);
+                try {
+                    Entity.CompanyId = await _companyService.CreateCompany (Entity.company);
+                    companyConfirmed = true;
+                    Entity.RequesetedRoles.Append (Roles.VADMIN);
+                } catch (Exception e) {
+                    throw new InvalidOperationException ("Company failed to be created", e);
+                }
             }
 
             var user = new ApplicationUser () {
@@ -135,11 +139,23 @@ namespace Business.Services {
                 PhoneNumber = Entity.Phone,
             };
 
-            var res = await _userManager.CreateAsync (user, Entity.Password);
-            var newUser = await _userManager.FindByEmailAsync (Entity.Email);
-            var userres = await _userManager.AddToRolesAsync (newUser, Entity.RequesetedRoles);
+            // create user
+            var userCreationResult = await _userManager.CreateAsync (user, Entity.Password);
+            // load new user for role adding and verification
+            ApplicationUser newUser = await _userManager.FindByEmailAsync (Entity.Email);
 
-            if (res.Succeeded && userres.Succeeded) {
+            // if the use was not created and a use with that email already exsist.
+            if (!userCreationResult.Succeeded && newUser != null) {
+                throw new InvalidOperationException ("There is allready a user with the email: " + newUser.Email);
+            }
+
+            // set roles for new user if the user was created
+            IdentityResult rolesAddedResult = null;
+            if (userCreationResult.Succeeded) {
+                rolesAddedResult = await _userManager.AddToRolesAsync (newUser, Entity.RequesetedRoles);
+            }
+
+            if (userCreationResult.Succeeded && (rolesAddedResult != null && rolesAddedResult.Succeeded)) {
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync (user);
                 var baseUrl = Environment.GetEnvironmentVariable ("BASE_URL");
@@ -149,18 +165,23 @@ namespace Business.Services {
                 await _emailService.SendEmailAsync (Entity.Email, "konto confimation", "confirm link: " + confirmationLink);
 
                 // send email to company id if company e
-                if (Entity.CompanyId != 0) {
+                if (Entity.CompanyId != 0 && Entity.company == null) {
                     SendEmailToVAdmin (Entity);
                 }
 
                 return _mapper.Map<UserDTO> (user);
+            } else {
+                if (!userCreationResult.Succeeded) {
+                    throw new Exception ("new user faild to be found.");
+                } else {
+                    throw new Exception ("Roles was not added.");
+                }
             }
-            return null;
         }
 
         private async void SendEmailToVAdmin (UserRegistrationDTO userData) {
             ApplicationUser companyAdmin = _companyService.getCompanyAdmin (userData.CompanyId);
-            await _emailService.SendEmailAsync (companyAdmin.Email, "Ny bruger", "Der er en ny bruger \n Bruger: \n Navn:" + userData.Firstname + " " + userData.Lastname + "\nEmail:" + userData.Email + "som prøver at blive en del af din virksomhed, du skal godkende personen før han kan væreen del af virksomehen.");
+            await _emailService.SendEmailAsync (companyAdmin.Email, "Ny bruger", "Der er en ny bruger \n Bruger: (\n Navn:" + userData.Firstname + " " + userData.Lastname + "\n Email: " + userData.Email + " ) som prøver at blive en del af din virksomhed, du skal godkende personen før han kan væreen del af virksomehen.");
         }
 
         public async Task<bool> ConfirmationUser (string email, string emailToken) {

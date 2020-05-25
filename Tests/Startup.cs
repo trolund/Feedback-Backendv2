@@ -5,6 +5,7 @@ using Business.Services;
 using Business.Services.Interfaces;
 using Data.Contexts;
 using Data.Contexts.Seeding;
+using Data.Contexts_access;
 using Data.Models;
 using Data.Repositories;
 using Data.Repositories.Interface;
@@ -37,15 +38,14 @@ namespace Tests {
 
             services.AddTransient<IEmailService, EmailService> ();
 
-            //  services.AddScoped<IRepository, Repository> ();
-            services.AddScoped<ICategoryRepository, CategoryRepository> ();
-            services.AddScoped<ICompanyRepository, CompanyRepository> ();
-            services.AddScoped<IFeedbackBatchRepository, FeedbackBatchRepository> ();
-            services.AddScoped<IFeedbackRepository, FeedbackRepository> ();
-            services.AddScoped<IMeetingCategoryRepository, MeetingCategoryRepository> ();
-            services.AddScoped<IMeetingRepository, MeetingRepository> ();
-            services.AddScoped<IQuestionSetRepository, QuestionSetRepository> ();
-            services.AddScoped<IUserRepository, UserRepository> ();
+            services.AddTransient<ICategoryRepository, CategoryRepository> ();
+            services.AddTransient<ICompanyRepository, CompanyRepository> ();
+            services.AddTransient<IFeedbackBatchRepository, FeedbackBatchRepository> ();
+            services.AddTransient<IFeedbackRepository, FeedbackRepository> ();
+            services.AddTransient<IMeetingCategoryRepository, MeetingCategoryRepository> ();
+            services.AddTransient<IMeetingRepository, MeetingRepository> ();
+            services.AddTransient<IQuestionSetRepository, QuestionSetRepository> ();
+            services.AddTransient<IUserRepository, UserRepository> ();
 
             services.AddIdentity<ApplicationUser, IdentityRole> (options => {
                     options.User.RequireUniqueEmail = true;
@@ -60,19 +60,24 @@ namespace Tests {
                 .AddDefaultTokenProviders ();
 
             services.AddDbContext<ApplicationDbContext> (options =>
-                options.UseInMemoryDatabase ("TestDB")
+                options.UseSqlite ("DataSource=file::memory:?cache=shared")
             );
 
             services.AddHttpContextAccessor ();
-            services.AddAutoMapper (typeof (Startup));
+
+            // use automapping profiles find i data project
+            services.AddAutoMapper (typeof (Profiles));
 
         }
 
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services) {
-            var context = services.GetService<ApplicationDbContext> ();
-            var userManager = services.GetService<UserManager<ApplicationUser>> ();
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>> ();
-            DBSeeding.Seed (context, userManager, roleManager).Wait ();
+            // var context = services.GetService<ApplicationDbContext> ();
+            // var userManager = services.GetService<UserManager<ApplicationUser>> ();
+            // var roleManager = services.GetRequiredService<RoleManager<IdentityRole>> ();
+            // Console.WriteLine ("seeding db");
+            // context.Database.OpenConnection ();
+            // context.Database.Migrate ();
+            // DBSeeding.Seed (context, userManager, roleManager).Wait ();
         }
 
         protected override IHostBuilder CreateHostBuilder (AssemblyName assemblyName) =>

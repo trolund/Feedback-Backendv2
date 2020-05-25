@@ -12,6 +12,8 @@ namespace WebApi {
         public static void Main (string[] args) {
             var host = CreateHostBuilder (args)
                 .Build ();
+
+            // database seeding
             using (var scope = host.Services.CreateScope ()) {
                 var services = scope.ServiceProvider;
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext> ();
@@ -19,12 +21,14 @@ namespace WebApi {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>> ();
                 DBSeeding.Seed (context, userManager, roleManager).Wait ();
             }
+
             host.Run ();
         }
 
         public static IHostBuilder CreateHostBuilder (string[] args) =>
             Host.CreateDefaultBuilder (args)
             .ConfigureWebHostDefaults (webBuilder => {
+                // use https in production og http on local dev mashine
                 var env = Environment.GetEnvironmentVariable ("ASPNETCORE_ENVIRONMENT");
                 if (env == "Development") {
                     webBuilder.UseStartup<Startup> ()

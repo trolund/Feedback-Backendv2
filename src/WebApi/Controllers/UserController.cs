@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -104,11 +105,14 @@ namespace FWebApi.Controllers {
         [HttpPost]
         [Route ("Post")]
         public async Task<ActionResult<UserDTO>> UserRegistration ([FromBody] UserRegistrationDTO Entity) {
-            var user = await _userService.UserRegistration (Entity);
-            if (user != null) {
+            try {
+                var user = await _userService.UserRegistration (Entity);
                 return Ok ();
+            } catch (InvalidOperationException e) {
+                return Conflict (e.Message);
+            } catch (Exception e) {
+                return BadRequest (e.Message);
             }
-            return BadRequest ();
         }
 
         [HttpPost]

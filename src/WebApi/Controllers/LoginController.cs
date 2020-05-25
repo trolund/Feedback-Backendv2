@@ -16,9 +16,9 @@ namespace WebApi.Controllers {
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger<LoginDTO> _logger;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<LoginDTO> logger) {
+        public LoginController (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<LoginController> logger) {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
