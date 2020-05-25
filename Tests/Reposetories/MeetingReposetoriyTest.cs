@@ -30,6 +30,8 @@ namespace Tests {
             _context = context;
             _roleManager = roleManager;
             _httpContextAccessor = httpContextAccessor;
+
+            // run before each test
             DBSeeding.Seed (_context, _userManager, _roleManager).Wait ();
         }
 

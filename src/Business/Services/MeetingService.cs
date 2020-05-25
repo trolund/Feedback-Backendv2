@@ -59,7 +59,7 @@ namespace Business.Services {
             meetingToSave.ApplicationUserId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value); // TODO need fix?
 
             _unitOfWork.Meetings.CreateMeeting (meetingToSave);
-            // await _unitOfWork.SaveAsync ();
+            await _unitOfWork.SaveAsync ();
 
             foreach (var cat in meetingCategories) {
                 cat.MeetingId = MeetingIdHelper.GenerateShortId (meetingToSave.MeetingId);
@@ -70,6 +70,7 @@ namespace Business.Services {
                 _logger.LogInformation ("meeting " + meetingToSave.MeetingId + "have been created.", meetingToSave);
             } else {
                 _logger.LogError ("meeting " + meetingToSave.MeetingId + "have NOT been created.", meetingToSave);
+                _unitOfWork.Meetings.DeleteMeeting (meetingToSave);
                 throw new ArgumentException ("Meeting was not created.");
             }
         }
@@ -87,7 +88,7 @@ namespace Business.Services {
                 _unitOfWork.MeetingCategories.RemoveRange (oldMeetingCategory);
             }
 
-            await _unitOfWork.SaveAsync ();
+            // await _unitOfWork.SaveAsync ();
 
             // var oldMeeting = await _unitOfWork.Meetings.GetMeeting (intId);
             var oldMeeting = await _unitOfWork.Meetings.Get (intId);
@@ -101,12 +102,13 @@ namespace Business.Services {
             // oldMeeting.CreatedBy = userId;
             // oldMeeting.MeetingId = intId;
             // oldMeeting.meetingCategories = oldMeeting.meetingCategories.Where (item => item.CategoryId != null).ToList ();
-            oldMeeting.MeetingCategoryId = Guid.NewGuid ();
+            // oldMeeting.MeetingCategoryId = Guid.NewGuid ();
 
-            await _unitOfWork.SaveAsync ();
+            if (await _unitOfWork.SaveAsync ()) {
+                return meeting;
+            }
 
-            return meeting;
-
+            throw new Exception ("meeting was not updated");
         }
 
         public async Task DeleteMeeting (MeetingDTO meeting) {

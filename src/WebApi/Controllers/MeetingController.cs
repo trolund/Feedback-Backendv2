@@ -9,6 +9,7 @@ using Infrastructure.Utils;
 using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace WebApi.Controllers {
     [Authorize]
@@ -20,10 +21,13 @@ namespace WebApi.Controllers {
 
         private readonly IFeedbackBatchService _feedbackBatchService;
 
-        public MeetingController (IMeetingService service, IQuestionSetService questionSetService, IFeedbackBatchService feedbackBatchService) {
+        private readonly ILogger<MeetingController> _logger;
+
+        public MeetingController (IMeetingService service, IQuestionSetService questionSetService, IFeedbackBatchService feedbackBatchService, ILogger<MeetingController> logger) {
             _service = service;
             _questionSetService = questionSetService;
             _feedbackBatchService = feedbackBatchService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -115,8 +119,14 @@ namespace WebApi.Controllers {
         [HttpPost]
         [Route ("Create")]
         public async Task<IActionResult> CreateMeeting ([FromBody] MeetingDTO meeting) {
-            await _service.CreateMeeting (meeting);
-            return Ok ();
+            try {
+                await _service.CreateMeeting (meeting);
+                return Ok ();
+            } catch (Exception e) {
+                _logger.LogWarning ("meeting failed to be created" + meeting.Name, meeting, e);
+                return BadRequest (e);
+            }
+
         }
 
         [HttpPut]

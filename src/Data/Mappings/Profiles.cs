@@ -25,7 +25,8 @@ namespace Data.Contexts_access {
             CreateMap<Company, CompanyDTO> ().ReverseMap ();
             CreateMap<CompanyDTO, CompanyDTO> ();
 
-            CreateMap<MeetingDTO, Meeting> ().ForMember (s => s.MeetingId, map => map.MapFrom (s => MeetingIdHelper.GetId (s.ShortId)));
+            CreateMap<MeetingDTO, Meeting> ()
+                .ForMember (s => s.MeetingId, map => map.MapFrom (s => (s.ShortId != null ? MeetingIdHelper.GetId (s.ShortId) : 0)));
 
             CreateMap<Category, CategoryDTO> ().ReverseMap ();
             CreateMap<MeetingCategoryDTO, MeetingCategory> ().ForMember (s => s.MeetingId, map => map.MapFrom (s => MeetingIdHelper.GetId (s.MeetingId)));
