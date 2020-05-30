@@ -14,9 +14,8 @@ using WebApi.Hubs;
 namespace WebApi.Controllers {
     [Authorize]
     [ApiController]
-
     [Route ("Api/[controller]")]
-    public class FeedbackBatchController : ControllerBase, IBaseController<FeedbackBatchDTO, string> {
+    public class FeedbackBatchController : ControllerBase {
 
         private readonly IFeedbackBatchService _service;
 
@@ -73,31 +72,31 @@ namespace WebApi.Controllers {
             }
         }
 
-        [AllowAnonymous]
-        [HttpPut]
-        public void Put ([FromBody] FeedbackBatchDTO entity) {
-            Service.Create (entity);
-        }
+        // [AllowAnonymous]
+        // [HttpPut]
+        // public void Put ([FromBody] FeedbackBatchDTO entity) {
+        //     Service.Create (entity);
+        // }
 
-        void IBaseController<FeedbackBatchDTO, string>.Delete (FeedbackBatchDTO entity) {
-            throw new NotImplementedException ();
-        }
+        // void IBaseController<FeedbackBatchDTO, string>.Delete (FeedbackBatchDTO entity) {
+        //     throw new NotImplementedException ();
+        // }
 
-        FeedbackBatchDTO IBaseController<FeedbackBatchDTO, string>.Get (string id) {
-            throw new NotImplementedException ();
-        }
+        // FeedbackBatchDTO IBaseController<FeedbackBatchDTO, string>.Get (string id) {
+        //     throw new NotImplementedException ();
+        // }
 
-        IEnumerable<FeedbackBatchDTO> IBaseController<FeedbackBatchDTO, string>.GetAll () {
-            throw new NotImplementedException ();
-        }
+        // IEnumerable<FeedbackBatchDTO> IBaseController<FeedbackBatchDTO, string>.GetAll () {
+        //     throw new NotImplementedException ();
+        // }
 
-        void IBaseController<FeedbackBatchDTO, string>.Post (FeedbackBatchDTO entity) {
-            throw new NotImplementedException ();
-        }
+        // void IBaseController<FeedbackBatchDTO, string>.Post (FeedbackBatchDTO entity) {
+        //     throw new NotImplementedException ();
+        // }
 
-        void IBaseController<FeedbackBatchDTO, string>.Put (FeedbackBatchDTO entity) {
-            throw new NotImplementedException ();
-        }
+        // void IBaseController<FeedbackBatchDTO, string>.Put (FeedbackBatchDTO entity) {
+        //     throw new NotImplementedException ();
+        // }
 
         [HttpGet]
         [Authorize (Roles = "Admin, VAdmin, Facilitator")]
@@ -123,7 +122,12 @@ namespace WebApi.Controllers {
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboardDate")]
         public async Task<IActionResult> DashboardDate ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
-            return Ok (await Service.OwnFeedbackDate (start, end, categories, searchWord, onlyOwnData));
+            try {
+                return Ok (await Service.OwnFeedbackDate (start, end, categories, searchWord, onlyOwnData));
+            } catch (Exception e) {
+                Console.WriteLine (e);
+                return BadRequest (e.Message);
+            }
         }
 
         [HttpGet]

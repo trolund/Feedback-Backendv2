@@ -9,6 +9,7 @@ using Data.Repositories.Interface;
 using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Data.Repositories {
     public class FeedbackBatchRepository : Repository<FeedbackBatch, Guid>, IFeedbackBatchRepository {
@@ -16,13 +17,16 @@ namespace Data.Repositories {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
+        private readonly ILogger<FeedbackBatchRepository> _logger;
+
         private ApplicationDbContext _context {
             get { return Context as ApplicationDbContext; }
         }
 
-        public FeedbackBatchRepository (ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper) : base (context) {
+        public FeedbackBatchRepository (ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, ILogger<FeedbackBatchRepository> logger) : base (context) {
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<FeedbackBatchDTO>> getAllFeedbackByMeetingId (int meetingId) {
@@ -91,6 +95,7 @@ namespace Data.Repositories {
 
             if (start != null && end != null) {
                 collection = collection.Where (a => a.CreatedDate >= start && a.CreatedDate <= end);
+
             }
 
             if (searchWord != null) {
@@ -121,34 +126,40 @@ namespace Data.Repositories {
 
             if (categories != null && categories.Length > 0) {
                 //collection = collection.Where (x => x.Meeting.meetingCategories.Any(x => x.Category.Name.Equals("Møder")));
-                foreach (string catId in categories) {
-                    collection = collection.Where (a => a.Meeting.meetingCategories.Any (item => item.CategoryId.Equals (Guid.Parse (catId))));
-                }
+                var catList = categories.ToList ();
+                collection = collection.Where (x => x.Meeting.meetingCategories.Any (y => catList.Contains (y.CategoryId.ToString ())));
+
             }
 
             if (start != null && end != null) {
-                collection = collection.Where (a => a.CreatedDate >= start && a.CreatedDate <= end);
+                // collection = collection.Where (a => a.CreatedDate >= start && a.CreatedDate <= end);
+                // Filter on the date of the meeting the feedback batch is in relation to.
+                collection = collection.Where (a => a.Meeting.StartTime >= start && a.Meeting.StartTime <= end);
             }
 
             if (searchWord != null) {
                 collection = collection.Where (a => a.Meeting.Discription.Contains (searchWord) || a.Meeting.Name.Contains (searchWord));
             }
-
-            var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackDateDTO (item.CreatedDate ?? DateTime.Now, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name), item.QuestionId, item.FeedbackBatch.FeedbackBatchId, item.FeedbackBatch.Meeting.QuestionsSetId)).ToListAsync ();
-
-            return result;
+            try {
+                var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackDateDTO (item.CreatedDate ?? DateTime.Now, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name), item.QuestionId, item.FeedbackBatch.FeedbackBatchId, item.FeedbackBatch.Meeting.QuestionsSetId)).ToListAsync ();
+                return result;
+            } catch (Exception e) {
+                _logger.LogError ("OwnFeedbackDate faild, userid: " + userId, e);
+                throw new DALException ("OwnFeedbackDate faild, userid: " + userId, e);
+            }
         }
 
         public async Task<double> GetUserRating (string userId) {
             var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
             collection = collection.Where (f => f.Meeting.CreatedBy.Equals (userId));
             try {
+                // rating from the last 10 meeting
                 var avg = await collection.SelectMany (f => f.Feedback, (f, g) => g).OrderByDescending (d => d.CreatedDate).Take (10).AverageAsync (f => f.Answer);
                 // var oldavg = await collection.SelectMany (f => f.Feedback, (f, g) => g).OrderByDescending(d => d.CreatedDate).Skip(10).Take(10).AverageAsync (f => f.Answer);
                 return avg * 2;
             } catch (Exception e) {
-                Console.WriteLine (e);
-                return 0;
+                _logger.LogError ("User rating faild, userid: " + userId, e);
+                throw new DALException ("User rating faild, userid: " + userId, e);
             }
         }
 
