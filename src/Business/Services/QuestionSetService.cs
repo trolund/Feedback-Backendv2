@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Business.Services.Interfaces;
 using Data.Contexts;
+using Data.Contexts.Roles;
 using Data.Models;
 using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -70,7 +71,8 @@ namespace Business.Services {
 
         public async Task<bool> DeleteQuestionSet (QuestionSetDTO Entity) {
             var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
-            if (Entity.CompanyId == int.Parse (companyId)) {
+            var adminAcceses = (int.Parse (companyId) == 1 && _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN));
+            if (Entity.CompanyId == int.Parse (companyId) || adminAcceses) {
                 // _unitOfWork.QuestionSet.Remove (_mapper.Map<QuestionSet> (Entity));
                 QuestionSet qset = _mapper.Map<QuestionSet> (Entity);
                 qset.active = false;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Business.Services.Interfaces;
 using Infrastructure.ViewModels;
@@ -59,10 +60,15 @@ namespace WebApi.Controllers {
         [Authorize (Roles = "Admin, VAdmin")]
         [HttpDelete]
         public async Task<IActionResult> Delete (QuestionSetDTO value) {
-            if (await _service.DeleteQuestionSet (value)) {
-                return Ok ();
+            try {
+                if (await _service.DeleteQuestionSet (value)) {
+                    return Ok ();
+                } else {
+                    throw new Exception ("Question set faild to be deleted.");
+                }
+            } catch (Exception e) {
+                return BadRequest ();
             }
-            return BadRequest ();
         }
 
     }
