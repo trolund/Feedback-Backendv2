@@ -52,26 +52,43 @@ namespace Business.Services {
         }
 
         public async Task CreateMeeting (MeetingDTO meeting) {
-            var meetingCategories = meeting.meetingCategories;
-            meeting.meetingCategories = null;
+            try {
+                // var meetingCategories = meeting.meetingCategories;
+                // meeting.meetingCategories = null;
 
-            var meetingToSave = _mapper.Map<Meeting> (meeting);
-            meetingToSave.ApplicationUserId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value); // TODO need fix?
+                // if (meeting.meetingCategories != null) {
+                //     foreach (var cat in meeting.meetingCategories) {
+                //         cat.MeetingId = MeetingIdHelper.GenerateShortId (meetingToSave.MeetingId);
+                //     }
+                // }
 
-            _unitOfWork.Meetings.CreateMeeting (meetingToSave);
-            await _unitOfWork.SaveAsync ();
+                var meetingToSave = _mapper.Map<Meeting> (meeting);
+                meetingToSave.ApplicationUserId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value); // TODO need fix?
 
-            foreach (var cat in meetingCategories) {
-                cat.MeetingId = MeetingIdHelper.GenerateShortId (meetingToSave.MeetingId);
-            }
+                _unitOfWork.Meetings.CreateMeeting (meetingToSave);
 
-            await _unitOfWork.MeetingCategories.AddRange (_mapper.Map<ICollection<MeetingCategory>> (meetingCategories));
-            if (await _unitOfWork.SaveAsync ()) {
-                _logger.LogInformation ("meeting " + meetingToSave.MeetingId + "have been created.", meetingToSave);
-            } else {
-                _logger.LogError ("meeting " + meetingToSave.MeetingId + "have NOT been created.", meetingToSave);
-                _unitOfWork.Meetings.DeleteMeeting (meetingToSave);
-                throw new ArgumentException ("Meeting was not created.");
+                // await _unitOfWork.SaveAsync ();
+
+                // if (meetingCategories != null) {
+                //     foreach (var cat in meetingToSave.meetingCategories) {
+                //         cat.MeetingId = MeetingIdHelper.GenerateShortId (meetingToSave.MeetingId);
+                //     }
+                // }
+
+                // meetingToSave.meetingCategories = meetingCategories;
+
+                // await _unitOfWork.MeetingCategories.AddRange (_mapper.Map<ICollection<MeetingCategory>> (meetingCategories));
+
+                if (await _unitOfWork.SaveAsync ()) {
+                    _logger.LogInformation ("meeting " + meetingToSave.MeetingId + "have been created.", meetingToSave);
+                } else {
+                    // clean up if categories was not add correctly
+                    // _unitOfWork.Meetings.DeleteMeeting (meetingToSave);
+                    throw new ArgumentException ("Meeting was not created.");
+                }
+            } catch (Exception e) {
+                _logger.LogError ("meeting have NOT been created.");
+                throw new SERLException ("Meeting was not created.", e);
             }
         }
 

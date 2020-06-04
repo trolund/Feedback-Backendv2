@@ -157,6 +157,8 @@ namespace Data.Repositories {
                 var avg = await collection.SelectMany (f => f.Feedback, (f, g) => g).OrderByDescending (d => d.CreatedDate).Take (10).AverageAsync (f => f.Answer);
                 // var oldavg = await collection.SelectMany (f => f.Feedback, (f, g) => g).OrderByDescending(d => d.CreatedDate).Skip(10).Take(10).AverageAsync (f => f.Answer);
                 return avg * 2;
+            } catch (InvalidOperationException e) { // intet feedback er givet endnu return 0
+                return 0;
             } catch (Exception e) {
                 _logger.LogError ("User rating faild, userid: " + userId, e);
                 throw new DALException ("User rating faild, userid: " + userId, e);

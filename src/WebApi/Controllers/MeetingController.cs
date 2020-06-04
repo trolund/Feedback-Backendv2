@@ -123,7 +123,7 @@ namespace WebApi.Controllers {
                 await _service.CreateMeeting (meeting);
                 return Ok ();
             } catch (Exception e) {
-                _logger.LogWarning ("meeting failed to be created" + meeting.Name, meeting, e);
+                _logger.LogWarning ("meeting failed to be created " + meeting.Name, meeting, e);
                 return BadRequest (e);
             }
 

@@ -66,7 +66,7 @@ namespace Data.Repositories {
                 throw new ArgumentNullException (nameof (meeting));
             }
 
-            _context.Meetings.Add (meeting);
+            _context.Add (meeting);
         }
 
         public void UpdateMeeting (Meeting meeting) {
