@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Data.Models {
     public class Category : BaseEntity {
@@ -17,7 +19,9 @@ namespace Data.Models {
         public int CompanyId { get; set; }
 
         [Required]
+
         public Company Company { get; set; }
-        public ICollection<MeetingCategory> meetingCategories { get; set; }
+
+        public virtual ICollection<MeetingCategory> meetingCategories { get; set; }
     }
 }

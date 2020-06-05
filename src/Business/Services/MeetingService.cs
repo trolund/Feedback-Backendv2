@@ -125,7 +125,7 @@ namespace Business.Services {
                 return meeting;
             }
 
-            throw new Exception ("meeting was not updated");
+            throw new SERLException ("meeting was not updated");
         }
 
         public async Task DeleteMeeting (MeetingDTO meeting) {

@@ -14,8 +14,12 @@ namespace Data.Repositories {
             get { return Context as ApplicationDbContext; }
         }
 
-        public async Task<QuestionSet> GetQuestionSet (Guid id) {
-            return await _context.QuestionSets.Include (q => q.Questions).SingleOrDefaultAsync (a => a.QuestionSetId == id && a.active == true);
+        public async Task<QuestionSet> GetQuestionSet (Guid id, bool activeOnly) {
+            if (activeOnly) {
+                return await _context.QuestionSets.Include (q => q.Questions).SingleOrDefaultAsync (a => a.QuestionSetId == id && a.active == true);
+            } else {
+                return await _context.QuestionSets.Include (q => q.Questions).SingleOrDefaultAsync (a => a.QuestionSetId == id);
+            }
         }
 
         public async Task<IEnumerable<QuestionSet>> GetAllQuestionSets () {

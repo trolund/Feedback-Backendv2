@@ -95,7 +95,7 @@ namespace WebApi.Controllers {
 
             var meeting = await _service.GetMeeting (id);
             if (meeting != null) {
-                var set = await _questionSetService.GetQuestionSet (meeting.QuestionsSetId);
+                var set = await _questionSetService.GetQuestionSet (meeting.QuestionsSetId, false);
                 return Ok (set);
             }
             return NotFound (new { msg = "The meeting with id " + id + " was not found." });

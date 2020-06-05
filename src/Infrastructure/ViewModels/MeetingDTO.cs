@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
 namespace Infrastructure.ViewModels {
@@ -32,6 +33,7 @@ namespace Infrastructure.ViewModels {
         public string Name { get; set; }
 
         [Required]
+        [MeetingDateAttribute] // validates endtime as well
         public DateTime StartTime { get; set; }
 
         [Required]

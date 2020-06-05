@@ -4,7 +4,7 @@ using Infrastructure.ViewModels;
 
 namespace Business.Services.Interfaces {
     public interface IQuestionSetService {
-        Task<QuestionSetDTO> GetQuestionSet (string id);
+        Task<QuestionSetDTO> GetQuestionSet (string id, bool activeOnly);
         Task<IEnumerable<QuestionSetDTO>> GetQuestionSets ();
 
         Task<bool> CreateQuestionSet (QuestionSetDTO QuestionSet);

@@ -30,7 +30,7 @@ namespace WebApi.Controllers {
         [HttpGet]
         [Route ("{questionId}")]
         public async Task<ActionResult<QuestionSetDTO>> GetQuestionSetById (string questionId) {
-            return Ok (await _service.GetQuestionSet (questionId));
+            return Ok (await _service.GetQuestionSet (questionId, false));
         }
 
         [HttpGet]

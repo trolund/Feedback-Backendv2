@@ -46,8 +46,7 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatchByMeetingId (string meetingShortId) {
-            var list = await _unitOfWork.FeedbackBatch.getAllFeedbackByMeetingId (MeetingIdHelper.GetId (meetingShortId));
-            return list;
+            return await _unitOfWork.FeedbackBatch.getAllFeedbackByMeetingId (MeetingIdHelper.GetId (meetingShortId));
         }
 
         public Task<FeedbackBatchDTO> GetFeedbackBatch (string meetingId) {

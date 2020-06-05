@@ -22,10 +22,10 @@ namespace Business.Services {
             _mapper = mapper;
         }
 
-        public async Task<QuestionSetDTO> GetQuestionSet (string id) {
+        public async Task<QuestionSetDTO> GetQuestionSet (string id, bool activeOnly) {
             Guid objGuid = Guid.Empty;
             if (Guid.TryParse (id, out objGuid)) {
-                return _mapper.Map<QuestionSetDTO> (await _unitOfWork.QuestionSet.GetQuestionSet (objGuid));
+                return _mapper.Map<QuestionSetDTO> (await _unitOfWork.QuestionSet.GetQuestionSet (objGuid, activeOnly));
             }
             throw new KeyNotFoundException ("Guid wrong");
         }
