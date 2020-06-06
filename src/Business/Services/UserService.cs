@@ -92,6 +92,7 @@ namespace Business.Services {
             var claims = new List<Claim> {
                 new Claim (JwtRegisteredClaimNames.Sub, user.Id.ToString ()),
                 new Claim ("CID", user.CompanyId.ToString ()),
+                new Claim ("CCON", user.CompanyConfirmed.ToString ()),
                 // new Claim ("sub", user.Id),
                 // new Claim (JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator ()),
                 // new Claim (JwtRegisteredClaimNames.Iat, ToUnixEpochDate (_jwtOptions.IssuedAt).ToString (), ClaimValueTypes.Integer64),

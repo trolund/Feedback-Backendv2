@@ -7,7 +7,7 @@ namespace WebApi.Controllers {
     [Authorize]
     [ApiController]
     [Route ("Api/[controller]")]
-    public class CompanyController : ControllerBase, IBaseController<CompanyDTO, int> {
+    public class CompanyController : ControllerBase {
         private readonly ICompanyService _service;
 
         public CompanyController (ICompanyService service) {

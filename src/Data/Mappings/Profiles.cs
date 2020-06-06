@@ -11,17 +11,18 @@ namespace Data.Contexts_access {
 
             CreateMap<FeedbackBatchDTO, FeedbackBatch> ()
                 .ForMember (s => s.MeetingId, map => map.MapFrom (s => MeetingIdHelper.GetId (s.MeetingId)));
-
             CreateMap<FeedbackBatch, FeedbackBatchDTO> ()
                 .ForMember (s => s.MeetingId, map => map.MapFrom (s => MeetingIdHelper.GenerateShortId (s.MeetingId)));
 
             CreateMap<FeedbackDTO, Feedback> ().ReverseMap ();
 
-            // CreateMap<string, ApplicationUser> ().ConvertUsing (s => new ApplicationUser () { Id = s });
             CreateMap<Question, QuestionDTO> ().ReverseMap ();
+
             CreateMap<ApplicationUser, UserDTO> ();
             CreateMap<ApplicationUser, UserAdminDTO> ().ReverseMap ();
+
             CreateMap<QuestionSet, QuestionSetDTO> ().ReverseMap ();
+
             CreateMap<Company, CompanyDTO> ().ReverseMap ();
             CreateMap<CompanyDTO, CompanyDTO> ();
 
@@ -29,16 +30,11 @@ namespace Data.Contexts_access {
                 .ForMember (s => s.MeetingId, map => map.MapFrom (s => (s.ShortId != null ? MeetingIdHelper.GetId (s.ShortId) : 0)));
 
             CreateMap<Category, CategoryDTO> ().ReverseMap ();
+
             CreateMap<MeetingCategoryDTO, MeetingCategory> ().ForMember (s => s.MeetingId, map => map.MapFrom (s => s.MeetingId != null ? MeetingIdHelper.GetId (s.MeetingId) : 0));
             CreateMap<MeetingCategory, MeetingCategoryDTO> ().ForMember (d => d.MeetingId, map => map.MapFrom (s => s.MeetingId != 0 ? MeetingIdHelper.GenerateShortId (s.MeetingId) : null));
 
             CreateMap<ApplicationUser, UserDTO> ().ReverseMap ();
-            // .ForMember (m => m.CreatedBy, dto => dto.MapFrom (u => u.CreatedBy));
-            /*
-            .ForMember(dst => dst.CreatedBy, opt => opt.MapFrom(src => src.CreatedBy.Id))
-            .ReverseMap()
-            .ForPath(dst => dst.CreatedBy.Id, opt => opt.MapFrom(src => src.CreatedBy));
-            */
         }
 
     }

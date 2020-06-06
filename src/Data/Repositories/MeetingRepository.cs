@@ -111,8 +111,8 @@ namespace Data.Repositories {
             var collection = _context.Meetings as IQueryable<Meeting>;
 
             // return only the own users meetings
-            if (userId == null) return null;
-            if (date == null) return null;
+            if (userId == null) throw new DALException ("Meeting ID missing");
+            if (date == null) throw new DALException ("Date is missing");
 
             collection = collection.Where (m => m.ApplicationUserId.Equals (userId)); // TODO need fix?
 

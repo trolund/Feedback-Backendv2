@@ -31,12 +31,14 @@ namespace WebApi.Controllers {
         }
 
         [HttpGet]
+        [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> GetMeeting ([FromRoute] string id) {
             return Ok (await _service.GetMeeting (MeetingIdHelper.GetId (id)));
         }
 
         [HttpGet]
         [Route ("ShortId/{id}")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> GetMeetingByShotId (string id) {
             return Ok (await _service.GetMeeting (id));
         }
@@ -57,6 +59,7 @@ namespace WebApi.Controllers {
 
         [HttpGet]
         [Route ("ByDate")]
+        [Authorize (Policy = "activeUser")]
         public async Task<ActionResult<IEnumerable<MeetingDTO>>> GetMeetingsByDate ([FromQuery] DateTime start, [FromQuery] DateTime end) {
             // Admin
             // if (User.IsInRole (Roles.VADMIN) && !User.IsInRole (Roles.ADMIN)) {
@@ -118,6 +121,7 @@ namespace WebApi.Controllers {
 
         [HttpPost]
         [Route ("Create")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> CreateMeeting ([FromBody] MeetingDTO meeting) {
             try {
                 await _service.CreateMeeting (meeting);
@@ -130,12 +134,14 @@ namespace WebApi.Controllers {
         }
 
         [HttpPut]
+        [Authorize (Policy = "activeUser")]
         public async Task UpdateMeeting ([FromBody] MeetingDTO meeting) {
             await _service.UpdateMeeting (meeting);
         }
 
         [HttpDelete]
         [Route ("Delete")]
+        [Authorize (Policy = "activeUser")]
         public void DeleteMeeting (MeetingDTO meeting) {
             Console.WriteLine (meeting);
             _service.DeleteMeeting (meeting);
@@ -143,12 +149,14 @@ namespace WebApi.Controllers {
 
         [HttpGet]
         [Route ("Categories/{CompanyId}")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IEnumerable<CategoryDTO>> GetMeetingCategories ([FromRoute] int CompanyId) {
             return await _service.GetMeetingCategories (CompanyId);
         }
 
         [HttpGet]
         [Route ("ByDay/{date}")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IEnumerable<MeetingDTO>> GetMeetingsOneDay ([FromRoute] DateTime date) {
             return await _service.GetMeetingsOneDay (date);
         }

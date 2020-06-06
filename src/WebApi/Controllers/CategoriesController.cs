@@ -7,7 +7,7 @@ namespace WebApi.Controllers {
     [Authorize]
     [ApiController]
     [Route ("Api/[controller]")]
-    public class CategoriesController : ControllerBase, IBaseController<CompanyDTO, int> {
+    public class CategoriesController : ControllerBase {
         private readonly ICompanyService _service;
 
         public CategoriesController (ICompanyService service) {
@@ -15,6 +15,7 @@ namespace WebApi.Controllers {
         }
 
         [HttpDelete]
+        [Authorize (Policy = "activeUser")]
         public void Delete (CompanyDTO entity) {
             _service.CreateCompany (entity);
         }

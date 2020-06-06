@@ -23,24 +23,28 @@ namespace WebApi.Controllers {
 
         [HttpGet]
         [Route ("names")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> GetAllQuestionSetNames () {
             return Ok (await _service.GetQuestionSetNames ());
         }
 
         [HttpGet]
         [Route ("{questionId}")]
+        [Authorize (Policy = "activeUser")]
         public async Task<ActionResult<QuestionSetDTO>> GetQuestionSetById (string questionId) {
             return Ok (await _service.GetQuestionSet (questionId, false));
         }
 
         [HttpGet]
         [Route ("SetOnly")]
+        [Authorize (Policy = "activeUser")]
         public async Task<ActionResult<IEnumerable<QuestionSetDTO>>> GetAllQuestionSet () {
             return Ok (await _service.GetQuestionSetOnly ());
         }
 
-        [Authorize (Roles = "Admin, VAdmin")]
         [HttpPost]
+        [Authorize (Roles = "Admin, VAdmin")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> Post ([FromBody] QuestionSetDTO value) {
             if (await _service.UpdateQuestionSet (value)) {
                 return Ok ();
@@ -49,6 +53,7 @@ namespace WebApi.Controllers {
         }
 
         [Authorize (Roles = "Admin, VAdmin")]
+        [Authorize (Policy = "activeUser")]
         [HttpPut]
         public async Task<IActionResult> Put (int id, [FromBody] QuestionSetDTO value) {
             if (await _service.CreateQuestionSet (value)) {
@@ -58,6 +63,7 @@ namespace WebApi.Controllers {
         }
 
         [Authorize (Roles = "Admin, VAdmin")]
+        [Authorize (Policy = "activeUser")]
         [HttpDelete]
         public async Task<IActionResult> Delete (QuestionSetDTO value) {
             try {

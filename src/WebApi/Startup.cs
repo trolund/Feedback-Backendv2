@@ -12,6 +12,7 @@ using Data.Models;
 using Data.Repositories;
 using Data.Repositories.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using WebApi.ApiRequirement;
 using WebApi.Hubs;
 
 namespace WebApi {
@@ -63,6 +65,8 @@ namespace WebApi {
             services.AddScoped<IUserRepository, UserRepository> ();
 
             // services.AddSingleton<IHostedService, ScheduleTask> ();
+
+            services.AddSingleton<IAuthorizationHandler, ActiveUserHandler> ();
 
             services.AddHttpContextAccessor ();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor> ();
@@ -122,6 +126,11 @@ namespace WebApi {
 
             services.AddCors ();
             services.AddControllers ().AddNewtonsoftJson ();
+
+            services.AddAuthorization (options => {
+                options.AddPolicy ("activeUser", policy =>
+                    policy.Requirements.Add (new ActiveUserRequirement ()));
+            });
             services.AddSignalR ();
 
             // configure strongly typed settings objects

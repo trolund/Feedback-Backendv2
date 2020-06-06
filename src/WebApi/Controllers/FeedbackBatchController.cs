@@ -35,6 +35,7 @@ namespace WebApi.Controllers {
         }
 
         [Authorize (Roles = "Admin")]
+        [Authorize (Policy = "activeUser")]
         [HttpDelete]
         public void Delete (FeedbackBatchDTO entity) {
             Service.Delete (entity);
@@ -42,6 +43,7 @@ namespace WebApi.Controllers {
 
         [HttpGet]
         [Route ("{meetingId}")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> GetAll ([FromRoute] string meetingId) {
             return Ok (await Service.GetAllFeedbackBatchByMeetingId (meetingId));
         }
@@ -100,6 +102,7 @@ namespace WebApi.Controllers {
 
         [HttpGet]
         [Authorize (Roles = "Admin, VAdmin, Facilitator")]
+        [Authorize (Policy = "activeUser")]
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboard")]
         public async Task<IActionResult> Dashboard ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord) {
@@ -111,6 +114,7 @@ namespace WebApi.Controllers {
 
         [HttpGet]
         [Authorize (Roles = "Admin, VAdmin, Facilitator")]
+        [Authorize (Policy = "activeUser")]
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboardMonth")]
         public async Task<IActionResult> DashboardMonth ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
@@ -119,6 +123,7 @@ namespace WebApi.Controllers {
 
         [HttpGet]
         [Authorize (Roles = "Admin, VAdmin, Facilitator")]
+        [Authorize (Policy = "activeUser")]
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("dashboardDate")]
         public async Task<IActionResult> DashboardDate ([FromQuery] DateTime start, [FromQuery] DateTime end, [FromQuery] string[] categories, [FromQuery] string searchWord, [FromQuery] bool onlyOwnData) {
@@ -134,6 +139,7 @@ namespace WebApi.Controllers {
         [Authorize]
         [ProducesResponseType (StatusCodes.Status200OK)]
         [Route ("rating")]
+        [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> getRating () {
             return Ok (await Service.GetUserRating ());
         }
