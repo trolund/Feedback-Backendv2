@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200516105551_activecat")]
-    partial class activecat
+    [Migration("20200611060935_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,6 +236,9 @@ namespace WebApi.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("QuestionSetId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserFingerprint")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -243,6 +246,9 @@ namespace WebApi.Migrations
                     b.HasKey("FeedbackBatchId");
 
                     b.HasIndex("MeetingId");
+
+                    b.HasIndex("QuestionSetId")
+                        .IsUnique();
 
                     b.ToTable("FeedbackBatchs");
                 });
@@ -257,9 +263,6 @@ namespace WebApi.Migrations
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnName("CreatedBy")
@@ -304,8 +307,6 @@ namespace WebApi.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("CompanyId");
-
                     b.HasIndex("QuestionsSetId");
 
                     b.ToTable("Meetings");
@@ -317,6 +318,9 @@ namespace WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MeetingCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MeetingId", "CategoryId");
@@ -399,6 +403,8 @@ namespace WebApi.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("QuestionSetId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("QuestionSets");
                 });
@@ -642,6 +648,12 @@ namespace WebApi.Migrations
                         .HasForeignKey("MeetingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Data.Models.QuestionSet", "QuestionSet")
+                        .WithOne()
+                        .HasForeignKey("Data.Models.FeedbackBatch", "QuestionSetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Models.Meeting", b =>
@@ -651,10 +663,6 @@ namespace WebApi.Migrations
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Data.Models.Company", null)
-                        .WithMany("Meetings")
-                        .HasForeignKey("CompanyId");
 
                     b.HasOne("Data.Models.QuestionSet", "QuestionsSet")
                         .WithMany()
@@ -683,6 +691,15 @@ namespace WebApi.Migrations
                     b.HasOne("Data.Models.QuestionSet", null)
                         .WithMany("Questions")
                         .HasForeignKey("QuestionSetId");
+                });
+
+            modelBuilder.Entity("Data.Models.QuestionSet", b =>
+                {
+                    b.HasOne("Data.Models.Company", "Company")
+                        .WithMany("questionSets")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Models.Rating", b =>

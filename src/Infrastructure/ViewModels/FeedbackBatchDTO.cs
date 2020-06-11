@@ -20,5 +20,8 @@ namespace Infrastructure.ViewModels {
 
         [Required]
         public List<FeedbackDTO> Feedback { get; set; }
+
+        [Required]
+        public Guid QuestionSetId { get; set; }
     }
 }

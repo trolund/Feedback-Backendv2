@@ -104,7 +104,7 @@ namespace Data.Contexts.Seeding {
         }
 
         private async static Task UsersSeed (ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) {
-            if (await userManager.FindByEmailAsync ("admin@spinoff.com") == null) {
+            if (await userManager.FindByEmailAsync ("admin@spinoff.nu") == null) {
 
                 var userone = new ApplicationUser () {
                 CompanyId = 1,
@@ -131,8 +131,8 @@ namespace Data.Contexts.Seeding {
                 var userthree = new ApplicationUser () {
                     CompanyId = 1,
                     CompanyConfirmed = true,
-                    Email = "Facilitator@spinoff.com",
-                    UserName = "Facilitator@spinoff.com",
+                    Email = "Facilitator@spinoff.nu",
+                    UserName = "Facilitator@spinoff.nu",
                     Lastname = "Lund",
                     Firstname = "Troels",
                     EmailConfirmed = true,

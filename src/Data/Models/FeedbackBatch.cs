@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Data.Models {
     public class FeedbackBatch : BaseEntity {
@@ -16,6 +18,12 @@ namespace Data.Models {
         public Meeting Meeting { get; set; }
 
         public List<Feedback> Feedback { get; set; }
+
+        [ForeignKey ("QuestionSetId")]
+        public Guid QuestionSetId { get; set; }
+
+        [JsonIgnore]
+        public virtual QuestionSet QuestionSet { get; set; }
 
     }
 }

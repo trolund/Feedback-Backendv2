@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace Data.Models {
 
     public class MeetingCategory {
-        // public Guid MeetingCategoryId { get; set; }
+        public Guid MeetingCategoryId { get; set; }
 
         [JsonIgnore]
         public int MeetingId { get; set; }

@@ -39,23 +39,6 @@ namespace WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuestionSets",
-                columns: table => new
-                {
-                    QuestionSetId = table.Column<Guid>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    ModifiedBy = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Version = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionSets", x => x.QuestionSetId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -120,6 +103,7 @@ namespace WebApi.Migrations
                     ModifiedDate = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
+                    active = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     CompanyId = table.Column<int>(nullable: false)
                 },
@@ -132,6 +116,31 @@ namespace WebApi.Migrations
                         principalTable: "Companies",
                         principalColumn: "CompanyId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionSets",
+                columns: table => new
+                {
+                    QuestionSetId = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
+                    active = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Version = table.Column<long>(nullable: false),
+                    CompanyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionSets", x => x.QuestionSetId);
+                    table.ForeignKey(
+                        name: "FK_QuestionSets_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,30 +164,6 @@ namespace WebApi.Migrations
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "CompanyId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Questions",
-                columns: table => new
-                {
-                    QuestionId = table.Column<Guid>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    ModifiedBy = table.Column<string>(nullable: true),
-                    Index = table.Column<int>(nullable: false),
-                    TheQuestion = table.Column<string>(maxLength: 80, nullable: false),
-                    QuestionSetId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Questions", x => x.QuestionId);
-                    table.ForeignKey(
-                        name: "FK_Questions_QuestionSets_QuestionSetId",
-                        column: x => x.QuestionSetId,
-                        principalTable: "QuestionSets",
-                        principalColumn: "QuestionSetId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -268,49 +253,6 @@ namespace WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Meetings",
-                columns: table => new
-                {
-                    MeetingId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    ModifiedBy = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 80, nullable: false),
-                    StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: false),
-                    MeetingCategoryId = table.Column<Guid>(nullable: false),
-                    Discription = table.Column<string>(maxLength: 1500, nullable: true),
-                    Topic = table.Column<string>(maxLength: 100, nullable: true),
-                    QuestionsSetId = table.Column<Guid>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: false),
-                    CompanyId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Meetings", x => x.MeetingId);
-                    table.ForeignKey(
-                        name: "FK_Meetings_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Meetings_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "CompanyId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Meetings_QuestionSets_QuestionsSetId",
-                        column: x => x.QuestionsSetId,
-                        principalTable: "QuestionSets",
-                        principalColumn: "QuestionSetId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rating",
                 columns: table => new
                 {
@@ -334,6 +276,66 @@ namespace WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Meetings",
+                columns: table => new
+                {
+                    MeetingId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 80, nullable: false),
+                    StartTime = table.Column<DateTime>(nullable: false),
+                    EndTime = table.Column<DateTime>(nullable: false),
+                    MeetingCategoryId = table.Column<Guid>(nullable: false),
+                    Discription = table.Column<string>(maxLength: 1500, nullable: true),
+                    Topic = table.Column<string>(maxLength: 100, nullable: true),
+                    QuestionsSetId = table.Column<Guid>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meetings", x => x.MeetingId);
+                    table.ForeignKey(
+                        name: "FK_Meetings_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Meetings_QuestionSets_QuestionsSetId",
+                        column: x => x.QuestionsSetId,
+                        principalTable: "QuestionSets",
+                        principalColumn: "QuestionSetId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    QuestionId = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
+                    Index = table.Column<int>(nullable: false),
+                    TheQuestion = table.Column<string>(maxLength: 80, nullable: false),
+                    QuestionSetId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.QuestionId);
+                    table.ForeignKey(
+                        name: "FK_Questions_QuestionSets_QuestionSetId",
+                        column: x => x.QuestionSetId,
+                        principalTable: "QuestionSets",
+                        principalColumn: "QuestionSetId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FeedbackBatchs",
                 columns: table => new
                 {
@@ -343,7 +345,8 @@ namespace WebApi.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     ModifiedBy = table.Column<string>(nullable: true),
                     MeetingId = table.Column<int>(nullable: false),
-                    UserFingerprint = table.Column<string>(nullable: false)
+                    UserFingerprint = table.Column<string>(nullable: false),
+                    QuestionSetId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,6 +357,12 @@ namespace WebApi.Migrations
                         principalTable: "Meetings",
                         principalColumn: "MeetingId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FeedbackBatchs_QuestionSets_QuestionSetId",
+                        column: x => x.QuestionSetId,
+                        principalTable: "QuestionSets",
+                        principalColumn: "QuestionSetId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -361,7 +370,8 @@ namespace WebApi.Migrations
                 columns: table => new
                 {
                     MeetingId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<Guid>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    MeetingCategoryId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -476,6 +486,12 @@ namespace WebApi.Migrations
                 column: "MeetingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FeedbackBatchs_QuestionSetId",
+                table: "FeedbackBatchs",
+                column: "QuestionSetId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MeetingCategories_CategoryId",
                 table: "MeetingCategories",
                 column: "CategoryId");
@@ -486,11 +502,6 @@ namespace WebApi.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Meetings_CompanyId",
-                table: "Meetings",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Meetings_QuestionsSetId",
                 table: "Meetings",
                 column: "QuestionsSetId");
@@ -499,6 +510,11 @@ namespace WebApi.Migrations
                 name: "IX_Questions_QuestionSetId",
                 table: "Questions",
                 column: "QuestionSetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionSets_CompanyId",
+                table: "QuestionSets",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rating_ApplicationUserId",

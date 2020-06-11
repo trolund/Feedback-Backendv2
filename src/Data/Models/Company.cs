@@ -10,7 +10,7 @@ namespace Data.Models {
         [MaxLength (150)]
         public string Name { get; set; }
         public ICollection<Subscription> Subscriptions { get; set; }
-        public ICollection<Meeting> Meetings { get; set; }
+        public ICollection<QuestionSet> questionSets { get; set; }
         public ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public ICollection<Category> Categories { get; set; }
     }

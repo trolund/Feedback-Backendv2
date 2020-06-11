@@ -42,6 +42,7 @@ namespace Data.Contexts {
                 .HasOne (mc => mc.meeting)
                 .WithMany (b => b.meetingCategories)
                 .HasForeignKey (bc => bc.MeetingId);
+
             modelBuilder.Entity<MeetingCategory> ()
                 .HasOne (mc => mc.Category)
                 .WithMany (c => c.meetingCategories)
@@ -76,6 +77,18 @@ namespace Data.Contexts {
             modelBuilder.Entity<Category> (builder => {
                 builder.Property (e => e.Name).Metadata.SetAfterSaveBehavior (PropertySaveBehavior.Ignore);
             });
+
+            modelBuilder.Entity<FeedbackBatch> ()
+                .HasOne (e => e.QuestionSet)
+                .WithOne ()
+                .HasForeignKey<FeedbackBatch> (e => e.QuestionSetId)
+                .OnDelete (DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<QuestionSet> ()
+                .HasOne (e => e.Company)
+                .WithMany (e => e.questionSets)
+                .HasForeignKey (e => e.CompanyId)
+                .OnDelete (DeleteBehavior.Restrict);
 
             // // make sure that the primary key is the set of {QuestionSetId, Vertion}
             // modelBuilder.Entity<QuestionSet>().HasKey(q => new

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -196,11 +197,19 @@ namespace WebApi {
             app.UseRouting ();
 
             Console.WriteLine ("Frontend url used for CORS: " +
-                Environment.GetEnvironmentVariable ("FRONTEND_BASE_URL"));
+                Environment.GetEnvironmentVariable ("FRONTEND_BASE_URL"), Environment.GetEnvironmentVariable ("FRONTEND_BUILD_BASE_URL"));
+
+            List<string> allowedOrigins = new List<string> ();
+
+            allowedOrigins.Add (Environment.GetEnvironmentVariable ("FRONTEND_BASE_URL"));
+
+            if (Environment.GetEnvironmentVariable ("FRONTEND_BUILD_BASE_URL") != null) {
+                allowedOrigins.Add (Environment.GetEnvironmentVariable ("FRONTEND_BUILD_BASE_URL"));
+            }
 
             // global cors policy
             app.UseCors (x => x
-                .WithOrigins (Environment.GetEnvironmentVariable ("FRONTEND_BASE_URL"))
+                .WithOrigins (allowedOrigins.ToArray ())
                 .AllowAnyMethod ()
                 .AllowAnyHeader ()
                 .AllowCredentials ());
