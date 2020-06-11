@@ -61,8 +61,8 @@ namespace Business.Services {
         public async Task<bool> UpdateQuestionSet (QuestionSetDTO Entity) {
             var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
             if (Entity.CompanyId == int.Parse (companyId) || int.Parse (companyId) == int.Parse (Environment.GetEnvironmentVariable ("SpinOffCompanyID"))) {
-                var QuestionSetToAdd = _mapper.Map<QuestionSet> (Entity);
-                _unitOfWork.QuestionSet.UpdateQuestionsSet (QuestionSetToAdd);
+                var oldQuestionSet = await _unitOfWork.QuestionSet.Get (Entity.QuestionSetId);
+                _mapper.Map (Entity, oldQuestionSet);
                 return await _unitOfWork.SaveAsync ();
             } else {
                 return false;
