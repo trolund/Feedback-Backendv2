@@ -143,7 +143,6 @@ namespace WebApi.Controllers {
         [Route ("Delete")]
         [Authorize (Policy = "activeUser")]
         public void DeleteMeeting (MeetingDTO meeting) {
-            Console.WriteLine (meeting);
             _service.DeleteMeeting (meeting);
         }
 

@@ -22,7 +22,7 @@ namespace Business.Services {
 
             var client = new SendGridClient (apiKey);
             var msg = new SendGridMessage () {
-                From = new EmailAddress ("Feedback@spinoff.dk"),
+                From = new EmailAddress ("Feedback@Opino.nu"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
