@@ -89,6 +89,11 @@ namespace Data.Contexts {
                 .HasForeignKey (e => e.CompanyId)
                 .OnDelete (DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<QuestionSet> ()
+                .HasMany (e => e.Questions)
+                .WithOne ()
+                .OnDelete (DeleteBehavior.Cascade);
+
             // // make sure that the primary key is the set of {QuestionSetId, Vertion}
             // modelBuilder.Entity<QuestionSet>().HasKey(q => new
             // {

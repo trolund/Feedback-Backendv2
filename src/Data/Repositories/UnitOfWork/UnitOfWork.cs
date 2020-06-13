@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 namespace Data.Contexts {
     public class UnitOfWork : IUnitOfWork {
         private readonly ApplicationDbContext _context;
-
         private readonly ILogger<UnitOfWork> _logger;
         public IMeetingRepository Meetings { get; }
         public IQuestionSetRepository QuestionSet { get; }
