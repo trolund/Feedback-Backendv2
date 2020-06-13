@@ -346,7 +346,8 @@ namespace WebApi.Migrations
                     ModifiedBy = table.Column<string>(nullable: true),
                     MeetingId = table.Column<int>(nullable: false),
                     UserFingerprint = table.Column<string>(nullable: false),
-                    QuestionSetId = table.Column<Guid>(nullable: false)
+                    QuestionSetId = table.Column<Guid>(nullable: false),
+                    QuestionSetId1 = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -360,6 +361,12 @@ namespace WebApi.Migrations
                     table.ForeignKey(
                         name: "FK_FeedbackBatchs_QuestionSets_QuestionSetId",
                         column: x => x.QuestionSetId,
+                        principalTable: "QuestionSets",
+                        principalColumn: "QuestionSetId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FeedbackBatchs_QuestionSets_QuestionSetId1",
+                        column: x => x.QuestionSetId1,
                         principalTable: "QuestionSets",
                         principalColumn: "QuestionSetId",
                         onDelete: ReferentialAction.Restrict);
@@ -490,6 +497,11 @@ namespace WebApi.Migrations
                 table: "FeedbackBatchs",
                 column: "QuestionSetId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FeedbackBatchs_QuestionSetId1",
+                table: "FeedbackBatchs",
+                column: "QuestionSetId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MeetingCategories_CategoryId",

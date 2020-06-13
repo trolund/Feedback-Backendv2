@@ -19,11 +19,10 @@ namespace Data.Models {
 
         public List<Feedback> Feedback { get; set; }
 
-        [ForeignKey ("QuestionSetId")]
         public Guid QuestionSetId { get; set; }
 
         [JsonIgnore]
-        public virtual QuestionSet QuestionSet { get; set; }
+        public QuestionSet QuestionSet { get; set; }
 
     }
 }

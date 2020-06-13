@@ -15,10 +15,11 @@ namespace Business.Services {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICategoryRepository _service;
 
-        public CategoriesService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork) {
+        public CategoriesService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, ICategoryRepository Service) {
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _service = Service;
         }
 
         public async Task<List<Category>> getAllCategories () {

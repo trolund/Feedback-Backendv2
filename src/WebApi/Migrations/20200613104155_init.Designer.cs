@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200611060935_init")]
+    [Migration("20200613104155_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -239,6 +239,9 @@ namespace WebApi.Migrations
                     b.Property<Guid>("QuestionSetId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("QuestionSetId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserFingerprint")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -249,6 +252,8 @@ namespace WebApi.Migrations
 
                     b.HasIndex("QuestionSetId")
                         .IsUnique();
+
+                    b.HasIndex("QuestionSetId1");
 
                     b.ToTable("FeedbackBatchs");
                 });
@@ -654,6 +659,10 @@ namespace WebApi.Migrations
                         .HasForeignKey("Data.Models.FeedbackBatch", "QuestionSetId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Data.Models.QuestionSet", null)
+                        .WithMany("FeedbackBatches")
+                        .HasForeignKey("QuestionSetId1");
                 });
 
             modelBuilder.Entity("Data.Models.Meeting", b =>

@@ -22,9 +22,9 @@ namespace Business.Services {
         private ILogger<MeetingService> _logger;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private static QRCodeGenerator qrGenerator = new QRCodeGenerator ();
+        // private static QRCodeGenerator qrGenerator = new QRCodeGenerator ();
 
-        private string _baseURL = "https://localhost:5001";
+        // private string _baseURL = "https://localhost:5001";
 
         public MeetingService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, ILogger<MeetingService> logger) {
             _httpContextAccessor = httpContextAccessor;
@@ -140,19 +140,19 @@ namespace Business.Services {
             return _mapper.Map<List<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters, id));
         }
 
-        public byte[] GetQRCode (string shortCodeId) {
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode ($"{_baseURL}/{shortCodeId}", QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode (qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic (20);
-            return BitmapToBytes (qrCodeImage);
-        }
+        // public byte[] GetQRCode (string shortCodeId) {
+        //     QRCodeData qrCodeData = qrGenerator.CreateQrCode ($"{_baseURL}/{shortCodeId}", QRCodeGenerator.ECCLevel.Q);
+        //     QRCode qrCode = new QRCode (qrCodeData);
+        //     Bitmap qrCodeImage = qrCode.GetGraphic (20);
+        //     return BitmapToBytes (qrCodeImage);
+        // }
 
-        private static byte[] BitmapToBytes (Bitmap img) {
-            using (MemoryStream stream = new MemoryStream ()) {
-                img.Save (stream, System.Drawing.Imaging.ImageFormat.Png);
-                return stream.ToArray ();
-            }
-        }
+        // private static byte[] BitmapToBytes (Bitmap img) {
+        //     using (MemoryStream stream = new MemoryStream ()) {
+        //         img.Save (stream, System.Drawing.Imaging.ImageFormat.Png);
+        //         return stream.ToArray ();
+        //     }
+        // }
 
         public Task<IEnumerable<CategoryDTO>> GetMeetingCategories (int CompanyId) {
             return _unitOfWork.Meetings.GetMeetingCategories (CompanyId);

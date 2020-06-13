@@ -19,7 +19,6 @@ namespace Business.Services {
         private IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
         private readonly IMeetingService _meetingService;
 
         public FeedbackBatchService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, IMeetingService meetingService) {

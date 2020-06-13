@@ -80,8 +80,7 @@ namespace Data.Contexts {
 
             modelBuilder.Entity<FeedbackBatch> ()
                 .HasOne (e => e.QuestionSet)
-                .WithOne ()
-                .HasForeignKey<FeedbackBatch> (e => e.QuestionSetId)
+                .WithMany (e => e.FeedbackBatches)
                 .OnDelete (DeleteBehavior.Restrict);
 
             modelBuilder.Entity<QuestionSet> ()

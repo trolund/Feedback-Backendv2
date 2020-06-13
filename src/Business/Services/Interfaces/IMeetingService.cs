@@ -19,7 +19,7 @@ namespace Business.Services.Interfaces {
         Task<MeetingDTO> UpdateMeeting (MeetingDTO meeting);
 
         Task DeleteMeeting (MeetingDTO meeting);
-        byte[] GetQRCode (string shortCodeId);
+        // byte[] GetQRCode (string shortCodeId);
 
         Task<IEnumerable<CategoryDTO>> GetMeetingCategories (int CompanyId);
 

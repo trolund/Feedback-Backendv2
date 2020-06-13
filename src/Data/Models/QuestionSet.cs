@@ -24,5 +24,8 @@ namespace Data.Models {
 
         public List<Question> Questions { get; set; }
 
+        [JsonIgnore]
+        public virtual List<FeedbackBatch> FeedbackBatches { get; set; }
+
     }
 }
