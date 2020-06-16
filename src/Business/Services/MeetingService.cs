@@ -129,10 +129,15 @@ namespace Business.Services {
         }
 
         public async Task DeleteMeeting (MeetingDTO meeting) {
-            var model = _mapper.Map<Meeting> (meeting);
-            model.MeetingId = MeetingIdHelper.GetId (meeting.ShortId);
-            _unitOfWork.Meetings.DeleteMeeting (model);
-            await _unitOfWork.SaveAsync ();
+            try {
+                var meetingId = MeetingIdHelper.GetId (meeting.ShortId);
+                var model = await _unitOfWork.Meetings.GetMeeting (meetingId);
+                _unitOfWork.Meetings.DeleteMeeting (model);
+                await _unitOfWork.SaveAsync ();
+            } catch (Exception e) {
+                _logger.LogError ("meeting was not deleted", e);
+                throw new SERLException ("Meeting was not deleted.", e);
+            }
         }
 
         public async Task<IEnumerable<MeetingDTO>> GetMeetings (MeetingDateResourceParameters parameters) {
@@ -171,12 +176,8 @@ namespace Business.Services {
             var d = DateTime.Compare (DateTime.Now, endOfFeedback);
             var openafter = d <= 0;
 
-            var notBeforeMeeting = DateTime.Compare (DateTime.Now, meeting.StartTime) >= 0;
-            // Console.WriteLine (meeting.Name);
-            // Console.WriteLine ("nu: " + DateTime.Now);
-            // Console.WriteLine ("slut: " + endOfFeedback);
-            // Console.WriteLine ("int: " + d);
-            // Console.WriteLine (openafter);
+            var d2 = DateTime.Compare (DateTime.Now, meeting.StartTime);
+            var notBeforeMeeting = d2 >= 0;
 
             return openafter && notBeforeMeeting;
         }

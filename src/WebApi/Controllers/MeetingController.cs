@@ -140,8 +140,14 @@ namespace WebApi.Controllers {
         [HttpDelete]
         [Route ("Delete")]
         [Authorize (Policy = "activeUser")]
-        public void DeleteMeeting (MeetingDTO meeting) {
-            _meetingService.DeleteMeeting (meeting);
+        public async Task<IActionResult> DeleteMeeting (MeetingDTO meeting) {
+            try {
+                await _meetingService.DeleteMeeting (meeting);
+                return Ok ();
+            } catch (Exception e) {
+                _logger.LogError ("faild to delete meeting", e);
+                return BadRequest ();
+            }
         }
 
         [HttpGet]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Data.Models {
     public class Meeting : BaseEntity {
@@ -37,5 +38,8 @@ namespace Data.Models {
 
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        // [JsonIgnore]
+        // public ICollection<FeedbackBatch> FeedbackBatches { get; set; }
     }
 }

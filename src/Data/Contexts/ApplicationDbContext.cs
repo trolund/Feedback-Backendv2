@@ -83,6 +83,17 @@ namespace Data.Contexts {
                 .WithMany (e => e.FeedbackBatches)
                 .OnDelete (DeleteBehavior.Restrict);
 
+            // modelBuilder.Entity<Meeting> ()
+            //     .HasMany ()
+            //     .WithOne (e => e.Meeting)
+            //     .HasForeignKey (e => e.MeetingId)
+            //     .OnDelete (DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<FeedbackBatch> ()
+                .HasOne (e => e.Meeting)
+                .WithMany ()
+                .OnDelete (DeleteBehavior.SetNull);
+
             modelBuilder.Entity<QuestionSet> ()
                 .HasOne (e => e.Company)
                 .WithMany (e => e.questionSets)

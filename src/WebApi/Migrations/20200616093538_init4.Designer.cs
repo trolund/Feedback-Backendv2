@@ -4,14 +4,16 @@ using Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200616093538_init4")]
+    partial class init4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -626,7 +628,8 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("Data.Models.FeedbackBatch", "FeedbackBatch")
                         .WithMany("Feedback")
-                        .HasForeignKey("FeedbackBatchId");
+                        .HasForeignKey("FeedbackBatchId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Data.Models.Question", "Question")
                         .WithMany("Feedback")
@@ -638,9 +641,9 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Data.Models.FeedbackBatch", b =>
                 {
                     b.HasOne("Data.Models.Meeting", "Meeting")
-                        .WithMany()
+                        .WithMany("FeedbackBatches")
                         .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Models.QuestionSet", "QuestionSet")

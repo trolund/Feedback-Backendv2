@@ -4,14 +4,16 @@ using Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200615120002_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -640,7 +642,7 @@ namespace WebApi.Migrations
                     b.HasOne("Data.Models.Meeting", "Meeting")
                         .WithMany()
                         .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Models.QuestionSet", "QuestionSet")
@@ -668,12 +670,12 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Data.Models.MeetingCategory", b =>
                 {
                     b.HasOne("Data.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("meetingCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Models.Meeting", null)
+                    b.HasOne("Data.Models.Meeting", "meeting")
                         .WithMany("meetingCategories")
                         .HasForeignKey("MeetingId")
                         .OnDelete(DeleteBehavior.Cascade)

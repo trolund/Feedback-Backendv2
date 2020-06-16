@@ -24,22 +24,6 @@ namespace Tests {
         }
 
         [Fact]
-        public async void Test1 () {
-            // var qlist = await _UnitOfWork.QuestionSet.GetAll ();
-            // var qid = qlist.First ().QuestionSetId;
-
-            // var newMeeting = new MeetingDTO () {
-            //     Discription = "Discription",
-            //     EndTime = new DateTime (),
-            //     StartTime = new DateTime (),
-            //     Name = "name",
-            //     QuestionsSetId = qid.ToString ()
-            // };
-
-            // await _meetingService.CreateMeeting (newMeeting);
-        }
-
-        [Fact]
         public void IsMeetingOpenPosetiveTest () {
 
             var newMeeting = new MeetingDTO () {

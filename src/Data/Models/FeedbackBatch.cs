@@ -13,11 +13,12 @@ namespace Data.Models {
         [Required]
         public int MeetingId { get; set; }
 
-        [Required]
-        public String UserFingerprint { get; set; }
         public Meeting Meeting { get; set; }
 
         public List<Feedback> Feedback { get; set; }
+
+        [Required]
+        public String UserFingerprint { get; set; }
 
         public Guid QuestionSetId { get; set; }
 

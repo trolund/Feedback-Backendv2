@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200613104807_init2")]
-    partial class init2
+    [Migration("20200616100601_init5")]
+    partial class init5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -317,9 +317,6 @@ namespace WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MeetingCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MeetingId", "CategoryId");
@@ -631,7 +628,8 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("Data.Models.FeedbackBatch", "FeedbackBatch")
                         .WithMany("Feedback")
-                        .HasForeignKey("FeedbackBatchId");
+                        .HasForeignKey("FeedbackBatchId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Data.Models.Question", "Question")
                         .WithMany("Feedback")
@@ -643,7 +641,7 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Data.Models.FeedbackBatch", b =>
                 {
                     b.HasOne("Data.Models.Meeting", "Meeting")
-                        .WithMany()
+                        .WithMany("FeedbackBatches")
                         .HasForeignKey("MeetingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -689,7 +687,8 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("Data.Models.QuestionSet", null)
                         .WithMany("Questions")
-                        .HasForeignKey("QuestionSetId");
+                        .HasForeignKey("QuestionSetId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data.Models.QuestionSet", b =>

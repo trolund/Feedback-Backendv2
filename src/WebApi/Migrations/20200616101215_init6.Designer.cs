@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200613104155_init")]
-    partial class init
+    [Migration("20200616101215_init6")]
+    partial class init6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -239,9 +239,6 @@ namespace WebApi.Migrations
                     b.Property<Guid>("QuestionSetId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("QuestionSetId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserFingerprint")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -250,10 +247,7 @@ namespace WebApi.Migrations
 
                     b.HasIndex("MeetingId");
 
-                    b.HasIndex("QuestionSetId")
-                        .IsUnique();
-
-                    b.HasIndex("QuestionSetId1");
+                    b.HasIndex("QuestionSetId");
 
                     b.ToTable("FeedbackBatchs");
                 });
@@ -323,9 +317,6 @@ namespace WebApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MeetingCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("MeetingId", "CategoryId");
@@ -649,20 +640,16 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Data.Models.FeedbackBatch", b =>
                 {
                     b.HasOne("Data.Models.Meeting", "Meeting")
-                        .WithMany()
+                        .WithMany("FeedbackBatches")
                         .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("Data.Models.QuestionSet", "QuestionSet")
-                        .WithOne()
-                        .HasForeignKey("Data.Models.FeedbackBatch", "QuestionSetId")
+                        .WithMany("FeedbackBatches")
+                        .HasForeignKey("QuestionSetId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Data.Models.QuestionSet", null)
-                        .WithMany("FeedbackBatches")
-                        .HasForeignKey("QuestionSetId1");
                 });
 
             modelBuilder.Entity("Data.Models.Meeting", b =>
@@ -699,7 +686,8 @@ namespace WebApi.Migrations
                 {
                     b.HasOne("Data.Models.QuestionSet", null)
                         .WithMany("Questions")
-                        .HasForeignKey("QuestionSetId");
+                        .HasForeignKey("QuestionSetId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Data.Models.QuestionSet", b =>
