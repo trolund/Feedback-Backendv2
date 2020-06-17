@@ -356,7 +356,7 @@ namespace WebApi.Migrations
                         column: x => x.MeetingId,
                         principalTable: "Meetings",
                         principalColumn: "MeetingId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_FeedbackBatchs_QuestionSets_QuestionSetId",
                         column: x => x.QuestionSetId,

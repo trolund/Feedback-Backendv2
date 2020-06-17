@@ -92,7 +92,7 @@ namespace Data.Contexts {
             modelBuilder.Entity<FeedbackBatch> ()
                 .HasOne (e => e.Meeting)
                 .WithMany ()
-                .OnDelete (DeleteBehavior.SetNull);
+                .OnDelete (DeleteBehavior.Restrict);
 
             modelBuilder.Entity<QuestionSet> ()
                 .HasOne (e => e.Company)

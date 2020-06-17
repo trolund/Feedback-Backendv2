@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200616101215_init6")]
-    partial class init6
+    [Migration("20200617135549_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -640,9 +640,9 @@ namespace WebApi.Migrations
             modelBuilder.Entity("Data.Models.FeedbackBatch", b =>
                 {
                     b.HasOne("Data.Models.Meeting", "Meeting")
-                        .WithMany("FeedbackBatches")
+                        .WithMany()
                         .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Data.Models.QuestionSet", "QuestionSet")

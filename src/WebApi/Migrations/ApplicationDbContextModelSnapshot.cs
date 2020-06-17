@@ -640,7 +640,7 @@ namespace WebApi.Migrations
                     b.HasOne("Data.Models.Meeting", "Meeting")
                         .WithMany()
                         .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Data.Models.QuestionSet", "QuestionSet")

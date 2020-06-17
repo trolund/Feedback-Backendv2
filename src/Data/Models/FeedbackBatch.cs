@@ -10,7 +10,6 @@ namespace Data.Models {
         [Key]
         public Guid FeedbackBatchId { get; set; }
 
-        [Required]
         public int MeetingId { get; set; }
 
         public Meeting Meeting { get; set; }

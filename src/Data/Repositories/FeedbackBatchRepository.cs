@@ -6,6 +6,7 @@ using AutoMapper;
 using Data.Contexts;
 using Data.Models;
 using Data.Repositories.Interface;
+using Infrastructure.Utils;
 using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -122,7 +123,7 @@ namespace Data.Repositories {
                 collection = collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (Int32.Parse (companyId)));
             }
 
-            var test = collection.ToList ();
+            // var test = collection.ToList ();
 
             if (categories != null && categories.Length > 0) {
                 //collection = collection.Where (x => x.Meeting.meetingCategories.Any(x => x.Category.Name.Equals("Møder")));
@@ -140,8 +141,9 @@ namespace Data.Repositories {
             if (searchWord != null) {
                 collection = collection.Where (a => a.Meeting.Discription.Contains (searchWord) || a.Meeting.Name.Contains (searchWord));
             }
+
             try {
-                var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackDateDTO (item.CreatedDate ?? DateTime.Now, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name), item.QuestionId, item.FeedbackBatch.FeedbackBatchId, item.FeedbackBatch.Meeting.QuestionsSetId)).ToListAsync ();
+                var result = await collection.SelectMany (i => i.Feedback).Select (item => new FeedbackDateDTO (item.CreatedDate ?? DateTime.Now, item.Answer, item.FeedbackBatch.Meeting.meetingCategories.Select (i => i.Category.Name), item.QuestionId, item.FeedbackBatch.FeedbackBatchId, item.FeedbackBatch.Meeting.QuestionsSetId, MeetingIdHelper.GenerateShortId (item.FeedbackBatch.MeetingId))).ToListAsync ();
                 return result;
             } catch (Exception e) {
                 _logger.LogError ("OwnFeedbackDate faild, userid: " + userId, e);
