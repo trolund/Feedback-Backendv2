@@ -43,7 +43,13 @@ namespace Business.Services {
         }
 
         public async Task<IEnumerable<QuestionSetDTO>> GetQuestionSetOnly () {
-            return _mapper.Map<IEnumerable<QuestionSetDTO>> (await _unitOfWork.QuestionSet.GetAllQuestionSets ());
+            var companyId = _httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == "CID").First ().Value;
+            var isAdmin = _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN);
+            if (isAdmin) {
+                return _mapper.Map<IEnumerable<QuestionSetDTO>> (await _unitOfWork.QuestionSet.GetAllQuestionSets ());
+            } else {
+                return _mapper.Map<IEnumerable<QuestionSetDTO>> (await _unitOfWork.QuestionSet.GetAllQuestionSetsCompany (int.Parse (companyId)));
+            }
         }
 
         public async Task<bool> CreateQuestionSet (QuestionSetDTO Entity) {

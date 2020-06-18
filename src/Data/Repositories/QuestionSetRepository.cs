@@ -32,8 +32,7 @@ namespace Data.Repositories {
 
         public async Task<IEnumerable<QuestionSet>> GetAllQuestionSetsCompany (int companyId) {
             var collection = _context.QuestionSets as IQueryable<QuestionSet>;
-            // pageing
-            return await collection.Where (qset => qset.CompanyId == companyId || qset.CompanyId == 1 && qset.active == true).ToListAsync ();
+            return await collection.Where (qset => (qset.CompanyId == companyId || qset.CompanyId == 1) && qset.active == true).ToListAsync ();
         }
 
         public void CreateQuestionSet (QuestionSet questionSet) {
