@@ -47,6 +47,7 @@ namespace FWebApi.Controllers {
         [Authorize (Roles = "Admin, VAdmin")]
         [HttpGet]
         [Route ("all")]
+        [Authorize (Policy = "activeUser")]
         public ActionResult<IEnumerable<ApplicationUser>> GetAllUsers () {
             var query = _userManager.Users;
 
@@ -60,12 +61,13 @@ namespace FWebApi.Controllers {
         [Authorize (Roles = "Admin, VAdmin")]
         [HttpGet]
         [Route ("userAdmin")]
+        [Authorize (Policy = "activeUser")]
         public ActionResult<IEnumerable<ApplicationUser>> GetUsers ([FromQuery] string searchword, [FromQuery] int companyConfirmed = -1, [FromQuery] int pageNumber = -1) {
             var query = _userManager.Users as IQueryable<ApplicationUser>;
 
             if (!User.IsInRole (Roles.ADMIN)) {
                 var user = _userManager.Users.SingleOrDefault (u => u.Email == User.Identity.Name);
-                query = query.Where (u => u.Company == user.Company);
+                query = query.Where (u => u.CompanyId == user.CompanyId);
             }
 
             if (!string.IsNullOrWhiteSpace (searchword) && !searchword.Equals ("null")) {
@@ -88,7 +90,7 @@ namespace FWebApi.Controllers {
             }
 
             if (!string.IsNullOrWhiteSpace (searchword) && searchword != "null" && companyConfirmed == -1) {
-                return query.Take (50).ToList ();
+                return query.ToList ();
             }
 
             return query.ToList ();
@@ -97,6 +99,7 @@ namespace FWebApi.Controllers {
         [Authorize (Roles = "Admin, VAdmin")]
         [HttpPut]
         [Route ("userAdmin")]
+        [Authorize (Policy = "activeUser")]
         public async Task<ICollection<UserAdminDTO>> UpdateUserAdmin (ICollection<UserAdminDTO> usersToUpdate) {
             return await _userService.UpdateUserAdmin (usersToUpdate);
         }
