@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.Contexts;
+using Data.Contexts.Roles;
 using Data.Models;
 using Data.Repositories.Interface;
 using Infrastructure.Utils;
@@ -30,13 +32,25 @@ namespace Data.Repositories {
             _logger = logger;
         }
 
-        public async Task<IEnumerable<FeedbackBatchDTO>> getAllFeedbackByMeetingId (int meetingId) {
+        public async Task<IEnumerable<FeedbackBatchDTO>> getAllFeedbackByMeetingId (int meetingId, bool requireRoles) {
             var collection = _context.FeedbackBatchs as IQueryable<FeedbackBatch>;
 
-            return _mapper.Map<IEnumerable<FeedbackBatchDTO>> (await collection
-                .Include (batch => batch.Feedback)
-                .Where (batch => batch.MeetingId == meetingId)
-                .ToListAsync ());
+            collection = collection.Include (batch => batch.Feedback);
+
+            if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN) || !requireRoles) {
+                return _mapper.Map<IEnumerable<FeedbackBatchDTO>> (
+                    await collection.Where (batch => batch.MeetingId == meetingId).ToListAsync ());
+            } else {
+                if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN)) {
+                    var companyId = Int32.Parse (_httpContextAccessor.HttpContext.User.FindFirstValue ("CID"));
+                    collection = collection.Where (m => m.Meeting.ApplicationUser.CompanyId.Equals (companyId));
+                } else {
+                    var userId = _httpContextAccessor.HttpContext.User.FindFirstValue (ClaimTypes.NameIdentifier);
+                    collection = collection.Where (m => m.Meeting.ApplicationUser.Id.Equals (userId));
+                }
+                return _mapper.Map<IEnumerable<FeedbackBatchDTO>> (
+                    await collection.Where (batch => batch.MeetingId == meetingId).ToListAsync ());
+            }
         }
 
         public async Task<IEnumerable<FeedbackBatchDTO>> OwnFeedback (DateTime start, DateTime end, string[] categories, string searchWord, string userId, string companyId) {
@@ -119,7 +133,7 @@ namespace Data.Repositories {
                 throw new ArgumentException ("user not identifyed.");
             }
 
-            if (companyId != null) {
+            if (companyId != null && !_httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN)) {
                 collection = collection.Where (c => c.Meeting.ApplicationUser.CompanyId.Equals (Int32.Parse (companyId)));
             }
 

@@ -5,7 +5,7 @@ using Infrastructure.ViewModels;
 
 namespace Business.Services.Interfaces {
     public interface IFeedbackBatchService {
-        Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatchByMeetingId (string meetingShortId);
+        Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatchByMeetingId (string meetingShortId, bool requrieRoles);
         Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatch (string meetingShortId);
         Task<IEnumerable<FeedbackBatchDTO>> GetFeedbackBatchByMeetingId (string meetingId);
         Task<FeedbackBatchDTO> GetFeedbackBatch (string id);

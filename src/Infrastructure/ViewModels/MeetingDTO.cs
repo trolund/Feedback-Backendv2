@@ -19,6 +19,23 @@ namespace Infrastructure.ViewModels {
             QuestionsSetId = questionsSetId;
         }
 
+        public MeetingDTO (string shortId, string createdBy, string name, DateTime startTime, DateTime endTime, string discription, string topic, string questionsSetId, string companyName, string userEmail) {
+            ShortId = shortId;
+            CreatedBy = createdBy;
+            Name = name;
+            StartTime = startTime;
+            EndTime = endTime;
+            Discription = discription;
+            Topic = topic;
+            QuestionsSetId = questionsSetId;
+            CompanyName = companyName;
+            UserEmail = userEmail;
+        }
+
+        public string CompanyName { get; set; }
+
+        public string UserEmail { get; set; }
+
         [JsonIgnore]
         public int MeetingId { get; set; }
 

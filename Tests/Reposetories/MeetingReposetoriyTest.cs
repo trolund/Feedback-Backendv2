@@ -61,7 +61,7 @@ namespace Tests {
 
             Assert.Equal (true, await _UnitOfWork.SaveAsync ());
 
-            var meeting = await _meetingR.GetMeeting (newMeeting.MeetingId);
+            var meeting = await _meetingR.GetMeeting (newMeeting.MeetingId, false);
             Assert.NotNull (meeting);
             Assert.Equal (newMeeting.Name, meeting.Name);
             Assert.Equal (newMeeting.MeetingId, meeting.MeetingId);
@@ -100,7 +100,7 @@ namespace Tests {
 
             Assert.Equal (true, await _UnitOfWork.SaveAsync ());
 
-            var updatedMeeting = await _meetingR.GetMeeting (newMeeting.MeetingId);
+            var updatedMeeting = await _meetingR.GetMeeting (newMeeting.MeetingId, false);
 
             Assert.Equal ("Test updated", updatedMeeting.Name);
         }

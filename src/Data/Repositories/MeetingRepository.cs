@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.Contexts;
+using Data.Contexts.Roles;
 using Data.Models;
 using Data.Repositories.Interface;
 using Infrastructure.QueryParams;
@@ -54,11 +56,26 @@ namespace Data.Repositories {
                 .ToListAsync ();
         }
 
-        public async Task<Meeting> GetMeeting (int id) {
-            return await _context.Meetings
+        public async Task<Meeting> GetMeeting (int id, bool requireRole) {
+
+            var collection = _context.Meetings as IQueryable<Meeting>;
+
+            collection = collection
                 .Include (m => m.meetingCategories)
-                .ThenInclude (x => x.Category)
-                .SingleOrDefaultAsync (m => m.MeetingId == id);
+                .ThenInclude (x => x.Category);
+
+            if (!requireRole || _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN)) {
+                return await collection.SingleOrDefaultAsync (m => m.MeetingId == id);
+            } else {
+                if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN)) {
+                    var companyId = Int32.Parse (_httpContextAccessor.HttpContext.User.FindFirstValue ("CID"));
+                    collection = collection.Where (m => m.ApplicationUser.CompanyId.Equals (companyId));
+                } else {
+                    var userId = _httpContextAccessor.HttpContext.User.FindFirstValue (ClaimTypes.NameIdentifier);
+                    collection = collection.Where (m => m.ApplicationUser.Id.Equals (userId));
+                }
+                return await collection.SingleOrDefaultAsync (m => m.MeetingId == id);
+            }
         }
 
         public void CreateMeeting (Meeting meeting) {
@@ -106,7 +123,39 @@ namespace Data.Repositories {
             return await collection.Take (MaxReturn).ToListAsync ();
         }
 
-        public async Task<IEnumerable<Meeting>> GetMeetingsOneDay (DateTime date, string userId) {
+        public async Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, string userId, bool isVAdmin, bool isAdmin) {
+            var MaxReturn = 500;
+            // throw if no parametres is provided.
+            if (parameters == null) {
+                throw new ArgumentNullException (nameof (parameters));
+            }
+            // filtering
+            var collection = _context.Meetings as IQueryable<Meeting>;
+
+            // return only the own users meetings
+            if (!isAdmin) {
+                if (userId == null) { throw new ArgumentNullException (); } else {
+                    if (!isVAdmin) {
+                        collection = collection.Where (m => m.ApplicationUserId.Equals (userId)); // TODO need fix?
+                    }
+                }
+
+                if (isVAdmin) {
+                    var companyId = Int32.Parse (_httpContextAccessor.HttpContext.User.FindFirstValue ("CID"));
+                    if (companyId == 0) throw new DALException ("Comapny id was not found");
+                    collection = collection.Where (m => m.ApplicationUser.CompanyId.Equals (companyId));
+                }
+            }
+
+            if (parameters.Start != null && parameters.End != null) {
+
+                collection = collection.Where (a => a.StartTime >= parameters.Start && a.StartTime <= parameters.End);
+            }
+
+            return await collection.Take (MaxReturn).ToListAsync ();
+        }
+
+        public async Task<IEnumerable<Meeting>> GetMeetingsOneDay (DateTime date, string userId, bool requireRole) {
             // filtering
             var collection = _context.Meetings as IQueryable<Meeting>;
 
@@ -114,9 +163,20 @@ namespace Data.Repositories {
             if (userId == null) throw new DALException ("Meeting ID missing");
             if (date == null) throw new DALException ("Date is missing");
 
-            collection = collection.Where (m => m.ApplicationUserId.Equals (userId)); // TODO need fix?
+            // collection = collection.Where (m => m.ApplicationUserId.Equals (userId)); // TODO need fix?
 
             collection = collection.Where (a => a.StartTime.Day.Equals (date.Day) && a.StartTime.Month.Equals (date.Month) && a.StartTime.Year.Equals (date.Year));
+
+            if (!requireRole || _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN)) {
+                // do nothing
+            } else {
+                if (_httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN)) {
+                    var companyId = Int32.Parse (_httpContextAccessor.HttpContext.User.FindFirstValue ("CID"));
+                    collection = collection.Where (m => m.ApplicationUser.CompanyId.Equals (companyId));
+                } else {
+                    collection = collection.Where (m => m.ApplicationUser.Id.Equals (userId));
+                }
+            }
 
             return await collection
                 .OrderByDescending (d => d.StartTime.TimeOfDay)

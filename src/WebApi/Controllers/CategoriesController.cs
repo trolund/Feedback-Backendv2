@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Business.Services.Interfaces;
 using Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -21,8 +22,8 @@ namespace WebApi.Controllers {
         }
 
         [HttpGet]
-        public CompanyDTO Get (int id) {
-            return _service.getCompany (id);
+        public async Task<CompanyDTO> Get (int id) {
+            return await _service.getCompany (id);
         }
 
         [HttpGet]

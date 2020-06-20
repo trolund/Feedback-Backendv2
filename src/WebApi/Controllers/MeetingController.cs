@@ -38,7 +38,7 @@ namespace WebApi.Controllers {
         [Route ("ShortId/{id}")]
         [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> GetMeetingByShotId (string id) {
-            return Ok (await _meetingService.GetMeeting (id));
+            return Ok (await _meetingService.GetMeeting (id, true));
         }
 
         [HttpGet]
@@ -94,7 +94,7 @@ namespace WebApi.Controllers {
                 return NotFound (new { msg = "The meeting with id " + id + " was not found." });
             }
 
-            var meeting = await _meetingService.GetMeeting (id);
+            var meeting = await _meetingService.GetMeeting (id, false);
             if (meeting != null) {
                 var set = await _questionSetService.GetQuestionSet (meeting.QuestionsSetId, false);
                 return Ok (set);
@@ -110,7 +110,7 @@ namespace WebApi.Controllers {
                 return BadRequest (new { msg = "Feedback is no longer open for this meeting." });
             }
 
-            var meeting = await _meetingService.GetMeeting (id);
+            var meeting = await _meetingService.GetMeeting (id, false);
             if (meeting != null) {
                 return Ok (new { msg = "Meeting is ready for feedback." });
             }

@@ -6,7 +6,7 @@ using Infrastructure.ViewModels;
 
 namespace Business.Services.Interfaces {
     public interface ICompanyService {
-        CompanyDTO getCompany (int id);
+        Task<CompanyDTO> getCompany (int id);
 
         IEnumerable<CompanyDTO> GetCompanys ();
 

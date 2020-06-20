@@ -44,8 +44,8 @@ namespace Business.Services {
             throw new NotImplementedException ();
         }
 
-        public async Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatchByMeetingId (string meetingShortId) {
-            return await _unitOfWork.FeedbackBatch.getAllFeedbackByMeetingId (MeetingIdHelper.GetId (meetingShortId));
+        public async Task<IEnumerable<FeedbackBatchDTO>> GetAllFeedbackBatchByMeetingId (string meetingShortId, bool requrieRoles) {
+            return await _unitOfWork.FeedbackBatch.getAllFeedbackByMeetingId (MeetingIdHelper.GetId (meetingShortId), requrieRoles);
         }
 
         public Task<FeedbackBatchDTO> GetFeedbackBatch (string meetingId) {

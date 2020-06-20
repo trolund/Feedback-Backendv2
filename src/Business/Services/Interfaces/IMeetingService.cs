@@ -8,7 +8,7 @@ namespace Business.Services.Interfaces {
     public interface IMeetingService {
         Task<MeetingDTO> GetMeeting (int id);
 
-        Task<MeetingDTO> GetMeeting (string id);
+        Task<MeetingDTO> GetMeeting (string id, bool requireRole);
 
         Task<IEnumerable<MeetingDTO>> GetMeetings (MeetingResourceParameters parameters);
 

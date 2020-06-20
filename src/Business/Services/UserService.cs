@@ -36,9 +36,8 @@ namespace Business.Services {
         private readonly IEmailService _emailService;
         private readonly ICompanyService _companyService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUrlHelper _urlHelper;
 
-        public UserService (IOptions<AppSettings> appSettings, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork, IEmailService emailService, ICompanyService companyService, IUrlHelper urlHelper) {
+        public UserService (IOptions<AppSettings> appSettings, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork, IEmailService emailService, ICompanyService companyService) {
             _appSettings = appSettings.Value;
             _userManager = userManager;
             _mapper = mapper;
@@ -48,7 +47,6 @@ namespace Business.Services {
             _emailService = emailService;
             _companyService = companyService;
             _httpContextAccessor = httpContextAccessor;
-            _urlHelper = urlHelper;
         }
 
         public async Task<UserDTO> Authenticate (LoginDTO loginDTO) {
@@ -304,6 +302,14 @@ namespace Business.Services {
             }
 
             return updatedUsers;
+        }
+
+        public async Task<UserDTO> getUserAndCompany (string userId) {
+            UserDTO appUser = _mapper.Map<UserDTO> (await _userManager.FindByIdAsync (userId));
+            CompanyDTO company = await _companyService.getCompany (appUser.CompanyId);
+            appUser.CompanyName = company.Name;
+
+            return appUser;
         }
 
     }

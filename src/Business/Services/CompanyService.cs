@@ -30,8 +30,8 @@ namespace Business.Services {
             _unitOfWork.Company.Remove (_mapper.Map<Company> (Company));
         }
 
-        public CompanyDTO getCompany (int id) {
-            return _mapper.Map<CompanyDTO> (_unitOfWork.Company.Find (c => c.CompanyId == id));
+        public async Task<CompanyDTO> getCompany (int id) {
+            return _mapper.Map<CompanyDTO> (await _unitOfWork.Company.Get (id));
         }
 
         public ApplicationUser getCompanyAdmin (string CompanyId) {

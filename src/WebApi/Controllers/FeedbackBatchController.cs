@@ -45,7 +45,7 @@ namespace WebApi.Controllers {
         [Route ("{meetingId}")]
         [Authorize (Policy = "activeUser")]
         public async Task<IActionResult> GetAll ([FromRoute] string meetingId) {
-            return Ok (await Service.GetAllFeedbackBatchByMeetingId (meetingId));
+            return Ok (await Service.GetAllFeedbackBatchByMeetingId (meetingId, true));
         }
 
         [AllowAnonymous]
@@ -65,7 +65,7 @@ namespace WebApi.Controllers {
 
             if (await Service.Create (entity)) {
                 // send feedback to all real-time feedback observers
-                _hub.Clients.Group (entity.MeetingId).SendAsync ("sendfeedback", await _service.GetAllFeedbackBatchByMeetingId (entity.MeetingId));
+                _hub.Clients.Group (entity.MeetingId).SendAsync ("sendfeedback", await _service.GetAllFeedbackBatchByMeetingId (entity.MeetingId, false));
                 _logger.LogInformation ("Feedback given, meetingID: " + entity.MeetingId, entity);
                 return Ok ();
             } else {

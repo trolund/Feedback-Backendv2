@@ -13,6 +13,8 @@ namespace Business.Services.Interfaces {
         Task<bool> ResetPassword (string email, string token, string newPassword, string NewPasswordAgain);
         Task<bool> NewPassword (NewPasswordDTO data);
         Task<UserDTO> updateUserInfo (UserDTO data);
+
+        Task<UserDTO> getUserAndCompany (string userId);
         // IEnumerable<UserDTO> GetAll ();
         // UserDTO GetById (int id);
     }

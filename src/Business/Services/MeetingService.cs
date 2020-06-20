@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Business.Services.Interfaces;
 using Data.Contexts;
+using Data.Contexts.Roles;
 using Data.Models;
 using Infrastructure.QueryParams;
 using Infrastructure.Utils;
@@ -21,24 +22,30 @@ namespace Business.Services {
         private IUnitOfWork _unitOfWork;
         private ILogger<MeetingService> _logger;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        // private static QRCodeGenerator qrGenerator = new QRCodeGenerator ();
 
-        // private string _baseURL = "https://localhost:5001";
-
-        public MeetingService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, ILogger<MeetingService> logger) {
+        public MeetingService (ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork, ILogger<MeetingService> logger, IUserService userService) {
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _userService = userService;
         }
 
         public async Task<MeetingDTO> GetMeeting (int id) {
             return _mapper.Map<MeetingDTO> (await _unitOfWork.Meetings.Get (id));
         }
 
-        public async Task<MeetingDTO> GetMeeting (string id) {
-            return _mapper.Map<MeetingDTO> (await _unitOfWork.Meetings.GetMeeting (MeetingIdHelper.GetId (id)));
+        public async Task<MeetingDTO> GetMeeting (string id, bool requireRole) {
+            var dto = _mapper.Map<MeetingDTO> (await _unitOfWork.Meetings.GetMeeting (MeetingIdHelper.GetId (id), requireRole));
+
+            var user = await _userService.getUserAndCompany (dto.CreatedBy);
+
+            dto.UserEmail = user.Email;
+            dto.CompanyName = user.CompanyName;
+
+            return dto;
         }
 
         public async Task<IEnumerable<MeetingDTO>> GetMeetings (MeetingResourceParameters parameters) {
@@ -48,7 +55,7 @@ namespace Business.Services {
 
         public async Task<IEnumerable<MeetingDTO>> GetMeetingsOneDay (DateTime date) {
             var userId = (_httpContextAccessor.HttpContext.User.Claims.Where (x => x.Type == ClaimTypes.NameIdentifier).First ().Value);
-            return _mapper.Map<IEnumerable<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetingsOneDay (date, userId));
+            return _mapper.Map<IEnumerable<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetingsOneDay (date, userId, true));
         }
 
         public async Task CreateMeeting (MeetingDTO meeting) {
@@ -131,7 +138,7 @@ namespace Business.Services {
         public async Task DeleteMeeting (MeetingDTO meeting) {
             try {
                 var meetingId = MeetingIdHelper.GetId (meeting.ShortId);
-                var model = await _unitOfWork.Meetings.GetMeeting (meetingId);
+                var model = await _unitOfWork.Meetings.GetMeeting (meetingId, false);
                 _unitOfWork.Meetings.DeleteMeeting (model);
                 await _unitOfWork.SaveAsync ();
             } catch (Exception e) {
@@ -142,7 +149,7 @@ namespace Business.Services {
 
         public async Task<IEnumerable<MeetingDTO>> GetMeetings (MeetingDateResourceParameters parameters) {
             string id = _httpContextAccessor.HttpContext.User.Claims.Where (c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).FirstOrDefault ().Value;
-            return _mapper.Map<List<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters, id));
+            return _mapper.Map<List<MeetingDTO>> (await _unitOfWork.Meetings.GetMeetings (parameters, id, _httpContextAccessor.HttpContext.User.IsInRole (Roles.VADMIN), _httpContextAccessor.HttpContext.User.IsInRole (Roles.ADMIN)));
         }
 
         // public byte[] GetQRCode (string shortCodeId) {
@@ -164,7 +171,7 @@ namespace Business.Services {
         }
 
         public async Task<bool> IsMeetingOpenForFeedback (string id) {
-            var meeting = await GetMeeting (id);
+            var meeting = await GetMeeting (id, false);
             if (meeting != null) {
                 return TimeCheck (meeting);
             }

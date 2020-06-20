@@ -7,10 +7,12 @@ using Infrastructure.ViewModels;
 
 namespace Data.Repositories.Interface {
     public interface IMeetingRepository : IRepository<Meeting, int> {
-        Task<Meeting> GetMeeting (int id);
+        Task<Meeting> GetMeeting (int id, bool requireRole);
         Task<IEnumerable<Meeting>> GetMeetings (MeetingResourceParameters parameters);
 
         Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, string userId);
+
+        Task<IEnumerable<Meeting>> GetMeetings (MeetingDateResourceParameters parameters, string userId, bool isVAdmin, bool isAdmin);
 
         void CreateMeeting (Meeting meeting);
 
@@ -22,6 +24,6 @@ namespace Data.Repositories.Interface {
 
         Task<IEnumerable<CategoryDTO>> GetMeetingCategories (int CompanyId);
 
-        Task<IEnumerable<Meeting>> GetMeetingsOneDay (DateTime date, string userId);
+        Task<IEnumerable<Meeting>> GetMeetingsOneDay (DateTime date, string userId, bool requireRole);
     }
 }
