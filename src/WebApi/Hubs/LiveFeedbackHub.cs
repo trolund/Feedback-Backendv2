@@ -2,6 +2,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Business.Services.Interfaces;
+using Data.Contexts.Roles;
 using Data.Models;
 using Infrastructure.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,12 @@ namespace WebApi.Hubs {
         public async Task JoinRoom (string meetingId) {
             var user = _userManager.Users.SingleOrDefault (u => u.Email == Context.User.Identity.Name);
             var meeting = await _meetingService.GetMeeting (MeetingIdHelper.GetId (meetingId));
+
+            // if admin just giv him the data!!!!
+            if (Context.User.IsInRole (Roles.ADMIN)) {
+                await Groups.AddToGroupAsync (Context.ConnectionId, meetingId);
+                return;
+            }
 
             // Users own meeting
             var sub = Context.User.Claims.Where (c => c.Type.Equals (ClaimTypes.NameIdentifier)).First ().Value;
